@@ -23,7 +23,15 @@ public abstract class AbstractCreature implements ICreature {
 
 	public static final int DEFAULT_SIZE = 80;
 	public static final int DEFAULT_VISION_DISTANCE = 50;
-
+	public static final double DEFAULT_HEALTH = 100d;
+	public static final double DEFAULT_LOSS_HEALTH = 0.5d;
+	
+	/** Health at the init */
+	protected double health = DEFAULT_HEALTH;
+	
+	/** Health lost at each tick */
+	protected double lossHealth = DEFAULT_LOSS_HEALTH;
+	
 	/**
 	 * The field of view (FOV) is the extent of the observable world that is
 	 * seen at any given moment by a creature in radians.
@@ -64,6 +72,24 @@ public abstract class AbstractCreature implements ICreature {
 	// Getters and Setters
 	// ----------------------------------------------------------------------------
 
+	@Override
+	public double getHealth() {
+		return health;
+	}
+	
+	public void setHealth(double health){
+		this.health = health;
+	}
+	
+	@Override
+	public double getLossHealth() {
+		return lossHealth;
+	}
+	
+	public void setLossHealth(double lossHealth){
+		this.lossHealth = lossHealth;
+	}
+	
 	@Override
 	public IEnvironment getEnvironment() {
 		return environment;

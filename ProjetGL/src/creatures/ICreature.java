@@ -9,6 +9,10 @@ public interface ICreature extends IDrawable, IActionable, IPlugin {
 
 	public IEnvironment getEnvironment();
 
+	public double getHealth();
+	
+	public double getLossHealth();
+	
 	public double getSpeed();
 
 	public double getDirection();
