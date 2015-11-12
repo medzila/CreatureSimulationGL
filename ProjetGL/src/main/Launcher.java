@@ -26,6 +26,8 @@ import creatures.visual.ColorCube;
 import creatures.visual.CreatureInspector;
 import creatures.visual.CreatureSimulator;
 import creatures.visual.CreatureVisualizer;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JMenu;
 
 /**
  * Just a simple test of the simulator.
@@ -39,10 +41,12 @@ public class Launcher extends JFrame {
 	private final CreatureInspector inspector;
 	private final CreatureVisualizer visualizer;
 	private final CreatureSimulator simulator;
+	private JRadioButtonMenuItem rbMenuItem;
 	
 	private PluginMenuItemBuilder menuBuilder;
 	private JMenuBar mb = new JMenuBar();	
 	private Constructor<? extends ICreature> currentConstructor = null;
+	private JMenu menu , submenu;
 	  
 	public Launcher() {
 		factory = CreaturePluginFactory.getInstance();
