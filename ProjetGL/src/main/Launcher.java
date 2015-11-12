@@ -87,6 +87,14 @@ public class Launcher extends JFrame {
 		});
 		buttons.add(restart);
 		
+		JButton boutonNouveau = new JButton("Bim ! Le bouton !");
+		boutonNouveau.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				simulator.clearCreatures();
+			}
+		});
+		buttons.add(boutonNouveau);
+		
 		add(buttons, BorderLayout.SOUTH);
 				
 		simulator = new CreatureSimulator(new Dimension(640, 480));		
