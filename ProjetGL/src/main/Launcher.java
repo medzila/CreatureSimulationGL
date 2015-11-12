@@ -15,9 +15,11 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 
 import plug.creatures.CreaturePluginFactory;
 import plug.creatures.PluginMenuItemBuilder;
@@ -39,8 +41,9 @@ public class Launcher extends JFrame {
 	private final CreatureInspector inspector;
 	private final CreatureVisualizer visualizer;
 	private final CreatureSimulator simulator;
-	
+	private JRadioButtonMenuItem rbMenuItem;
 	private PluginMenuItemBuilder menuBuilder;
+	private JMenu menu , submenu;
 	private JMenuBar mb = new JMenuBar();	
 	private Constructor<? extends ICreature> currentConstructor = null;
 	  
@@ -134,6 +137,23 @@ public class Launcher extends JFrame {
 		menuBuilder.setMenuTitle("Creatures");
 		menuBuilder.buildMenu();
 		mb.add(menuBuilder.getMenu());
+		
+		
+		menu = new JMenu("NouveauMenu");
+		menu.setMnemonic(KeyEvent.VK_N);
+		menu.getAccessibleContext().setAccessibleDescription(
+		        "This menu does nothing");
+		menu.addSeparator();
+		submenu = new JMenu("A submenu");
+		submenu.setMnemonic(KeyEvent.VK_S);
+		menu.add(submenu);
+		mb.add(menu);
+		
+		rbMenuItem = new JRadioButtonMenuItem("RadioButton");
+		rbMenuItem.setMnemonic(KeyEvent.VK_O);
+		mb.add(rbMenuItem);
+
+
 		setJMenuBar(mb);
 	}
 	
