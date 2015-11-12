@@ -32,6 +32,9 @@ public abstract class AbstractCreature implements ICreature {
 	/** Health lost at each tick */
 	protected double lossHealth = DEFAULT_LOSS_HEALTH;
 	
+	/** Indicate if the creature is dead*/
+	protected boolean isDead = false;
+	
 	/**
 	 * The field of view (FOV) is the extent of the observable world that is
 	 * seen at any given moment by a creature in radians.
@@ -72,12 +75,20 @@ public abstract class AbstractCreature implements ICreature {
 	// Getters and Setters
 	// ----------------------------------------------------------------------------
 
+	public boolean isDead() {
+		return isDead;
+	}
+	
+	public void die(){
+		isDead = true;
+	}
+	
 	@Override
 	public double getHealth() {
 		return health;
 	}
 	
-	public void setHealth(double health){
+	public void setHealth(double health) {
 		this.health = health;
 	}
 	
@@ -86,7 +97,7 @@ public abstract class AbstractCreature implements ICreature {
 		return lossHealth;
 	}
 	
-	public void setLossHealth(double lossHealth){
+	public void setLossHealth(double lossHealth) {
 		this.lossHealth = lossHealth;
 	}
 	
@@ -168,8 +179,10 @@ public abstract class AbstractCreature implements ICreature {
 	 */
 	public void looseHealth(){
 		health -= lossHealth;
-		if(health < 0)
+		if(health <= 0){
 			health = 0;
+			die();
+		}
 	}
 
 	// ----------------------------------------------------------------------------

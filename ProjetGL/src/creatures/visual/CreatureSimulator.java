@@ -73,6 +73,10 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	 */
 	@Override
 	public Iterable<ICreature> getCreatures() {
+		ArrayList<ICreature> creatureList = new ArrayList<ICreature>(actionables);
+		for(ICreature c : creatureList)
+			if(c.isDead())
+				removeCreature(c);
 		return new ArrayList<ICreature>(actionables);
 	}
 	
