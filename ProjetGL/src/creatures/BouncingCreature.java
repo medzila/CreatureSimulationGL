@@ -37,6 +37,7 @@ public class BouncingCreature extends AbstractCreature {
 
 	@Override
 	public void act() {
+		looseHealth();
 		applyNoise();
 		move();
 	}

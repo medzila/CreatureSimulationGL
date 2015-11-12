@@ -64,6 +64,8 @@ public class SmartCreature extends AbstractCreature {
 	}
 
 	public void act() {
+		looseHealth();
+		
 		// speed - will be used to compute the average speed of the nearby
 		// creatures including this instance
 		double avgSpeed = speed;

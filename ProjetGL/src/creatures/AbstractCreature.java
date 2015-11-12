@@ -24,7 +24,7 @@ public abstract class AbstractCreature implements ICreature {
 	public static final int DEFAULT_SIZE = 80;
 	public static final int DEFAULT_VISION_DISTANCE = 50;
 	public static final double DEFAULT_HEALTH = 100d;
-	public static final double DEFAULT_LOSS_HEALTH = 0.5d;
+	public static final double DEFAULT_LOSS_HEALTH = 0.1d;
 	
 	/** Health at the init */
 	protected double health = DEFAULT_HEALTH;
@@ -156,6 +156,20 @@ public abstract class AbstractCreature implements ICreature {
 		}
 
 		this.position = new Point2D.Double(x, y);
+	}
+	
+	// ----------------------------------------------------------------------------
+	// Health handling methods
+	// ----------------------------------------------------------------------------
+	
+	/**
+	 * Decrease health depending on {@link AbstractCreature#lossHealth}.
+	 * If health is lower than 0, set health 0.
+	 */
+	public void looseHealth(){
+		health -= lossHealth;
+		if(health < 0)
+			health = 0;
 	}
 
 	// ----------------------------------------------------------------------------
