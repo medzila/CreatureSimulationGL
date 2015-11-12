@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 import plug.creatures.CreaturePluginFactory;
 import plug.creatures.PluginMenuItemBuilder;
@@ -148,6 +149,16 @@ public class Launcher extends JFrame {
 		submenu = new JMenu("A submenu");
 		submenu.setMnemonic(KeyEvent.VK_S);
 		menu.add(submenu);
+		JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 25);  
+		slider.setMinorTickSpacing(2);  
+		slider.setMajorTickSpacing(10);  
+		  
+		slider.setPaintTicks(true);  
+		slider.setPaintLabels(true);  
+		  
+		JPanel panel=new JPanel();  
+		panel.add(slider);  
+		submenu.add(panel); 
 		mb.add(menu);
 		
 		rbMenuItem = new JRadioButtonMenuItem("RadioButton");
