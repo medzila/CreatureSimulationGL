@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import simulator.Simulator;
@@ -14,6 +15,7 @@ import commons.Utils.Predicate;
 
 import creatures.ICreature;
 import creatures.IEnvironment;
+import creatures.PointEnergie;
 
 
 /**
@@ -37,10 +39,22 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	}
 
 	private Dimension size;
+	private Iterable<PointEnergie> points;
 
-	public CreatureSimulator(Dimension initialSize) {
+	public Iterable<PointEnergie> getPoints() {
+		return points;
+	}
+
+	public CreatureSimulator(Dimension initialSize, int nombresDePoints) {
 		super(new CopyOnWriteArrayList<ICreature>(), 10);
 		this.size = initialSize;
+		Random randomInts = new Random();
+		ArrayList<PointEnergie> al = new ArrayList<PointEnergie>();
+		for (int i = 0; i < nombresDePoints; i++) {
+			al.add(new PointEnergie(new Point2D.Double(randomInts.nextInt(initialSize.width) - initialSize.width / 2,
+					randomInts.nextInt(initialSize.height) - initialSize.height / 2)));
+		}
+		points = al;
 	}
 	
 	/**

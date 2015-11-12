@@ -9,10 +9,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Iterator;
 import simulator.ISimulationListener;
+import visual.IDrawable;
 import visual.Visualizer;
 import creatures.ICreature;
+import creatures.PointEnergie;
 
 @SuppressWarnings("serial")
 public class CreatureVisualizer extends Visualizer {
@@ -134,8 +137,15 @@ public class CreatureVisualizer extends Visualizer {
 	}
 
 	@Override
-	protected Iterable<ICreature> getDrawables() {
-		return simulator.getCreatures();
+	protected Iterable<IDrawable> getDrawables() {
+		ArrayList<IDrawable> al = new ArrayList<IDrawable>();
+		for (ICreature c : simulator.getCreatures()) {
+			al.add(c);
+		}
+		for (PointEnergie p : simulator.getPoints()) {
+			al.add(p);
+		}
+		return al;
 	}
 
 }
