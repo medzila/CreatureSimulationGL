@@ -134,8 +134,26 @@ public class Launcher extends JFrame {
 		menuBuilder.setMenuTitle("Creatures");
 		menuBuilder.buildMenu();
 		mb.add(menuBuilder.getMenu());
+
+		
+		menu = new JMenu("NouveauMenu");
+		menu.setMnemonic(KeyEvent.VK_N);
+		menu.getAccessibleContext().setAccessibleDescription(
+		        "This menu does nothing");
+		menu.addSeparator();
+		submenu = new JMenu("A submenu");
+		submenu.setMnemonic(KeyEvent.VK_S);
+		menu.add(submenu);
+		mb.add(menu);
+		
+		rbMenuItem = new JRadioButtonMenuItem("RadioButton");
+		rbMenuItem.setMnemonic(KeyEvent.VK_O);
+		mb.add(rbMenuItem);
+
 		setJMenuBar(mb);
 	}
+
+
 	
 	
 	public static void main(String args[]) {
