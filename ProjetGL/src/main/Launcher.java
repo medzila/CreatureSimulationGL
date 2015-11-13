@@ -1,10 +1,10 @@
 package main;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -108,8 +109,14 @@ public class Launcher extends JFrame {
 		visualizer = new CreatureVisualizer(simulator);
 		visualizer.setDebug(false);
 		visualizer.setPreferredSize(simulator.getSize());
+		JLabel label1 = new JLabel("Nombre de créatures : " + simulator.creatureSize()+"   //");
+		JLabel label2 = new JLabel("Nombre de créatures mortes : " + simulator.creaturesMorteSize());
+		visualizer.add(label1);
+		visualizer.add(label2);
 		
 		add(visualizer, BorderLayout.CENTER);
+
+		
 	
 	    buildPluginMenus();
 
