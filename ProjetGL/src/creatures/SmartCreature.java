@@ -25,7 +25,6 @@ import commons.Utils.Predicate;
  * 
  */
 public class SmartCreature extends AbstractCreature {
-	
 	static class CreaturesAroundCreature implements Predicate<ICreature> {
 		private final SmartCreature observer;
 
@@ -62,10 +61,8 @@ public class SmartCreature extends AbstractCreature {
 		this.speed = speed;
 		this.color = color;
 	}
-
+	
 	public void act() {
-		looseHealth();
-		
 		// speed - will be used to compute the average speed of the nearby
 		// creatures including this instance
 		double avgSpeed = speed;
@@ -84,7 +81,6 @@ public class SmartCreature extends AbstractCreature {
 			minDist = Math.min(minDist, c.distanceFromAPoint(getPosition()));
 			count++;
 		}
-		
 		// average
 		avgSpeed = avgSpeed / (count + 1);
 		// min speed check
@@ -107,8 +103,22 @@ public class SmartCreature extends AbstractCreature {
 			// we should not moved closer than a dist - MIN_DIST
 			move(incX, incY);
 		}
-	}
 
+		if(count==0){
+			setLossHealth(0.05);
+			
+		}else if(count < 6){
+			setLossHealth(0.04);
+		}else if(count < 11){
+			setLossHealth(0.03);
+		}else if(count < 16){
+			setLossHealth(0.02);
+		}else{
+			setLossHealth(0.01);
+		}
+		looseHealth();		
+	}
+	
 	public Iterable<ICreature> creaturesAround(
 			SmartCreature smartCreature) {
 		return filter(environment.getCreatures(), new CreaturesAroundCreature(this));
