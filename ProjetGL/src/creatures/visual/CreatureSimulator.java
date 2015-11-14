@@ -40,6 +40,7 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 
 	private Dimension size;
 	private Iterable<PointEnergie> points;
+	private int creaturesDead;
 
 	public Iterable<PointEnergie> getPoints() {
 		return points;
@@ -55,6 +56,7 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 					randomInts.nextInt(initialSize.height) - initialSize.height / 2)));
 		}
 		points = al;
+		this.creaturesDead = 0;
 	}
 	
 	/**
@@ -75,9 +77,18 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	public Iterable<ICreature> getCreatures() {
 		ArrayList<ICreature> creatureList = new ArrayList<ICreature>(actionables);
 		for(ICreature c : creatureList)
-			if(c.isDead())
+			if(c.isDead()){
 				removeCreature(c);
+				creaturesDead++;
+			}
 		return new ArrayList<ICreature>(actionables);
+	}
+	/**
+	 * 
+	 * @return number of dead creatures.
+	 */
+	public int getCreaturesDead(){
+		return creaturesDead;
 	}
 	
 	public int creatureSize() {
