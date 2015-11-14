@@ -74,7 +74,7 @@ public class Launcher extends JFrame {
 			}
 		});
 		buttons.add(reloader);
-
+		
 		JButton restart = new JButton("(Re-)start simulation");
 		restart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -85,6 +85,7 @@ public class Launcher extends JFrame {
 						}
 					}
 					simulator.clearCreatures();
+					simulator.clearStat();
 					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, 10, new ColorCube(50),currentConstructor);
 					simulator.addAllCreatures(creatures);
 					simulator.start();

@@ -45,6 +45,7 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	private int creaturesDead;
 	private JLabel creaturesTotal;
 	private JLabel creaturesMortes;
+	private int creaturesDepart;
 
 
 	public Iterable<PointEnergie> getPoints() {
@@ -62,6 +63,7 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 		}
 		points = al;
 		this.creaturesDead = 0;
+		this.creaturesDepart = 0;
 		this.creaturesTotal = new JLabel();
 		this.creaturesMortes = new JLabel();
 	}
@@ -88,10 +90,15 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 				removeCreature(c);
 				creaturesDead++;
 			}
-		int creaturesDepart = creatureSize() + getCreaturesDead();
+		creaturesDepart = creatureSize() + getCreaturesDead();
 		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +"   //");
 		creaturesMortes.setText("Nombre de créatures mortes : " + getCreaturesDead());
 		return new ArrayList<ICreature>(actionables);
+	}
+	
+	public void clearStat(){
+		this.creaturesDead=0;
+		this.creaturesDepart=0;
 	}
 	
 	public JLabel getLabelCreaturesDead(){
