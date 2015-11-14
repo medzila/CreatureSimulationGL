@@ -109,10 +109,8 @@ public class Launcher extends JFrame {
 		visualizer = new CreatureVisualizer(simulator);
 		visualizer.setDebug(false);
 		visualizer.setPreferredSize(simulator.getSize());
-		JLabel label1 = new JLabel("Nombre de créatures : " + simulator.creatureSize()+"   //");
-		//JLabel label2 = new JLabel("Nombre de créatures mortes : " + simulator.creaturesMorteSize());
-		visualizer.add(label1);
-		//visualizer.add(label2);
+		visualizer.add(simulator.getLabelCreaturesTotal());
+		visualizer.add(simulator.getLabelCreaturesDead());
 		
 		add(visualizer, BorderLayout.CENTER);
 
