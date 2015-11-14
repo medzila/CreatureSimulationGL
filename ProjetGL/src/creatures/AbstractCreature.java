@@ -270,13 +270,33 @@ public abstract class AbstractCreature implements ICreature {
 
 		// useful for debugging
 		// g2.drawRect(0, 0, size, size);
-
-		// set the color
-		g2.setColor(color);
+		
 		// we need to do PI - FOV since we want to mirror the arc
+		g2.setColor(Color.GRAY);
 		g2.fillArc(0, 0, size, size, (int) toDegrees(-fieldOfView / 2),
 				(int) toDegrees(fieldOfView));
-
+		
+		// set the color
+		g2.setColor(color);
+		
+		////// Draw "Health pov"
+		// Find the relation between the current health and max health
+		double relationHealth = health/DEFAULT_HEALTH;
+		// Calculate the new size
+		int newSize = (int)(size*relationHealth);
+		// Calculate the new x,y
+		int newCoor = (int)((size-newSize)/2);
+		
+		g2.fillArc(newCoor, newCoor, newSize, newSize, (int) toDegrees(-fieldOfView / 2),
+				(int) toDegrees(fieldOfView));
+		//////
+		
+		////// Draw "classic" HEALTHBAR
+		// Uncomment to enable
+		//g2.setColor(Color.GRAY);
+		//g2.fillRect(0, 0, (int)DEFAULT_HEALTH/2, 10);
+		//g2.setColor(Color.GREEN);
+		//g2.fillRect(0, 0, (int)health/2, 10);
 	}
 
 	// ----------------------------------------------------------------------------
