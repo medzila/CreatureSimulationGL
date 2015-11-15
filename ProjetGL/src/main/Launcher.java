@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -185,16 +186,24 @@ public class Launcher extends JFrame {
 		ActionListener listener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// the name of the plugin is in the ActionCommand
-				currentConstructor = factory.getConstructorMap().get(((JMenuItem) e.getSource()).getActionCommand());
+				currentConstructor = factory.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
 			}
 		};
-		menuBuilder = new PluginMenuItemBuilder(factory.getConstructorMap(),listener);
+		/*menuBuilder = new PluginMenuItemBuilder(factory.getConstructorMap(),listener);
 		menuBuilder.setMenuTitle("Creatures");
-		menuBuilder.buildMenu();
-		mb.add(menuBuilder.getMenu());
+		menuBuilder.buildMenu();*/
+		JComboBox test = new JComboBox();
+		if (! factory.getConstructorMap().keySet().isEmpty()) {
+			for (String s: factory.getConstructorMap().keySet()) {
+				test.addItem(s);
+			}
+		}
+		test.addActionListener(listener);
+		test.setSelectedIndex(0);
+		mb.add(test);
 
 		
-		menu = new JMenu("Menu");
+		/*menu = new JMenu("Menu");
 		menu.setMnemonic(KeyEvent.VK_N);
 		menu.getAccessibleContext().setAccessibleDescription(
 		        "This menu does nothing");
@@ -203,7 +212,7 @@ public class Launcher extends JFrame {
 		submenu.setMnemonic(KeyEvent.VK_S);
 		menu.add(submenu);
 		 
-		mb.add(menu);
+		mb.add(menu);*/
 		
 		rbMenuItem = new JRadioButtonMenuItem("RadioButton");
 		rbMenuItem.setMnemonic(KeyEvent.VK_O);

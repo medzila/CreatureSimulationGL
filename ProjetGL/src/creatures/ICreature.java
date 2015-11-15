@@ -20,8 +20,12 @@ public interface ICreature extends IDrawable, IActionable, IPlugin {
 	public double getSpeed();
 
 	public double getDirection();
+	
+	public void setDirection(double d);
 
 	public Point2D getPosition();
+	
+	public void setPosition(double x, double y);
 
 	public abstract double distanceFromAPoint(Point2D p);
 
