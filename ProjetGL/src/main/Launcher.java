@@ -15,11 +15,12 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import plug.creatures.CreaturePluginFactory;
 import plug.creatures.PluginMenuItemBuilder;
@@ -49,7 +50,9 @@ public class Launcher extends JFrame {
 	private JMenuBar mb = new JMenuBar();	
 	private Constructor<? extends ICreature> currentConstructor = null;
 	private JMenu menu , submenu;
-	  
+	
+	int creatureNumber = 10;
+	
 	public Launcher() {
 		factory = CreaturePluginFactory.getInstance();
 
@@ -86,7 +89,7 @@ public class Launcher extends JFrame {
 					}
 					simulator.clearCreatures();
 					simulator.clearStat();
-					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, 10, new ColorCube(50),currentConstructor);
+					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, creatureNumber, new ColorCube(50),currentConstructor);
 					simulator.addAllCreatures(creatures);
 					simulator.start();
 				}
@@ -104,7 +107,7 @@ public class Launcher extends JFrame {
 		
 		add(buttons, BorderLayout.SOUTH);
 				
-		simulator = new CreatureSimulator(new Dimension(640, 480), 3);	
+		simulator = new CreatureSimulator(new Dimension(640, 480), 4);	
 		inspector = new CreatureInspector();
 		inspector.setFocusableWindowState(false);
 		visualizer = new CreatureVisualizer(simulator);
@@ -147,21 +150,29 @@ public class Launcher extends JFrame {
 		mb.add(menuBuilder.getMenu());
 
 		
-		menu = new JMenu("NouveauMenu");
+		menu = new JMenu("Menu");
 		menu.setMnemonic(KeyEvent.VK_N);
 		menu.getAccessibleContext().setAccessibleDescription(
 		        "This menu does nothing");
 		menu.addSeparator();
-		submenu = new JMenu("A submenu");
+		submenu = new JMenu("Nombre de creatures");
 		submenu.setMnemonic(KeyEvent.VK_S);
 		menu.add(submenu);
-		JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 25);  
+		JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+		slider.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				creatureNumber = ((JSlider)e.getSource()).getValue();
+			}
+		});
+		
 		slider.setMinorTickSpacing(2);  
 		slider.setMajorTickSpacing(10);  
 		  
 		slider.setPaintTicks(true);  
 		slider.setPaintLabels(true);  
-		  
+		
 		JPanel panel=new JPanel();  
 		panel.add(slider);  
 		submenu.add(panel); 
