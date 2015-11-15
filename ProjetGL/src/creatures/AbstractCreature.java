@@ -24,13 +24,17 @@ public abstract class AbstractCreature implements ICreature {
 	public static final int DEFAULT_SIZE = 80;
 	public static final int DEFAULT_VISION_DISTANCE = 50;
 	public static final double DEFAULT_HEALTH = 100d;
-	public static final double DEFAULT_LOSS_HEALTH = 0.1d;
+	public static final double DEFAULT_LOSS_HEALTH = 0.05d;
+	public static final double DEFAULT_GAINED_HEALTH = 10d;
 	
 	/** Health at the init */
 	protected double health = DEFAULT_HEALTH;
 	
 	/** Health lost at each tick */
 	protected double lossHealth = DEFAULT_LOSS_HEALTH;
+	
+	/** Health gained when near an energy point */
+	protected double gainedHealth = DEFAULT_GAINED_HEALTH;
 	
 	/** Indicate if the creature is dead*/
 	protected boolean isDead = false;
@@ -99,6 +103,15 @@ public abstract class AbstractCreature implements ICreature {
 	
 	public void setLossHealth(double lossHealth) {
 		this.lossHealth = lossHealth;
+	}
+	
+	@Override
+	public double getGainedHealth() {
+		return gainedHealth;
+	}
+	
+	public void setGainedHealth(double gainedHealth) {
+		this.gainedHealth = gainedHealth;
 	}
 	
 	@Override
@@ -184,7 +197,41 @@ public abstract class AbstractCreature implements ICreature {
 			die();
 		}
 	}
-
+	
+	/**
+	 * Increments health depending on {@link AbstractCreature#gainedHealth}
+	 * if health is higher than 100, set health 100.
+	 */
+	public void gainHealth(){
+		health += gainedHealth;
+		if(health >= 100)
+			health = 100;
+	}
+	
+	/**
+	 * @return <code>true</code> if the creature is near a {@link PointEnergie}.
+	 */
+	public boolean isNearEnergyPoint(){
+		ArrayList<PointEnergie> tab = (ArrayList<PointEnergie>) environment.getPoints();
+		
+		for(PointEnergie p : tab)
+			if(distanceFromAPoint(p.position) <= p.getSize())
+				return true;
+		
+		return false;
+	}
+	
+	/**
+	 * If the creature is near a {@link PointEnergie}, {@link AbstractCreature#gainHealth()}.
+	 * Else, {@link AbstractCreature#looseHealth()}.
+	 */
+	public void gainOrLoseHealth(){
+		if(isNearEnergyPoint())
+			gainHealth();
+		else
+			looseHealth();
+	}
+	
 	// ----------------------------------------------------------------------------
 	// Positioning methods
 	// ----------------------------------------------------------------------------

@@ -9,4 +9,6 @@ public interface IEnvironment {
 
 	public Iterable<ICreature> getCreatures();
 
+	public Iterable<PointEnergie> getPoints();
+
 }

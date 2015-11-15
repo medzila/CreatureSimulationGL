@@ -15,6 +15,8 @@ public interface ICreature extends IDrawable, IActionable, IPlugin {
 	
 	public double getLossHealth();
 	
+	public double getGainedHealth();
+	
 	public double getSpeed();
 
 	public double getDirection();
@@ -24,5 +26,7 @@ public interface ICreature extends IDrawable, IActionable, IPlugin {
 	public abstract double distanceFromAPoint(Point2D p);
 
 	public abstract double directionFormAPoint(Point2D p, double axis);
+
+	
 
 }

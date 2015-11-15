@@ -105,8 +105,7 @@ public class SmartCreature extends AbstractCreature {
 		}
 
 		if(count==0){
-			setLossHealth(0.05);
-			
+			setLossHealth(DEFAULT_LOSS_HEALTH);
 		}else if(count < 6){
 			setLossHealth(0.04);
 		}else if(count < 11){
@@ -116,7 +115,8 @@ public class SmartCreature extends AbstractCreature {
 		}else{
 			setLossHealth(0.01);
 		}
-		looseHealth();		
+		
+		gainOrLoseHealth();	
 	}
 	
 	public Iterable<ICreature> creaturesAround(

@@ -22,7 +22,7 @@ public class StupidCreature extends AbstractCreature {
 	}
 
 	public void act() {
-		looseHealth();
+		gainOrLoseHealth();	
 		
 		double incX = speed * cos(direction);
 		double incY = speed * sin(direction);
