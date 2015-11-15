@@ -213,11 +213,11 @@ public abstract class AbstractCreature implements ICreature {
 	 */
 	public boolean isNearEnergyPoint(){
 		ArrayList<PointEnergie> tab = (ArrayList<PointEnergie>) environment.getPoints();
-		
-		for(PointEnergie p : tab)
-			if(distanceFromAPoint(p.position) <= p.getSize())
-				return true;
-		
+		if (!tab.isEmpty()) {
+			for(PointEnergie p : tab)
+				if(distanceFromAPoint(p.position) <= p.getSize())
+					return true;
+		}
 		return false;
 	}
 	

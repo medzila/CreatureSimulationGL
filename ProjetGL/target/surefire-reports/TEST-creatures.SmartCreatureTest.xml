@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.43" errors="0" skipped="0" tests="1" name="creatures.SmartCreatureTest">
+<testsuite failures="0" time="0.287" errors="0" skipped="0" tests="6" name="creatures.SmartCreatureTest">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64"/>
@@ -10,11 +10,11 @@
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
     <property name="file.encoding.pkg" value="sun.io"/>
-    <property name="user.country" value="FR"/>
+    <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value="unknown"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="/home/julien/projetgl/ProjetGL"/>
+    <property name="user.dir" value="/home/arthur/Downloads/projetgl/ProjetGL"/>
     <property name="java.runtime.version" value="1.7.0_85-b01"/>
     <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/endorsed"/>
@@ -26,24 +26,24 @@
     <property name="os.name" value="Linux"/>
     <property name="classworlds.conf" value="/usr/share/maven/bin/m2.conf"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.library.path" value="/usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.library.path" value=":/home/arthur/.local/lib/python2.7/site-packages/neco/ctypes:/home/arthur/.local/lib/python2.7/site-packages/neco/backends/python:/home/arthur/.local/lib/python2.7/site-packages:/usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="51.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="os.version" value="3.16.0-38-generic"/>
-    <property name="user.home" value="/home/julien"/>
+    <property name="user.home" value="/home/arthur"/>
     <property name="user.timezone" value="Europe/Paris"/>
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.specification.version" value="1.7"/>
-    <property name="user.name" value="julien"/>
+    <property name="user.name" value="arthur"/>
     <property name="java.class.path" value="/usr/share/maven/boot/plexus-classworlds-2.x.jar"/>
     <property name="java.vm.specification.version" value="1.7"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="/usr/lib/jvm/java-7-openjdk-amd64/jre"/>
     <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean package"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="user.language" value="fr"/>
+    <property name="user.language" value="en"/>
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
     <property name="java.vm.info" value="mixed mode"/>
     <property name="java.version" value="1.7.0_85"/>
@@ -59,5 +59,10 @@
     <property name="sun.desktop" value="gnome"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.172" classname="creatures.SmartCreatureTest" name="testEmerginBehavior"/>
+  <testcase time="0.027" classname="creatures.SmartCreatureTest" name="testPertePointDeVie"/>
+  <testcase time="0.015" classname="creatures.SmartCreatureTest" name="testPertePointDeVie1"/>
+  <testcase time="0.002" classname="creatures.SmartCreatureTest" name="testPertePointDeVie2"/>
+  <testcase time="0.003" classname="creatures.SmartCreatureTest" name="testPertePointDeVie3"/>
+  <testcase time="0.006" classname="creatures.SmartCreatureTest" name="testPertePointDeVie4"/>
+  <testcase time="0.009" classname="creatures.SmartCreatureTest" name="testEmerginBehavior"/>
 </testsuite>
