@@ -3,6 +3,8 @@ package main;
 import java.awt.BorderLayout;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -24,8 +27,8 @@ import javax.swing.event.ChangeListener;
 
 import plug.creatures.CreaturePluginFactory;
 import plug.creatures.PluginMenuItemBuilder;
+import creatures.ColorCube;
 import creatures.ICreature;
-import creatures.visual.ColorCube;
 import creatures.visual.CreatureInspector;
 import creatures.visual.CreatureSimulator;
 import creatures.visual.CreatureVisualizer;
@@ -55,11 +58,12 @@ public class Launcher extends JFrame {
 	
 	public Launcher() {
 		factory = CreaturePluginFactory.getInstance();
+		GridBagConstraints c = new GridBagConstraints();
 
 		setName("Creature Simulator Plugin Version");
 		setLayout(new BorderLayout());
 		
-		JPanel buttons = new JPanel();
+		JPanel buttons = new JPanel(new GridBagLayout());
 		JButton loader = new JButton("Load plugins");
 		loader.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -67,7 +71,10 @@ public class Launcher extends JFrame {
 				buildPluginMenus();
 			}
 		});
-		buttons.add(loader);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		buttons.add(loader, c);
 
 		JButton reloader = new JButton("Reload plugins");
 		reloader.addActionListener(new ActionListener() {
@@ -76,7 +83,10 @@ public class Launcher extends JFrame {
 				buildPluginMenus();
 			}
 		});
-		buttons.add(reloader);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		buttons.add(reloader, c);
 		
 		JButton restart = new JButton("(Re-)start simulation");
 		restart.addActionListener(new ActionListener() {
@@ -95,7 +105,10 @@ public class Launcher extends JFrame {
 				}
 			}
 		});
-		buttons.add(restart);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 0;
+		buttons.add(restart, c);
 		
 		JButton boutonNouveau = new JButton("Bim ! Le bouton !");
 		boutonNouveau.addActionListener(new ActionListener() {
@@ -103,9 +116,40 @@ public class Launcher extends JFrame {
 				simulator.clearCreatures();
 			}
 		});
-		buttons.add(boutonNouveau);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 0;
+		buttons.add(boutonNouveau, c);
 		
-		add(buttons, BorderLayout.SOUTH);
+		JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+		slider.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				creatureNumber = ((JSlider)e.getSource()).getValue();
+			}
+		});
+		
+		slider.setMinorTickSpacing(2);  
+		slider.setMajorTickSpacing(10);  
+		  
+		slider.setPaintTicks(true);  
+		slider.setPaintLabels(true);  
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		buttons.add(slider, c);  
+		
+		String[] colorStrings = { "ColorCube", "ColorUnic"};
+		JComboBox<String> colorPicker = new JComboBox<>(colorStrings);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		buttons.add(colorPicker, c); 
+		
+		
+		add(buttons, BorderLayout.AFTER_LAST_LINE);
 				
 		simulator = new CreatureSimulator(new Dimension(640, 480), 4);	
 		inspector = new CreatureInspector();
@@ -158,24 +202,7 @@ public class Launcher extends JFrame {
 		submenu = new JMenu("Nombre de creatures");
 		submenu.setMnemonic(KeyEvent.VK_S);
 		menu.add(submenu);
-		JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
-		slider.addChangeListener(new ChangeListener() {
-			
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				creatureNumber = ((JSlider)e.getSource()).getValue();
-			}
-		});
-		
-		slider.setMinorTickSpacing(2);  
-		slider.setMajorTickSpacing(10);  
-		  
-		slider.setPaintTicks(true);  
-		slider.setPaintLabels(true);  
-		
-		JPanel panel=new JPanel();  
-		panel.add(slider);  
-		submenu.add(panel); 
+		 
 		mb.add(menu);
 		
 		rbMenuItem = new JRadioButtonMenuItem("RadioButton");
