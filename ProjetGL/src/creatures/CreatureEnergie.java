@@ -1,14 +1,12 @@
 package creatures;
 
 import static commons.Utils.filter;
-import static java.lang.Math.abs;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 
 import commons.Utils.Predicate;
-import creatures.SmartCreature.CreaturesAroundCreature;
 
 public class CreatureEnergie extends AbstractCreature {
 	
@@ -21,11 +19,36 @@ public class CreatureEnergie extends AbstractCreature {
 
 		@Override
 		public boolean apply(PointEnergie input) {
-			if (input.getPosition() == observer.getPosition()) {
+			if (input.position == observer.getPosition()) {
 				return false;
 			}
+			return PointInTriangle(input.position,observer);
+		}
 
-			return true;
+		public Point2D getP1(Point2D p,double angle,double fov){
+			return new Point2D.Double(p.getX()+DEFAULT_VISION_DISTANCE*Math.cos(fov+angle),p.getX()+DEFAULT_VISION_DISTANCE*Math.sin(fov+angle));
+		}
+
+		public Point2D getP2(Point2D p,double angle,double fov){
+			return new Point2D.Double(p.getX()+DEFAULT_VISION_DISTANCE*Math.cos(-(fov+angle)),p.getX()+DEFAULT_VISION_DISTANCE*Math.sin(-(fov+angle)));
+		}
+
+		public double sign(Point2D p1,Point2D p2,Point2D p3)
+		{
+			return (p1.getX() - p3.getX()) * (p2.getY() - p3.getY()) - (p2.getX() - p3.getX()) * (p1.getY() - p3.getY());
+		}
+
+		public boolean PointInTriangle (Point2D pt,CreatureEnergie v1)
+		{
+			boolean b1, b2, b3;
+			Point2D v2 = getP1(v1.getPosition(),v1.getDirection(),v1.fieldOfView);
+			Point2D v3 = getP2(v1.getPosition(),v1.getDirection(),v1.fieldOfView);
+
+			b1 = sign(pt, v1.getPosition(), v2) < 0.0d;
+			b2 = sign(pt, v2, v3) < 0.0d;
+			b3 = sign(pt, v3, v1.getPosition()) < 0.0d;
+
+			return ((b1 == b2) && (b2 == b3));
 		}
 	}
 
@@ -48,15 +71,13 @@ public class CreatureEnergie extends AbstractCreature {
 		double minDist = Double.MAX_VALUE;
 		
 		Collection<PointEnergie> ptsEnergie = (Collection) ptsAround(this);
-		
 		for (PointEnergie c : ptsEnergie) {
-			minDist = Math.min(minDist, this.distanceFromAPoint(c.getPosition()));
+			minDist = Math.min(minDist, this.distanceFromAPoint(c.position));
 		}
 		
 		double direction = getDirection();
 		
 		if(!ptsEnergie.isEmpty()){
-			
 		}
 		
 		setDirection(direction);
@@ -74,8 +95,6 @@ public class CreatureEnergie extends AbstractCreature {
 			CreatureEnergie c) {
 		return filter(environment.getPoints(), new EnergieAroundCreature(this));
 	}
-
-
 	
 	
 
