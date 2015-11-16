@@ -26,12 +26,16 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import plug.creatures.ComportementPluginFactory;
 import plug.creatures.CreaturePluginFactory;
+import plug.creatures.DeplacementPluginFactory;
 import plug.creatures.PluginMenuItemBuilder;
 import creatures.BouncingDeplacement;
 import creatures.ColorCube;
 import creatures.DeplacementTorus;
 import creatures.ICreature;
+import creatures.IStrategieComportement;
+import creatures.IStrategieDeplacement;
 import creatures.SmartComportement;
 import creatures.StupidComportement;
 import creatures.visual.CreatureInspector;
@@ -48,6 +52,11 @@ import javax.swing.JMenu;
 public class Launcher extends JFrame {
 
 	private final CreaturePluginFactory factory;
+	private final DeplacementPluginFactory factory2;
+	private final ComportementPluginFactory factory3;
+	
+	IStrategieComportement compor = null;
+	IStrategieDeplacement deplac = null;
 	
 	private final CreatureInspector inspector;
 	private final CreatureVisualizer visualizer;
@@ -63,6 +72,8 @@ public class Launcher extends JFrame {
 	
 	public Launcher() {
 		factory = CreaturePluginFactory.getInstance();
+		factory2 = DeplacementPluginFactory.getInstance();
+		factory3 = ComportementPluginFactory.getInstance();
 		GridBagConstraints c = new GridBagConstraints();
 
 		setName("Creature Simulator Plugin Version");
@@ -73,6 +84,8 @@ public class Launcher extends JFrame {
 		loader.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				factory.load();
+				factory2.load();
+				factory3.load();
 				buildPluginMenus();
 			}
 		});
@@ -85,6 +98,8 @@ public class Launcher extends JFrame {
 		reloader.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				factory.reload();
+				factory2.reload();
+				factory3.reload();
 				buildPluginMenus();
 			}
 		});
@@ -96,7 +111,7 @@ public class Launcher extends JFrame {
 		JButton restart = new JButton("(Re-)start simulation");
 		restart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (currentConstructor != null) {
+				if (currentConstructor == null) {
 					synchronized(simulator) {
 						if (simulator.isRunning()) {
 							simulator.stop();
@@ -104,7 +119,7 @@ public class Launcher extends JFrame {
 					}
 					simulator.clearCreatures();
 					simulator.clearStat();
-					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, creatureNumber, new ColorCube(creatureNumber),new SmartComportement(), new DeplacementTorus());
+					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, creatureNumber, new ColorCube(creatureNumber),compor, deplac);
 					simulator.addAllCreatures(creatures);
 					simulator.start();
 				}
@@ -190,15 +205,21 @@ public class Launcher extends JFrame {
 		ActionListener listener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// the name of the plugin is in the ActionCommand
-				currentConstructor = factory.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
+				deplac = factory2.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
+			}
+		};
+		ActionListener listener2 = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// the name of the plugin is in the ActionCommand
+				compor = factory3.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
 			}
 		};
 		/*menuBuilder = new PluginMenuItemBuilder(factory.getConstructorMap(),listener);
 		menuBuilder.setMenuTitle("Creatures");
 		menuBuilder.buildMenu();*/
 		JComboBox<String> test = new JComboBox<String>();
-		if (! factory.getConstructorMap().keySet().isEmpty()) {
-			for (String s: factory.getConstructorMap().keySet()) {
+		if (! factory2.getConstructorMap().keySet().isEmpty()) {
+			for (String s: factory2.getConstructorMap().keySet()) {
 				test.addItem(s);
 			}
 		}
@@ -210,6 +231,18 @@ public class Launcher extends JFrame {
 		test.setName("Bonjour");
 		mb.add(test);
 
+		JComboBox<String> test2 = new JComboBox<String>();
+		if (! factory3.getConstructorMap().keySet().isEmpty()) {
+			for (String s: factory3.getConstructorMap().keySet()) {
+				test2.addItem(s);
+			}
+		}
+		else {
+			test2.addItem("Aucun plugin trouvé");
+		}
+		test2.addActionListener(listener2);
+		test2.setSelectedIndex(0);
+		mb.add(test2);
 		
 		/*menu = new JMenu("Menu");
 		menu.setMnemonic(KeyEvent.VK_N);
@@ -236,6 +269,8 @@ public class Launcher extends JFrame {
 	    Logger.getLogger("plug").setLevel(Level.INFO);
 		double myMaxSpeed = 5;
 		CreaturePluginFactory.init(myMaxSpeed);
+		DeplacementPluginFactory.init();
+		ComportementPluginFactory.init();
 		Launcher launcher = new Launcher();
 		launcher.setVisible(true);
 	}
