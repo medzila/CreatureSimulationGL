@@ -14,9 +14,12 @@ import java.util.logging.Logger;
 
 import plug.IPlugin;
 import plug.PluginLoader;
+import creatures.CreatureComposable;
 import creatures.IColorStrategy;
 import creatures.ICreature;
 import creatures.IEnvironment;
+import creatures.IStrategieComportement;
+import creatures.IStrategieDeplacement;
 
 public class CreaturePluginFactory {
 	
@@ -100,9 +103,9 @@ public class CreaturePluginFactory {
 
 	private final Random rand = new Random();
 
-	public <T extends ICreature> Collection<T> createCreatures(IEnvironment env, int count, 
-								IColorStrategy colorStrategy, Constructor<T> constructor) {
-		Collection<T> creatures = new ArrayList<T>();		
+	public  Collection<CreatureComposable> createCreatures(IEnvironment env, int count, 
+								IColorStrategy colorStrategy, IStrategieComportement comp, IStrategieDeplacement depl) {
+		Collection<CreatureComposable> creatures = new ArrayList<CreatureComposable>();		
 		Dimension s = env.getSize();		
 		for (int i=0; i<count; i++) {	
 			// X coordinate
@@ -113,13 +116,8 @@ public class CreaturePluginFactory {
 			double direction = (rand.nextDouble() * 2 * Math.PI);
 			// speed
 			int speed = (int) (rand.nextDouble() * maxSpeed);			
-			T creature = null;
-			try {
-				creature = constructor.newInstance(env, new Point2D.Double(x,y), speed, direction, colorStrategy.getColor());
-			} catch (Exception e) {
-				logger.info("calling constructor " + constructor + " failed with exception " + e.getLocalizedMessage());
-				e.printStackTrace();
-			}
+			CreatureComposable creature = null;
+			creature = new CreatureComposable(env, new Point2D.Double(x,y), direction, speed, colorStrategy.getColor(), comp, depl);
 			creatures.add(creature);
 		}		
 		return creatures;

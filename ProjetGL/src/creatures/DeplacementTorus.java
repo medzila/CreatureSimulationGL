@@ -28,7 +28,7 @@ public class DeplacementTorus implements IStrategieDeplacement {
 			newY = s.getHeight() / 2;
 		}
 		
-		c.setPosition(newX, newX);
+		c.setPosition(newX, newY);
 
 	}
 

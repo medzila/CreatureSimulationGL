@@ -28,8 +28,12 @@ import javax.swing.event.ChangeListener;
 
 import plug.creatures.CreaturePluginFactory;
 import plug.creatures.PluginMenuItemBuilder;
+import creatures.BouncingDeplacement;
 import creatures.ColorCube;
+import creatures.DeplacementTorus;
 import creatures.ICreature;
+import creatures.SmartComportement;
+import creatures.StupidComportement;
 import creatures.visual.CreatureInspector;
 import creatures.visual.CreatureSimulator;
 import creatures.visual.CreatureVisualizer;
@@ -100,7 +104,7 @@ public class Launcher extends JFrame {
 					}
 					simulator.clearCreatures();
 					simulator.clearStat();
-					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, creatureNumber, new ColorCube(50),currentConstructor);
+					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, creatureNumber, new ColorCube(creatureNumber),new SmartComportement(), new DeplacementTorus());
 					simulator.addAllCreatures(creatures);
 					simulator.start();
 				}

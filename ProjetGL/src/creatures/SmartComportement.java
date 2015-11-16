@@ -82,6 +82,18 @@ public class SmartComportement implements IStrategieComportement {
 					c.move();
 					
 				}
+				/*
+				if(count==0){
+					setLossHealth(DEFAULT_LOSS_HEALTH);
+				}else if(count < 6){
+					setLossHealth(0.04);
+				}else if(count < 11){
+					setLossHealth(0.03);
+				}else if(count < 16){
+					setLossHealth(0.02);
+				}else{
+					setLossHealth(0.01);
+				}*/
 
 	}
 
