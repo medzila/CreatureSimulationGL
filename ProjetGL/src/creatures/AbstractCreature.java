@@ -255,6 +255,7 @@ public abstract class AbstractCreature implements ICreature {
 	public void burn(){
 		isBurning = true;
 		setLossHealth(DEFAULT_LOSS_HEALTH * 10);
+		looseHealth();
 	}
 	
 	// ----------------------------------------------------------------------------
