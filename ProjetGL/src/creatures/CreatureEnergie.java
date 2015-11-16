@@ -70,6 +70,12 @@ public class CreatureEnergie extends AbstractCreature {
 			CreatureEnergie c) {
 		return filter(environment.getPoints(), new EnergieAroundCreature(this));
 	}
+
+	@Override
+	public void move() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

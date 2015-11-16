@@ -25,6 +25,7 @@ import commons.Utils.Predicate;
  * 
  */
 public class SmartCreature extends AbstractCreature {
+	
 	static class CreaturesAroundCreature implements Predicate<ICreature> {
 		private final SmartCreature observer;
 
@@ -122,6 +123,12 @@ public class SmartCreature extends AbstractCreature {
 	public Iterable<ICreature> creaturesAround(
 			SmartCreature smartCreature) {
 		return filter(environment.getCreatures(), new CreaturesAroundCreature(this));
+	}
+
+	@Override
+	public void move() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
