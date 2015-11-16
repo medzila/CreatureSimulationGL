@@ -32,4 +32,9 @@ public class DeplacementTorus implements IStrategieDeplacement {
 
 	}
 
+	@Override
+	public String getName() {
+		return DeplacementTorus.class.getName();
+	}
+
 }

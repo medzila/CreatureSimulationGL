@@ -207,6 +207,7 @@ public class Launcher extends JFrame {
 		}
 		test.addActionListener(listener);
 		test.setSelectedIndex(0);
+		test.setName("Bonjour");
 		mb.add(test);
 
 		

@@ -68,4 +68,9 @@ public class BouncingDeplacement implements IStrategieDeplacement {
 
 	}
 
+	@Override
+	public String getName() {
+		return this.getClass().getName();
+	}
+
 }
