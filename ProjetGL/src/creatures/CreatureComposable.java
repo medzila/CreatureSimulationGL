@@ -11,6 +11,9 @@ public class CreatureComposable extends AbstractCreature{
 	public CreatureComposable(IEnvironment environment, Point2D position, double direction, double speed,
 			Color color, IStrategieComportement comp, IStrategieDeplacement depl) {
 		super(environment, position);
+		this.direction=direction;
+		this.speed=speed;
+		this.color=color;
 		this.comportement = comp;
 		this.deplacement = depl;
 	}
