@@ -227,10 +227,7 @@ public class Launcher extends JFrame {
 		JButton colorLoader = new JButton("(Re-)load color plugin");
 		colorLoader.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*factory.load();
-				movementFactory.load();
-				actingFactory.load();*/
-				// Mettre le reload de la colorFactory
+				colorFactory.reload();
 				buildInterface();
 			}
 		});
