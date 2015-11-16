@@ -26,6 +26,7 @@ public abstract class AbstractCreature implements ICreature {
 	public static final double DEFAULT_HEALTH = 100d;
 	public static final double DEFAULT_LOSS_HEALTH = 0.05d;
 	public static final double DEFAULT_GAINED_HEALTH = 10d;
+	public static final int DEFAULT_TICKS_BEFORE_DIE = PointEnergie.DEFAULT_SIZE/2;
 	
 	/** Health at the init */
 	protected double health = DEFAULT_HEALTH;
@@ -35,6 +36,12 @@ public abstract class AbstractCreature implements ICreature {
 	
 	/** Health gained when near an energy point */
 	protected double gainedHealth = DEFAULT_GAINED_HEALTH;
+	
+	/** Ticks before the creature dies */
+	protected int currentTicksOnEnergyPoint = 0;
+	
+	/** If the creature is burning */
+	protected boolean isBurning = false;
 	
 	/** Indicate if the creature is dead*/
 	protected boolean isDead = false;
@@ -215,7 +222,7 @@ public abstract class AbstractCreature implements ICreature {
 		ArrayList<PointEnergie> tab = (ArrayList<PointEnergie>) environment.getPoints();
 		if (!tab.isEmpty()) {
 			for(PointEnergie p : tab)
-				if(distanceFromAPoint(p.position) <= p.getSize())
+				if(distanceFromAPoint(p.position) <= p.getSize()/2)
 					return true;
 		}
 		return false;
@@ -226,10 +233,28 @@ public abstract class AbstractCreature implements ICreature {
 	 * Else, {@link AbstractCreature#looseHealth()}.
 	 */
 	public void gainOrLoseHealth(){
-		if(isNearEnergyPoint())
-			gainHealth();
-		else
+		if(isNearEnergyPoint()){
+			if(currentTicksOnEnergyPoint <= 10){
+				currentTicksOnEnergyPoint++;
+				gainHealth();
+			}
+			else
+				burn();
+		}
+		else{
+			if(currentTicksOnEnergyPoint >= 0)
+				currentTicksOnEnergyPoint = 0;
+			if(isBurning){
+				isBurning = false;
+				setLossHealth(DEFAULT_LOSS_HEALTH);
+			}
 			looseHealth();
+		}
+	}
+	
+	public void burn(){
+		isBurning = true;
+		setLossHealth(DEFAULT_LOSS_HEALTH * 10);
 	}
 	
 	// ----------------------------------------------------------------------------
@@ -301,6 +326,7 @@ public abstract class AbstractCreature implements ICreature {
 		return getPosition().distance(p);
 	}
 
+
 	// ----------------------------------------------------------------------------
 	// Painting
 	// ----------------------------------------------------------------------------
@@ -309,6 +335,11 @@ public abstract class AbstractCreature implements ICreature {
 	public void paint(Graphics2D g2) {
 		// center the point
 		g2.translate(position.getX(), position.getY());
+		//g2.fillOval(0,0,5,5);
+		if(isBurning){
+		g2.setColor(Color.RED);
+		g2.fillRect(0, 0, 10, 10);
+		}
 		// center the surrounding rectangle
 		g2.translate(-size / 2, -size / 2);
 		// center the arc
@@ -323,6 +354,7 @@ public abstract class AbstractCreature implements ICreature {
 		g2.fillArc(0, 0, size, size, (int) toDegrees(-fieldOfView / 2),
 				(int) toDegrees(fieldOfView));
 		
+		//g2.fillOval(0,0,5,5);
 		// set the color
 		g2.setColor(color);
 		
@@ -333,9 +365,9 @@ public abstract class AbstractCreature implements ICreature {
 		int newSize = (int)(size*relationHealth);
 		// Calculate the new x,y
 		int newCoor = (int)((size-newSize)/2);
-		
 		g2.fillArc(newCoor, newCoor, newSize, newSize, (int) toDegrees(-fieldOfView / 2),
 				(int) toDegrees(fieldOfView));
+		
 		//////
 		
 		////// Draw "classic" HEALTHBAR
