@@ -1,4 +1,6 @@
-package creatures;
+package creatures.comportement;
+
+import creatures.ICreature;
 
 public class StupidComportement implements IStrategieComportement {
 

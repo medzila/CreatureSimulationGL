@@ -3,6 +3,9 @@ package creatures;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import creatures.comportement.IStrategieComportement;
+import creatures.deplacement.IStrategieDeplacement;
+
 public class CreatureComposable extends AbstractCreature{
 
 	IStrategieComportement comportement;

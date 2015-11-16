@@ -1,7 +1,9 @@
-package creatures;
+package creatures.comportement;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
+
+import creatures.ICreature;
 
 public class BouncingComportement implements IStrategieComportement {
 	

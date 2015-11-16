@@ -1,4 +1,4 @@
-package plug.creatures;
+package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,12 +15,12 @@ import java.util.logging.Logger;
 import plug.IPlugin;
 import plug.PluginLoader;
 import creatures.CreatureComposable;
-import creatures.IColorStrategy;
 import creatures.ICreature;
 import creatures.IEnvironment;
-import creatures.IStrategieComportement;
-import creatures.IStrategieDeplacement;
 import creatures.PointEnergie;
+import creatures.color.IColorStrategy;
+import creatures.comportement.IStrategieComportement;
+import creatures.deplacement.IStrategieDeplacement;
 
 public class Builder {
 

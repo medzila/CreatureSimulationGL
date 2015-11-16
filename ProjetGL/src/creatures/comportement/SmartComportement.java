@@ -1,11 +1,11 @@
-package creatures;
+package creatures.comportement;
 
 import static commons.Utils.filter;
 import static java.lang.Math.abs;
 
 import commons.Utils.Predicate;
-
-import creatures.SmartCreature.CreaturesAroundCreature;
+import creatures.AbstractCreature;
+import creatures.ICreature;
 
 public class SmartComportement implements IStrategieComportement {
 	

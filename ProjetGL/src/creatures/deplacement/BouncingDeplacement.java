@@ -1,10 +1,12 @@
-package creatures;
+package creatures.deplacement;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 import java.awt.Dimension;
+
+import creatures.ICreature;
 
 public class BouncingDeplacement implements IStrategieDeplacement {
 

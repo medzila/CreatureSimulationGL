@@ -1,5 +1,6 @@
-package creatures;
+package creatures.comportement;
 
+import creatures.ICreature;
 import plug.IPlugin;
 
 public interface IStrategieComportement extends IPlugin {

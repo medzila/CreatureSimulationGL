@@ -14,10 +14,10 @@ import java.util.logging.Logger;
 
 import plug.IPlugin;
 import plug.PluginLoader;
-import creatures.IColorStrategy;
 import creatures.ICreature;
 import creatures.IEnvironment;
-import creatures.IStrategieDeplacement;
+import creatures.color.IColorStrategy;
+import creatures.deplacement.IStrategieDeplacement;
 
 public class DeplacementPluginFactory {
 	
@@ -98,7 +98,7 @@ public class DeplacementPluginFactory {
 		}
 	}
 	
-	public Map<String,IStrategieDeplacement> getConstructorMap() {
+	public Map<String,IStrategieDeplacement> getMap() {
 		return constructorMap;
 	}
 

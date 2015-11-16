@@ -1,4 +1,4 @@
-package creatures;
+package creatures.color;
 
 import java.awt.Color;
 
@@ -9,7 +9,7 @@ public class ColorCube implements IColorStrategy {
 	private float g = 0.0f;
 	private float b = 0.0f;
 
-	public ColorCube(int distinctColors) {
+	public ColorCube(Color c,int distinctColors) {
 		float creaturesCountCubeRoot = (float) Math.pow(distinctColors, 1.0 / 3.0);
 		colorPhase = (float) (1.0 / creaturesCountCubeRoot);
 	}
@@ -31,6 +31,13 @@ public class ColorCube implements IColorStrategy {
 		}
 
 		return new Color(r, g, b);
+	}
+
+
+
+	@Override
+	public String getName() {
+		return ColorCube.class.getName();
 	}
 
 }

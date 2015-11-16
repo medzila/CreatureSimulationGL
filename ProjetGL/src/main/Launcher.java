@@ -1,7 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -27,19 +28,20 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import plug.creatures.ColorPluginFactory;
 import plug.creatures.ComportementPluginFactory;
-import plug.creatures.Builder;
 import plug.creatures.DeplacementPluginFactory;
 import plug.creatures.PluginComboBoxItemBuilder;
-import creatures.BouncingDeplacement;
-import creatures.ColorCube;
-import creatures.DeplacementTorus;
 import creatures.ICreature;
-import creatures.IStrategieComportement;
-import creatures.IStrategieDeplacement;
 import creatures.PointEnergie;
-import creatures.SmartComportement;
-import creatures.StupidComportement;
+import creatures.color.ColorCube;
+import creatures.color.IColorStrategy;
+import creatures.comportement.IStrategieComportement;
+import creatures.comportement.SmartComportement;
+import creatures.comportement.StupidComportement;
+import creatures.deplacement.BouncingDeplacement;
+import creatures.deplacement.TorusDeplacement;
+import creatures.deplacement.IStrategieDeplacement;
 import creatures.visual.CreatureInspector;
 import creatures.visual.CreatureSimulator;
 import creatures.visual.CreatureVisualizer;
@@ -56,9 +58,11 @@ public class Launcher extends JFrame {
 
 	private final DeplacementPluginFactory movementFactory;
 	private final ComportementPluginFactory actingFactory;
+	private final ColorPluginFactory colorFactory;
 	
 	IStrategieComportement compor = null;
 	IStrategieDeplacement deplac = null;
+	Constructor<? extends IColorStrategy> colorConstructor = null;
 	
 	private final CreatureInspector inspector;
 	private final CreatureVisualizer visualizer;
@@ -79,6 +83,7 @@ public class Launcher extends JFrame {
 		
 		movementFactory = DeplacementPluginFactory.getInstance();
 		actingFactory = ComportementPluginFactory.getInstance();
+		colorFactory = ColorPluginFactory.getInstance();
 		
 		setName("Creature Simulator Plugin Version");
 		setLayout(new BorderLayout());
@@ -127,12 +132,28 @@ public class Launcher extends JFrame {
 		c.gridy = 0;
 		buttons.add(textFieldColor, c);
 		
-		String[] colorStrings = { "ColorCube", "ColorUnic"};
-		JComboBox<String> colorPicker = new JComboBox<>(colorStrings);
+		ActionListener colorListener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// the name of the plugin is in the ActionCommand
+				colorConstructor = colorFactory.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
+			}
+		};
+		
+		JComboBox<String> colorComboBox = new JComboBox<String>();
+		if (! colorFactory.getConstructorMap().keySet().isEmpty()) {
+			for (String s: colorFactory.getConstructorMap().keySet()) {
+				colorComboBox.addItem(s);
+			}
+		}
+		else {
+			colorComboBox.addItem("Aucun plugin trouvé");
+		}
+		colorComboBox.addActionListener(colorListener);
+		colorComboBox.setSelectedIndex(0);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
-		buttons.add(colorPicker, c); 
+		buttons.add(colorComboBox, c); 
 		
 		
 		// La partie de l'interface pour definir la strategie de mouvement
@@ -147,13 +168,13 @@ public class Launcher extends JFrame {
 		ActionListener movementListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// the name of the plugin is in the ActionCommand
-				deplac = movementFactory.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
+				deplac = movementFactory.getMap().get(((JComboBox) e.getSource()).getSelectedItem());
 			}
 		};
 		
 		JComboBox<String> movementComboBox = new JComboBox<String>();
-		if (! movementFactory.getConstructorMap().keySet().isEmpty()) {
-			for (String s: movementFactory.getConstructorMap().keySet()) {
+		if (! movementFactory.getMap().keySet().isEmpty()) {
+			for (String s: movementFactory.getMap().keySet()) {
 				movementComboBox.addItem(s);
 			}
 		}
@@ -180,13 +201,13 @@ public class Launcher extends JFrame {
 		ActionListener actionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// the name of the plugin is in the ActionCommand
-				compor = actingFactory.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
+				compor = actingFactory.getMap().get(((JComboBox) e.getSource()).getSelectedItem());
 			}
 		};
 		
 		JComboBox<String> actionComboBox = new JComboBox<String>();
-		if (! actingFactory.getConstructorMap().keySet().isEmpty()) {
-			for (String s: actingFactory.getConstructorMap().keySet()) {
+		if (! actingFactory.getMap().keySet().isEmpty()) {
+			for (String s: actingFactory.getMap().keySet()) {
 				actionComboBox.addItem(s);
 			}
 		}
@@ -350,11 +371,18 @@ public class Launcher extends JFrame {
 							simulator.stop();
 						}
 					}
+					Collection<? extends ICreature> creatures = null;
 					double myMaxSpeed = 5;
 					simulator.clearCreatures();
 					simulator.clearSpots();
 					simulator.clearStat();
-					Collection<? extends ICreature> creatures = Builder.createCreatures(simulator, creatureNumber, new ColorCube(creatureNumber),compor, deplac, myMaxSpeed);
+					try {
+						creatures = Builder.createCreatures(simulator, creatureNumber, colorConstructor.newInstance(Color.BLUE, creatureNumber),compor, deplac, myMaxSpeed);
+					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+							| InvocationTargetException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					Collection<PointEnergie> spots = Builder.createPoints(simulator, spotsNumber, spotsSize);
 					simulator.addAllCreatures(creatures);
 					simulator.addAllSpots(spots);
@@ -433,6 +461,7 @@ public class Launcher extends JFrame {
 	    Logger.getLogger("plug").setLevel(Level.INFO);
 		DeplacementPluginFactory.init();
 		ComportementPluginFactory.init();
+		ColorPluginFactory.init();
 		Launcher launcher = new Launcher();
 		launcher.setVisible(true);
 	}
