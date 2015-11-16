@@ -29,4 +29,10 @@ public class StupidCreature extends AbstractCreature {
 		
 		move(incX, incY);
 	}
+
+	@Override
+	public void move() {
+		// TODO Auto-generated method stub
+		
+	}
 }
