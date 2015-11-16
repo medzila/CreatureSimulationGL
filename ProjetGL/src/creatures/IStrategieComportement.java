@@ -1,6 +1,8 @@
 package creatures;
 
-public interface IStrategieComportement {
+import plug.IPlugin;
+
+public interface IStrategieComportement extends IPlugin {
 	
 	void setNextDirectionAndSpeed(ICreature c);
 }
