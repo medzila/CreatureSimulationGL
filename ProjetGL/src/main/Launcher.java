@@ -28,15 +28,16 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import plug.creatures.ComportementPluginFactory;
-import plug.creatures.CreaturePluginFactory;
+import plug.creatures.Builder;
 import plug.creatures.DeplacementPluginFactory;
-import plug.creatures.PluginMenuItemBuilder;
+import plug.creatures.PluginComboBoxItemBuilder;
 import creatures.BouncingDeplacement;
 import creatures.ColorCube;
 import creatures.DeplacementTorus;
 import creatures.ICreature;
 import creatures.IStrategieComportement;
 import creatures.IStrategieDeplacement;
+import creatures.PointEnergie;
 import creatures.SmartComportement;
 import creatures.StupidComportement;
 import creatures.visual.CreatureInspector;
@@ -53,7 +54,6 @@ import javax.swing.JMenu;
 @SuppressWarnings("serial")
 public class Launcher extends JFrame {
 
-	private final CreaturePluginFactory factory;
 	private final DeplacementPluginFactory movementFactory;
 	private final ComportementPluginFactory actingFactory;
 	
@@ -65,17 +65,18 @@ public class Launcher extends JFrame {
 	private final CreatureSimulator simulator;
 	private JRadioButtonMenuItem rbMenuItem;
 	
-	private PluginMenuItemBuilder menuBuilder;
+	private PluginComboBoxItemBuilder menuBuilder;
 	private JMenuBar mb = new JMenuBar();	
 	private Constructor<? extends ICreature> currentConstructor = null;
 	private JMenu menu , submenu;
 	private JPanel buttons = new JPanel(new GridBagLayout());
 	
 	int creatureNumber = 10;
+	int spotsNumber = 10;
+	int spotsSize = 10;
 	
 	public Launcher() {
 		
-		factory = CreaturePluginFactory.getInstance();
 		movementFactory = DeplacementPluginFactory.getInstance();
 		actingFactory = ComportementPluginFactory.getInstance();
 		
@@ -84,7 +85,7 @@ public class Launcher extends JFrame {
 		
 		add(buttons, BorderLayout.AFTER_LAST_LINE);
 				
-		simulator = new CreatureSimulator(new Dimension(640, 480), 4);	
+		simulator = new CreatureSimulator(new Dimension(640, 480));	
 		inspector = new CreatureInspector();
 		inspector.setFocusableWindowState(false);
 		visualizer = new CreatureVisualizer(simulator);
@@ -292,7 +293,7 @@ public class Launcher extends JFrame {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				creatureNumber = ((JSlider)e.getSource()).getValue();
+				spotsNumber = ((JSlider)e.getSource()).getValue();
 			}
 		});
 
@@ -322,7 +323,7 @@ public class Launcher extends JFrame {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				creatureNumber = ((JSlider)e.getSource()).getValue();
+				spotsSize = ((JSlider)e.getSource()).getValue();
 			}
 		});
 
@@ -349,10 +350,14 @@ public class Launcher extends JFrame {
 							simulator.stop();
 						}
 					}
+					double myMaxSpeed = 5;
 					simulator.clearCreatures();
+					simulator.clearSpots();
 					simulator.clearStat();
-					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, creatureNumber, new ColorCube(creatureNumber),compor, deplac);
+					Collection<? extends ICreature> creatures = Builder.createCreatures(simulator, creatureNumber, new ColorCube(creatureNumber),compor, deplac, myMaxSpeed);
+					Collection<PointEnergie> spots = Builder.createPoints(simulator, spotsNumber, spotsSize);
 					simulator.addAllCreatures(creatures);
+					simulator.addAllSpots(spots);
 					simulator.start();
 				}
 			}
@@ -365,6 +370,7 @@ public class Launcher extends JFrame {
 		JButton stopButton = new JButton("Stop");
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				simulator.clearSpots();
 				simulator.clearCreatures();
 				simulator.stop();
 			}
@@ -422,8 +428,6 @@ public class Launcher extends JFrame {
 	
 	public static void main(String args[]) {
 	    Logger.getLogger("plug").setLevel(Level.INFO);
-		double myMaxSpeed = 5;
-		CreaturePluginFactory.init(myMaxSpeed);
 		DeplacementPluginFactory.init();
 		ComportementPluginFactory.init();
 		Launcher launcher = new Launcher();

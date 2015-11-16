@@ -119,7 +119,7 @@ public class HealthSystemTest {
 	public void gainHealthDependingOnIfAnEnergyPointIsNearTest() {
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
 		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
-		pointsArround.add(new PointEnergie(new Point2D.Double(0, 0)));
+		pointsArround.add(new PointEnergie(new Point2D.Double(0, 0), 100));
 		
 		bouncing.setHealth(1);
 		assertEquals(bouncing.getHealth(), 1, 0.0);
@@ -147,7 +147,7 @@ public class HealthSystemTest {
 	public void IfIsNearCenterOfAnEnergyPoint(){
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
 		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
-		pointsArround.add(new PointEnergie(new Point2D.Double(0,0)));
+		pointsArround.add(new PointEnergie(new Point2D.Double(0,0), 100));
 		when(environment.getPoints()).thenReturn(pointsArround);
 		
 		assertTrue(bouncing.isNearEnergyPoint());
@@ -158,7 +158,7 @@ public class HealthSystemTest {
 	public void IfIsNearBoundsOfEnergyPoint(){
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
 		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
-		pointsArround.add(new PointEnergie(new Point2D.Double(0, PointEnergie.DEFAULT_SIZE)));
+		pointsArround.add(new PointEnergie(new Point2D.Double(0, PointEnergie.DEFAULT_SIZE), 100));
 		
 		when(environment.getPoints()).thenReturn(pointsArround);
 		
