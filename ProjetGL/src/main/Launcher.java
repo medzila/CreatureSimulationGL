@@ -23,6 +23,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -42,6 +43,7 @@ import creatures.visual.CreatureInspector;
 import creatures.visual.CreatureSimulator;
 import creatures.visual.CreatureVisualizer;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.JMenu;
 
 /**
@@ -52,8 +54,8 @@ import javax.swing.JMenu;
 public class Launcher extends JFrame {
 
 	private final CreaturePluginFactory factory;
-	private final DeplacementPluginFactory factory2;
-	private final ComportementPluginFactory factory3;
+	private final DeplacementPluginFactory movementFactory;
+	private final ComportementPluginFactory actingFactory;
 	
 	IStrategieComportement compor = null;
 	IStrategieDeplacement deplac = null;
@@ -67,107 +69,18 @@ public class Launcher extends JFrame {
 	private JMenuBar mb = new JMenuBar();	
 	private Constructor<? extends ICreature> currentConstructor = null;
 	private JMenu menu , submenu;
+	private JPanel buttons = new JPanel(new GridBagLayout());
 	
 	int creatureNumber = 10;
 	
 	public Launcher() {
+		
 		factory = CreaturePluginFactory.getInstance();
-		factory2 = DeplacementPluginFactory.getInstance();
-		factory3 = ComportementPluginFactory.getInstance();
-		GridBagConstraints c = new GridBagConstraints();
-
+		movementFactory = DeplacementPluginFactory.getInstance();
+		actingFactory = ComportementPluginFactory.getInstance();
+		
 		setName("Creature Simulator Plugin Version");
 		setLayout(new BorderLayout());
-		
-		JPanel buttons = new JPanel(new GridBagLayout());
-		JButton loader = new JButton("Load plugins");
-		loader.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				factory.load();
-				factory2.load();
-				factory3.load();
-				buildPluginMenus();
-			}
-		});
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		buttons.add(loader, c);
-
-		JButton reloader = new JButton("Reload plugins");
-		reloader.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				factory.reload();
-				factory2.reload();
-				factory3.reload();
-				buildPluginMenus();
-			}
-		});
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		buttons.add(reloader, c);
-		
-		JButton restart = new JButton("(Re-)start simulation");
-		restart.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (currentConstructor == null) {
-					synchronized(simulator) {
-						if (simulator.isRunning()) {
-							simulator.stop();
-						}
-					}
-					simulator.clearCreatures();
-					simulator.clearStat();
-					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, creatureNumber, new ColorCube(creatureNumber),compor, deplac);
-					simulator.addAllCreatures(creatures);
-					simulator.start();
-				}
-			}
-		});
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
-		c.gridy = 0;
-		buttons.add(restart, c);
-		
-		JButton boutonNouveau = new JButton("Bim ! Le bouton !");
-		boutonNouveau.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				simulator.clearCreatures();
-			}
-		});
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 3;
-		c.gridy = 0;
-		buttons.add(boutonNouveau, c);
-		
-		JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
-		slider.addChangeListener(new ChangeListener() {
-			
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				creatureNumber = ((JSlider)e.getSource()).getValue();
-			}
-		});
-		
-		slider.setMinorTickSpacing(2);  
-		slider.setMajorTickSpacing(10);  
-		  
-		slider.setPaintTicks(true);  
-		slider.setPaintLabels(true);  
-		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 1;
-		buttons.add(slider, c);  
-		
-		String[] colorStrings = { "ColorCube", "ColorUnic"};
-		JComboBox<String> colorPicker = new JComboBox<>(colorStrings);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 1;
-		buttons.add(colorPicker, c); 
-		
 		
 		add(buttons, BorderLayout.AFTER_LAST_LINE);
 				
@@ -184,7 +97,7 @@ public class Launcher extends JFrame {
 
 		
 	
-	    buildPluginMenus();
+	    buildInterface();
 
 	    pack();
 
@@ -200,49 +113,291 @@ public class Launcher extends JFrame {
 		System.exit(0);
 	}
 
-	public void buildPluginMenus() {	
-		mb.removeAll();
-		ActionListener listener = new ActionListener() {
+	public void buildInterface() {	
+		
+		GridBagConstraints c = new GridBagConstraints();
+
+		// La partie de l'interface pour definir la strategie de coloriage
+		
+		JTextField textFieldColor = new JTextField("Color:");
+		textFieldColor.setEditable(false);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		buttons.add(textFieldColor, c);
+		
+		String[] colorStrings = { "ColorCube", "ColorUnic"};
+		JComboBox<String> colorPicker = new JComboBox<>(colorStrings);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		buttons.add(colorPicker, c); 
+		
+		
+		// La partie de l'interface pour definir la strategie de mouvement
+		
+		JTextField textFieldMovement = new JTextField("Movement:");
+		textFieldMovement.setEditable(false);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 0;
+		buttons.add(textFieldMovement, c);
+		
+		ActionListener movementListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// the name of the plugin is in the ActionCommand
-				deplac = factory2.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
+				deplac = movementFactory.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
 			}
 		};
-		ActionListener listener2 = new ActionListener() {
+		
+		JComboBox<String> movementComboBox = new JComboBox<String>();
+		if (! movementFactory.getConstructorMap().keySet().isEmpty()) {
+			for (String s: movementFactory.getConstructorMap().keySet()) {
+				movementComboBox.addItem(s);
+			}
+		}
+		else {
+			movementComboBox.addItem("Aucun plugin trouv�");
+		}
+		movementComboBox.addActionListener(movementListener);
+		movementComboBox.setSelectedIndex(0);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 0;
+		buttons.add(movementComboBox,c);
+		
+		
+		// La partie de l'interface pour definir la strategie de comportement
+		
+		JTextField textFieldAction = new JTextField("Acting:");
+		textFieldAction.setEditable(false);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 4;
+		c.gridy = 0;
+		buttons.add(textFieldAction, c);
+		
+		ActionListener actionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// the name of the plugin is in the ActionCommand
-				compor = factory3.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
+				compor = actingFactory.getConstructorMap().get(((JComboBox) e.getSource()).getSelectedItem());
 			}
 		};
-		/*menuBuilder = new PluginMenuItemBuilder(factory.getConstructorMap(),listener);
+		
+		JComboBox<String> actionComboBox = new JComboBox<String>();
+		if (! actingFactory.getConstructorMap().keySet().isEmpty()) {
+			for (String s: actingFactory.getConstructorMap().keySet()) {
+				actionComboBox.addItem(s);
+			}
+		}
+		else {
+			actionComboBox.addItem("Aucun plugin trouvé");
+		}
+		actionComboBox.addActionListener(actionListener);
+		actionComboBox.setSelectedIndex(0);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 5;
+		c.gridy = 0;
+		buttons.add(actionComboBox,c);
+		
+		
+		// Le bouton pour recharger les plugins qui gere le coloriage
+		
+		JButton colorLoader = new JButton("(Re-)load color plugin");
+		colorLoader.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*factory.load();
+				movementFactory.load();
+				actingFactory.load();*/
+				// Mettre le reload de la colorFactory
+				buildInterface();
+			}
+		});
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		buttons.add(colorLoader, c);
+		
+		
+		// Le bouton pour recharger les plugins qui gere le deplacement
+
+		JButton movementLoader = new JButton("(Re-)load movement plugin");
+		movementLoader.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				movementFactory.reload();
+				buildInterface();
+			}
+		});
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 1;
+		buttons.add(movementLoader, c);
+		
+		
+		// Le bouton pour recharger les plugins qui gere le comportement
+
+		JButton actionLoader = new JButton("(Re-)load acting plugin");
+		actionLoader.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actingFactory.reload();
+				buildInterface();
+			}
+		});
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 5;
+		c.gridy = 1;
+		buttons.add(actionLoader, c);
+		
+		
+		// Le slider pour qui gere le nombre de creatures
+		
+		JTextField textFieldNumberCreatures = new JTextField("Number of creatures:");
+		textFieldNumberCreatures.setEditable(false);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 3;
+		buttons.add(textFieldNumberCreatures, c);
+		
+		JSlider numberOfCreaturesSlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+		numberOfCreaturesSlider.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				creatureNumber = ((JSlider)e.getSource()).getValue();
+			}
+		});
+		
+		numberOfCreaturesSlider.setMinorTickSpacing(2);  
+		numberOfCreaturesSlider.setMajorTickSpacing(10);  
+		  
+		numberOfCreaturesSlider.setPaintTicks(true);  
+		numberOfCreaturesSlider.setPaintLabels(true);  
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 3;
+		buttons.add(numberOfCreaturesSlider, c);  
+		
+		
+		// Le slider pour qui gere le nombre de points d'energie
+		
+		JTextField textFieldNumberEnergy = new JTextField("Number of energy points:");
+		textFieldNumberEnergy.setEditable(false);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 3;
+		buttons.add(textFieldNumberEnergy, c);
+
+		JSlider numberOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+		numberOfEnergySlider.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				creatureNumber = ((JSlider)e.getSource()).getValue();
+			}
+		});
+
+		numberOfEnergySlider.setMinorTickSpacing(2);  
+		numberOfEnergySlider.setMajorTickSpacing(10);  
+
+		numberOfEnergySlider.setPaintTicks(true);  
+		numberOfEnergySlider.setPaintLabels(true);  
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 3;
+		buttons.add(numberOfEnergySlider, c);  
+
+		
+		// Le slider pour qui gere le nombre de points d'energie
+		
+		JTextField textFieldSizeEnergy = new JTextField("Number of energy points:");
+		textFieldSizeEnergy.setEditable(false);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 4;
+		c.gridy = 3;
+		buttons.add(textFieldSizeEnergy, c);
+
+		JSlider sizeOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+		sizeOfEnergySlider.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				creatureNumber = ((JSlider)e.getSource()).getValue();
+			}
+		});
+
+		sizeOfEnergySlider.setMinorTickSpacing(2);  
+		sizeOfEnergySlider.setMajorTickSpacing(10);  
+
+		sizeOfEnergySlider.setPaintTicks(true);  
+		sizeOfEnergySlider.setPaintLabels(true);  
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 5;
+		c.gridy = 3;
+		buttons.add(sizeOfEnergySlider, c);  
+		
+		
+		// Le button qui gere le (re-)demarrage de la simulation
+		
+		JButton restart = new JButton("(Re-)start simulation");
+		restart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if ((compor != null) && (deplac != null)) {
+					synchronized(simulator) {
+						if (simulator.isRunning()) {
+							simulator.stop();
+						}
+					}
+					simulator.clearCreatures();
+					simulator.clearStat();
+					Collection<? extends ICreature> creatures = factory.createCreatures(simulator, creatureNumber, new ColorCube(creatureNumber),compor, deplac);
+					simulator.addAllCreatures(creatures);
+					simulator.start();
+				}
+			}
+		});
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 4;
+		buttons.add(restart, c);
+		
+		JButton stopButton = new JButton("Stop");
+		stopButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				simulator.clearCreatures();
+				simulator.stop();
+			}
+		});
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 4;
+		c.gridy = 4;
+		buttons.add(stopButton, c);
+		
+		
+		/*JButton reloader = new JButton("Reload plugins");
+		reloader.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				factory.reload();
+				movementFactory.reload();
+				actingFactory.reload();
+				buildInterface();
+			}
+		});
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		buttons.add(reloader, c);*/
+		
+		/*mb.removeAll();
+		
+		
+		menuBuilder = new PluginMenuItemBuilder(factory.getConstructorMap(),listener);
 		menuBuilder.setMenuTitle("Creatures");
 		menuBuilder.buildMenu();*/
-		JComboBox<String> test = new JComboBox<String>();
-		if (! factory2.getConstructorMap().keySet().isEmpty()) {
-			for (String s: factory2.getConstructorMap().keySet()) {
-				test.addItem(s);
-			}
-		}
-		else {
-			test.addItem("Aucun plugin trouvé");
-		}
-		test.addActionListener(listener);
-		test.setSelectedIndex(0);
-		test.setName("Bonjour");
-		mb.add(test);
+		
 
-		JComboBox<String> test2 = new JComboBox<String>();
-		if (! factory3.getConstructorMap().keySet().isEmpty()) {
-			for (String s: factory3.getConstructorMap().keySet()) {
-				test2.addItem(s);
-			}
-		}
-		else {
-			test2.addItem("Aucun plugin trouvé");
-		}
-		test2.addActionListener(listener2);
-		test2.setSelectedIndex(0);
-		mb.add(test2);
+		
 		
 		/*menu = new JMenu("Menu");
 		menu.setMnemonic(KeyEvent.VK_N);
@@ -253,13 +408,13 @@ public class Launcher extends JFrame {
 		submenu.setMnemonic(KeyEvent.VK_S);
 		menu.add(submenu);
 		 
-		mb.add(menu);*/
+		mb.add(menu);
 		
 		rbMenuItem = new JRadioButtonMenuItem("RadioButton");
 		rbMenuItem.setMnemonic(KeyEvent.VK_O);
 		mb.add(rbMenuItem);
 
-		setJMenuBar(mb);
+		setJMenuBar(mb);*/
 	}
 
 
