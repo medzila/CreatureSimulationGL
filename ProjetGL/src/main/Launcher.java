@@ -73,7 +73,7 @@ public class Launcher extends JFrame {
 	
 	int creatureNumber = 10;
 	int spotsNumber = 10;
-	int spotsSize = 10;
+	int spotsSize = 50;
 	
 	public Launcher() {
 		
@@ -96,8 +96,6 @@ public class Launcher extends JFrame {
 		
 		add(visualizer, BorderLayout.CENTER);
 
-		
-	
 	    buildInterface();
 
 	    pack();
@@ -115,6 +113,8 @@ public class Launcher extends JFrame {
 	}
 
 	public void buildInterface() {	
+		
+		buttons.removeAll();
 		
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -309,7 +309,7 @@ public class Launcher extends JFrame {
 		buttons.add(numberOfEnergySlider, c);  
 
 		
-		// Le slider pour qui gere le nombre de points d'energie
+		// Le slider pour qui gere la taille de points d'energie
 		
 		JTextField textFieldSizeEnergy = new JTextField("Number of energy points:");
 		textFieldSizeEnergy.setEditable(false);
@@ -318,7 +318,7 @@ public class Launcher extends JFrame {
 		c.gridy = 3;
 		buttons.add(textFieldSizeEnergy, c);
 
-		JSlider sizeOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+		JSlider sizeOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);  
 		sizeOfEnergySlider.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -372,6 +372,7 @@ public class Launcher extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				simulator.clearSpots();
 				simulator.clearCreatures();
+				simulator.clearStat();
 				simulator.stop();
 			}
 		});
@@ -380,6 +381,8 @@ public class Launcher extends JFrame {
 		c.gridy = 4;
 		buttons.add(stopButton, c);
 		
+		revalidate();
+		repaint();
 		
 		/*JButton reloader = new JButton("Reload plugins");
 		reloader.addActionListener(new ActionListener() {
