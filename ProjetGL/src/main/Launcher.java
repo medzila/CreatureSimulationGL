@@ -192,11 +192,14 @@ public class Launcher extends JFrame {
 		/*menuBuilder = new PluginMenuItemBuilder(factory.getConstructorMap(),listener);
 		menuBuilder.setMenuTitle("Creatures");
 		menuBuilder.buildMenu();*/
-		JComboBox test = new JComboBox();
+		JComboBox<String> test = new JComboBox<String>();
 		if (! factory.getConstructorMap().keySet().isEmpty()) {
 			for (String s: factory.getConstructorMap().keySet()) {
 				test.addItem(s);
 			}
+		}
+		else {
+			test.addItem("Aucun plugin trouvé");
 		}
 		test.addActionListener(listener);
 		test.setSelectedIndex(0);
