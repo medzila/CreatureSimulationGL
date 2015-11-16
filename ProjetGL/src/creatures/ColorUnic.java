@@ -1,8 +1,6 @@
-package creatures.visual;
+package creatures;
 
 import java.awt.Color;
-
-import creatures.IColorStrategy;
 
 public class ColorUnic implements IColorStrategy {
 
