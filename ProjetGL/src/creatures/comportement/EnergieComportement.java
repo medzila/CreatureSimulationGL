@@ -53,19 +53,18 @@ public class EnergieComportement implements IStrategieComportement {
 
 		PointEnergie p = null;
 		ArrayList<PointEnergie> ptsEnergie =(ArrayList) ptsAround(c);
-		System.out.println(ptsEnergie);
+		
 		if(!ptsEnergie.isEmpty()){
 			p = ptsEnergie.get(0);
 
 			double dx = p.getPosition().getX() - c.getPosition().getX();
 	        double dy = p.getPosition().getY() - c.getPosition().getY();
 	        angle = Math.atan2(dy, dx);
-			c.setDirection(angle);
+			c.setDirection(-angle);
 
 		}
-
 		c.move();
-		
+
 	}
 
 }
