@@ -1,5 +1,7 @@
 package creatures;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.atan;
 import static java.lang.Math.toDegrees;
 
 import java.awt.Color;
@@ -53,6 +55,46 @@ public class PointEnergie implements IDrawable {
 		//		(int) toDegrees(fieldOfView));
 
 
+	}
+	
+	public double directionFormAPoint(Point2D p, double axis) {
+		double b = 0d;
+
+		// use a inverse trigonometry to get the angle in an orthogonal triangle
+		// formed by the points (x,y) and (x1,y1)
+		if (position.getX() != p.getX()) {
+			// if we are not in the same horizontal axis
+			b = atan((position.getY() - p.getY()) / (position.getX() - p.getX()));
+		} else if (position.getY() < p.getY()) {
+			// below -pi/2
+			b = -PI / 2;
+		} else {
+			// above +pi/2
+			b = PI / 2;
+		}
+
+		// make a distinction between the case when the (x1, y1)
+		// is right from the (x,y) or left
+		if (position.getX() < p.getX()) {
+			b += PI;
+		}
+
+		// align with the axis of the origin (x1,y1)
+		b = b - axis;
+
+		// make sure we always take the smaller angle
+		// keeping the range between (-pi, pi)
+		if (b >= PI)
+			b = b - PI * 2;
+		else if (b < -PI)
+			b = b + PI * 2;
+
+		return b % (PI * 2);
+	}
+
+	public Point2D getPosition() {
+		// TODO Auto-generated method stub
+		return position;
 	}
 
 }
