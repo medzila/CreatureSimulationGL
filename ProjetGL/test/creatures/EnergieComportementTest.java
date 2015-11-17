@@ -36,29 +36,94 @@ public class EnergieComportementTest {
 		t = new TorusDeplacement();
 	}
 	
+	/**
+	 * Verifie si la creature voit le point devant elle.
+	 * @throws Exception
+	 */
 	@Test
-	public void testEmerginBehavior() throws Exception {
+	public void testPointAround() throws Exception {
 		
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0, 1),Math.PI/2,0,
+		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
 				Color.BLACK,e,t);
 		
-		PointEnergie pte = mock(PointEnergie.class);
-		
-		when(pte.getPosition()).thenReturn(new Point2D.Double(0,3));
-		when(pte.getSize()).thenReturn(20);
-		
+		PointEnergie pte = new PointEnergie(new Point2D.Double(0,10),20);
+				
 		ArrayList<PointEnergie> ptl = (ArrayList<PointEnergie>)new ArrayList<PointEnergie>();
 		ptl.add(pte);
-		environment.addAllSpots(ptl);
 		
-		when(environment.getPoints()).thenReturn(ptl);
+		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
 		
-		System.out.println(creature.getPosition()+" "+pte.getPosition()+" "+creature.getDirection()+" "+creature.getEnvironment().getPoints());
-
+		ArrayList<PointEnergie> ptsAround = (ArrayList<PointEnergie>)e.ptsAround(creature);
 		e.setNextDirectionAndSpeed(creature);
 		
-		System.out.println(creature.getPosition()+" "+pte.getPosition()+" "+creature.getDirection());
-		assertEquals(1, environment.getSizePoints());
+		assertEquals(1, ptsAround.size());
+		assertEquals(creature.getDirection(),-Math.PI/2,0.01);
+		
+	}
+	
+	/**
+	 * Verifie si la creature voit les points devant elle mais ignore ceux qui ne sont pas dans
+	 * son champ de vision.
+	 * @throws Exception
+	 */
+	@Test
+	public void testPointsAround() throws Exception {
+		
+		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
+				Color.BLACK,e,t);
+		
+		PointEnergie pte = new PointEnergie(new Point2D.Double(0,10),20);
+		PointEnergie pte1 = new PointEnergie(new Point2D.Double(-10,10),20);
+		PointEnergie pte2 = new PointEnergie(new Point2D.Double(10,10),20);
+
+				
+		ArrayList<PointEnergie> ptl = (ArrayList<PointEnergie>)new ArrayList<PointEnergie>();
+		ptl.add(pte);
+		ptl.add(pte1);
+		ptl.add(pte2);
+
+		
+		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
+		
+		ArrayList<PointEnergie> ptsAround = (ArrayList<PointEnergie>)e.ptsAround(creature);
+		e.setNextDirectionAndSpeed(creature);
+		
+		assertEquals(1, ptsAround.size());
+		assertEquals(creature.getDirection(),-Math.PI/2,0.01);
+		
+	}
+	
+	/**
+	 * Distance de perception de la creature.
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreatureLengthOfView() throws Exception {
+		
+		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
+				Color.BLACK,e,t);
+		
+		PointEnergie pte = new PointEnergie(new Point2D.Double(0,10),20);
+		PointEnergie pte1 = new PointEnergie(new Point2D.Double(0,51),20);
+		PointEnergie pte2 = new PointEnergie(new Point2D.Double(0,80),20); // Max = 80 car dans le apply il y a le +30
+		PointEnergie pte3 = new PointEnergie(new Point2D.Double(0,81),20);// et par default LengthOfView = 50
+
+				
+		ArrayList<PointEnergie> ptl = (ArrayList<PointEnergie>)new ArrayList<PointEnergie>();
+		ptl.add(pte);
+		ptl.add(pte1);
+		ptl.add(pte2);
+		ptl.add(pte3);
+
+		
+		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
+		
+		ArrayList<PointEnergie> ptsAround = (ArrayList<PointEnergie>)e.ptsAround(creature);
+		e.setNextDirectionAndSpeed(creature);
+		
+		//La creature doit voir seulement que 3 points.
+		assertEquals(3, ptsAround.size());
+		assertEquals(creature.getDirection(),-Math.PI/2,0.01);
 		
 	}
 

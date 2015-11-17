@@ -30,8 +30,8 @@ public class EnergieComportement implements IStrategieComportement {
 					observer.getDirection());
 
 			return abs(dirAngle) < (observer.getFieldOfView() / 2)
-					&& observer.distanceFromAPoint(input.position) <= observer
-							.getLengthOfView();		}
+					&& observer.distanceFromAPoint(input.position) <= (observer
+							.getLengthOfView()+30);} //observer.getLengthOfView + 30 augmentation de la distance de vision de la creature.
 
 	}
 
@@ -42,29 +42,24 @@ public class EnergieComportement implements IStrategieComportement {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return EnergieComportement.class.getName();
 	}
 
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {
 		double angle = Double.MAX_VALUE;
-		double vitesse = c.getSpeed();
 
 		PointEnergie p = null;
 		ArrayList<PointEnergie> ptsEnergie =(ArrayList) ptsAround(c);
 		
 		if(!ptsEnergie.isEmpty()){
 			p = ptsEnergie.get(0);
-
 			double dx = p.getPosition().getX() - c.getPosition().getX();
 	        double dy = p.getPosition().getY() - c.getPosition().getY();
 	        angle = Math.atan2(dy, dx);
 			c.setDirection(-angle);
-
 		}
 		c.move();
-
 	}
 
 }
