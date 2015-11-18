@@ -158,7 +158,7 @@ public class HealthSystemTest {
 	public void IfIsNearBoundsOfEnergyPoint(){
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
 		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
-		pointsArround.add(new PointEnergie(new Point2D.Double(0, PointEnergie.DEFAULT_SIZE), 100));
+		pointsArround.add(new PointEnergie(new Point2D.Double(0, PointEnergie.DEFAULT_SIZE/2), 100));
 		
 		when(environment.getPoints()).thenReturn(pointsArround);
 		
