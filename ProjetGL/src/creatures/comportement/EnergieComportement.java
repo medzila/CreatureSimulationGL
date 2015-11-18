@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import commons.Utils.Predicate;
 import creatures.AbstractCreature;
+import creatures.CreatureComposable;
 import creatures.ICreature;
 import creatures.PointEnergie;
 
@@ -20,8 +21,6 @@ public class EnergieComportement implements IStrategieComportement {
 	 * Number of cycles after which we apply some random noise.
 	 */
 	private static final int NUMBER_OF_CYCLES_PER_CHANGE = 50;
-
-	protected int currCycle;
 	
 	static class EnergieAroundCreature implements Predicate<PointEnergie> {
 		private final AbstractCreature observer;
@@ -56,46 +55,52 @@ public class EnergieComportement implements IStrategieComportement {
 
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {
+		CreatureComposable c1 = (CreatureComposable)c;
 		double angle = Double.MAX_VALUE;
 		boolean energieDirection = true;
 
 		PointEnergie p = null;
-		ArrayList<PointEnergie> ptsEnergie = (ArrayList) ptsAround(c);
+		ArrayList<PointEnergie> ptsEnergie = (ArrayList) ptsAround(c1);
 		
 		if(!ptsEnergie.isEmpty()){
 			p = ptsEnergie.get(0);
-			double dx = p.getPosition().getX() - c.getPosition().getX();
-	        double dy = p.getPosition().getY() - c.getPosition().getY();
+			double dx = p.getPosition().getX() - c1.getPosition().getX();
+	        double dy = p.getPosition().getY() - c1.getPosition().getY();
 	        angle = Math.atan2(dy, dx);
-			c.setDirection(-angle);
+			c1.setDirection(-angle);
 			energieDirection=false;
 		}
 		if(energieDirection){
-			applyNoise(c);
+			applyNoise(c1);
 		}
-		c.move();
+		c1.move();
 	}
 	
 	/**
 	 * Every number of cycles we apply some random noise over speed and
 	 * direction
 	 */
+	/**
+	 * Every number of cycles we apply some random noise over speed and
+	 * direction
+	 */
 	public void applyNoise(ICreature c) {
-		currCycle++;
-		currCycle %= NUMBER_OF_CYCLES_PER_CHANGE;
+		CreatureComposable c1 = (CreatureComposable)c;
+		c1.setCurrCycle(c1.getCurrCycle()+1);
+		c1.currCycle %= NUMBER_OF_CYCLES_PER_CHANGE;
 
 		// every NUMBER_OF_CYCLES_PER_CHANGE we do the change
-		if (currCycle == 0) {
-			c.setSpeed(c.getSpeed()+((random() * 2) - 1));
+		if (c1.currCycle == 0) {
+			c1.setSpeed(c1.getSpeed()+((random() * 2) - 1));
 
 			// maintain the speed within some boundaries
-			if (c.getSpeed() < MIN_SPEED) {
-				c.setSpeed(MIN_SPEED);
-			} else if (c.getSpeed() > MAX_SPEED) {
-				c.setSpeed(MAX_SPEED);
+			if (c1.getSpeed() < MIN_SPEED) {
+				c1.setSpeed(MIN_SPEED);
+			} else if (c1.getSpeed() > MAX_SPEED) {
+				c1.setSpeed(MAX_SPEED);
 			}
 
-			c.setDirection(c.getDirection()
+			c1.setDirection(c1.getDirection()
 					+ ((random() * PI / 2) - (PI / 4)));
 		}
 	}

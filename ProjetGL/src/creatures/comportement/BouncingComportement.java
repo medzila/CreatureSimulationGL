@@ -3,6 +3,7 @@ package creatures.comportement;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 
+import creatures.CreatureComposable;
 import creatures.ICreature;
 
 public class BouncingComportement implements IStrategieComportement {
@@ -14,15 +15,12 @@ public class BouncingComportement implements IStrategieComportement {
 	 * Number of cycles after which we apply some random noise.
 	 */
 	private static final int NUMBER_OF_CYCLES_PER_CHANGE = 30;
-
-	protected int currCycle;
 	
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {
-
-		 
-		applyNoise(c);
-		c.move();
+		CreatureComposable c1 = (CreatureComposable)c;
+		applyNoise(c1);
+		c1.move();
 	}
 
 	/**
@@ -30,21 +28,22 @@ public class BouncingComportement implements IStrategieComportement {
 	 * direction
 	 */
 	public void applyNoise(ICreature c) {
-		currCycle++;
-		currCycle %= NUMBER_OF_CYCLES_PER_CHANGE;
+		CreatureComposable c1 = (CreatureComposable)c;
+		c1.setCurrCycle(c1.getCurrCycle()+1);
+		c1.currCycle %= NUMBER_OF_CYCLES_PER_CHANGE;
 
 		// every NUMBER_OF_CYCLES_PER_CHANGE we do the change
-		if (currCycle == 0) {
-			c.setSpeed(c.getSpeed()+((random() * 2) - 1));
+		if (c1.currCycle == 0) {
+			c1.setSpeed(c1.getSpeed()+((random() * 2) - 1));
 
 			// maintain the speed within some boundaries
-			if (c.getSpeed() < MIN_SPEED) {
-				c.setSpeed(MIN_SPEED);
-			} else if (c.getSpeed() > MAX_SPEED) {
-				c.setSpeed(MAX_SPEED);
+			if (c1.getSpeed() < MIN_SPEED) {
+				c1.setSpeed(MIN_SPEED);
+			} else if (c1.getSpeed() > MAX_SPEED) {
+				c1.setSpeed(MAX_SPEED);
 			}
 
-			c.setDirection(c.getDirection()
+			c1.setDirection(c1.getDirection()
 					+ ((random() * PI / 2) - (PI / 4)));
 		}
 	}

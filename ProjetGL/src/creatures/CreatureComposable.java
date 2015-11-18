@@ -12,6 +12,9 @@ public class CreatureComposable extends AbstractCreature{
 	IStrategieComportement comportement;
 	IStrategieDeplacement deplacement;
 	
+	public int currCycle;
+	
+	
 	public CreatureComposable(IEnvironment environment, Point2D position, double direction, double speed,
 			Color color, IStrategieComportement comp, IStrategieDeplacement depl) {
 		super(environment, position);
@@ -20,6 +23,7 @@ public class CreatureComposable extends AbstractCreature{
 		this.color=color;
 		this.comportement = comp;
 		this.deplacement = depl;
+		this.currCycle = 0;
 	}
 
 	@Override
@@ -39,6 +43,14 @@ public class CreatureComposable extends AbstractCreature{
 			int arg4, int arg5) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public int getCurrCycle(){
+		return this.currCycle;
+	}
+	
+	public void setCurrCycle(int i){
+		this.currCycle = i;
 	}
 
 }
