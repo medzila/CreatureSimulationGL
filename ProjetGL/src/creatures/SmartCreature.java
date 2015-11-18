@@ -4,6 +4,7 @@ import static commons.Utils.filter;
 import static java.lang.Math.abs;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Point2D;
 
 import commons.Utils.Predicate;
@@ -129,6 +130,13 @@ public class SmartCreature extends AbstractCreature {
 	public void move() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean imageUpdate(Image img, int infoflags, int x, int y,
+			int width, int height) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

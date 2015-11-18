@@ -1,6 +1,7 @@
 package creatures;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Point2D;
 
 import creatures.comportement.IStrategieComportement;
@@ -31,6 +32,13 @@ public class CreatureComposable extends AbstractCreature{
 		this.comportement.setNextDirectionAndSpeed(this);
 		
 		gainOrLoseHealth();	
+	}
+
+	@Override
+	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,
+			int arg4, int arg5) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

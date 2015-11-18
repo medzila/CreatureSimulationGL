@@ -7,6 +7,7 @@ import static java.lang.Math.sin;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.geom.Point2D;
 
 public class BouncingCreature extends AbstractCreature {
@@ -117,6 +118,13 @@ public class BouncingCreature extends AbstractCreature {
 
 	private void setDirectionBounceY() {
 		setDirection(PI * 2 - direction);
+	}
+
+	@Override
+	public boolean imageUpdate(Image img, int infoflags, int x, int y,
+			int width, int height) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

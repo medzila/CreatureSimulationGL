@@ -4,6 +4,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Point2D;
 
 
@@ -34,5 +35,12 @@ public class StupidCreature extends AbstractCreature {
 	public void move() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean imageUpdate(Image img, int infoflags, int x, int y,
+			int width, int height) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

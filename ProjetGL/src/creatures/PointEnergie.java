@@ -37,7 +37,7 @@ public class PointEnergie implements IDrawable {
 	public void paint(Graphics2D g2) {
 		// center the point
 		g2.translate(position.getX(), position.getY());
-		g2.fillOval(0, 0, 5, 5);
+		
 		// center the surrounding rectangle
 		g2.translate(-size / 2, -size / 2);
 		// center the arc
