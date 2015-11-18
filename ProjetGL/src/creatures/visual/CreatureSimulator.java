@@ -57,6 +57,9 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 		this.creaturesDepart = 0;
 		this.creaturesTotal = new JLabel();
 		this.creaturesMortes = new JLabel();
+		
+		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +"   //");
+		creaturesMortes.setText("Nombre de créatures mortes : " + creaturesDead);
 	}
 	
 	/**
@@ -75,21 +78,14 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	 */
 	@Override
 	public Iterable<ICreature> getCreatures() {
-		ArrayList<ICreature> creatureList = new ArrayList<ICreature>(actionables);
-		for(ICreature c : creatureList)
-			if(c.isDead()){
-				removeCreature(c);
-				creaturesDead++;
-			}
-		creaturesDepart = creatureSize() + getCreaturesDead();
-		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +"   //");
-		creaturesMortes.setText("Nombre de créatures mortes : " + getCreaturesDead());
 		return new ArrayList<ICreature>(actionables);
 	}
 	
 	public void clearStat(){
 		this.creaturesDead=0;
 		this.creaturesDepart=0;
+		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +"   //");
+		creaturesMortes.setText("Nombre de créatures mortes : " + creaturesDead);
 	}
 	
 	public JLabel getLabelCreaturesDead(){
@@ -116,6 +112,9 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	}
 	
 	public void removeCreature(ICreature creature) {
+		creaturesDead++;
+		creaturesDepart = creatureSize() + getCreaturesDead();
+		creaturesMortes.setText("Nombre de créatures mortes : " + getCreaturesDead());
 		actionables.remove(creature);
 	}
 	
@@ -124,6 +123,9 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	}
 
 	public void addAllCreatures(Collection<? extends ICreature> creatures) {
+		creaturesDepart = creatures.size();
+		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +"   //");
+		creaturesMortes.setText("Nombre de créatures mortes : " + getCreaturesDead());
 		actionables.addAll(creatures);
 	}
 	
