@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import com.sun.istack.internal.logging.Logger;
-
 import commons.Utils.Predicate;
 import creatures.visual.CreatureSimulator;
 
