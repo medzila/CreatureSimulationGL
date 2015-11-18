@@ -10,16 +10,24 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import com.sun.istack.internal.logging.Logger;
+
 import commons.Utils.Predicate;
+import creatures.visual.CreatureSimulator;
 
 
-public abstract class AbstractCreature implements ICreature {
+public abstract class AbstractCreature implements ICreature, ImageObserver {
 
 	public static final int DEFAULT_SIZE = 80;
 	public static final int DEFAULT_VISION_DISTANCE = 50;
@@ -27,6 +35,7 @@ public abstract class AbstractCreature implements ICreature {
 	public static final double DEFAULT_LOSS_HEALTH = 0.05d;
 	public static final double DEFAULT_GAINED_HEALTH = 10d;
 	public static final int DEFAULT_TICKS_BEFORE_DIE = PointEnergie.DEFAULT_SIZE/2;
+	public static BufferedImage img = null;
 	
 	/** Health at the init */
 	protected double health = DEFAULT_HEALTH;
@@ -80,6 +89,10 @@ public abstract class AbstractCreature implements ICreature {
 		this.environment = environment;
 
 		setPosition(position);
+		try{
+			img = ImageIO.read(new File("src/commons/flame.png"));
+		}catch(Exception e){
+		}
 	}
 
 	// ----------------------------------------------------------------------------
@@ -92,6 +105,8 @@ public abstract class AbstractCreature implements ICreature {
 	
 	public void die(){
 		isDead = true;
+		CreatureSimulator env = (CreatureSimulator) environment;
+		env.removeCreature(this);
 	}
 	
 	@Override
@@ -337,12 +352,11 @@ public abstract class AbstractCreature implements ICreature {
 		// center the point
 		g2.translate(position.getX(), position.getY());
 		//g2.fillOval(0,0,5,5);
-		if(isBurning){
-		g2.setColor(Color.RED);
-		g2.fillRect(0, 0, 10, 10);
-		}
 		// center the surrounding rectangle
 		g2.translate(-size / 2, -size / 2);
+		if(isBurning){
+			g2.drawImage(img, 20, 20, 20, 35, this);
+		}
 		// center the arc
 		// rotate towards the direction of our vector
 		g2.rotate(-direction, size / 2, size / 2);
