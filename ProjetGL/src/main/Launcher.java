@@ -208,7 +208,7 @@ buttons.removeAll();
 			}
 		}
 		else {
-			actionComboBox.addItem("Aucun plugin trouvé");
+			actionComboBox.addItem("Aucun plugin trouver");
 		}
 		actionComboBox.addActionListener(actionListener);
 		actionComboBox.setSelectedIndex(0);

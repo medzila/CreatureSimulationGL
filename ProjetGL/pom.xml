@@ -24,7 +24,6 @@
                 <source>myplugins/repository</source>
                 <targetPath>target/classes</targetPath>
               </sources>
-                <outputDirectory>target2</outputDirectory>
             </configuration>
           </execution>
         </executions>
@@ -61,7 +60,12 @@
             <configuration>
               <target>
 
-                <copy file="target/classes/creature/color/ColorCube.class" tofile="myplugins/repository/creature/color/ColorCube.class"/>
+				<move todir="myplugins/repository/creatures/comportement">
+    				<fileset dir="target/classes/creature/comportement">
+      					<exclude name="IStrategieComportement.class"/>
+    				</fileset>
+  				</move>
+	
 
               </target>
             </configuration>
