@@ -31,8 +31,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import plug.creatures.ColorPluginFactory;
-import plug.creatures.ComportementPluginFactory;
-import plug.creatures.DeplacementPluginFactory;
+import plug.creatures.BehaviorPluginFactory;
+import plug.creatures.MovementPluginFactory;
 import plug.creatures.PluginComboBoxItemBuilder;
 import creatures.ICreature;
 import creatures.behavior.IStrategyBehavior;
@@ -58,12 +58,12 @@ import javax.swing.JMenu;
 @SuppressWarnings("serial")
 public class Launcher extends JFrame {
 
-	private final DeplacementPluginFactory movementFactory;
-	private final ComportementPluginFactory actingFactory;
+	private final MovementPluginFactory movementFactory;
+	private final BehaviorPluginFactory behaviorFactory;
 	private final ColorPluginFactory colorFactory;
 	
-	Constructor<? extends IStrategyBehavior> compor = null;
-	IStrategieMovement deplac = null;
+	Constructor<? extends IStrategyBehavior> behavior = null;
+	IStrategieMovement movement = null;
 	Constructor<? extends IColorStrategy> colorConstructor = null;
 	
 	private final CreatureInspector inspector;
@@ -83,8 +83,8 @@ public class Launcher extends JFrame {
 	
 	public Launcher() {
 		
-		movementFactory = DeplacementPluginFactory.getInstance();
-		actingFactory = ComportementPluginFactory.getInstance();
+		movementFactory = MovementPluginFactory.getInstance();
+		behaviorFactory = BehaviorPluginFactory.getInstance();
 		colorFactory = ColorPluginFactory.getInstance();
 		
 		setName("Creature Simulator Plugin Version");
@@ -164,7 +164,7 @@ buttons.removeAll();
 		ActionListener movementListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// the name of the plugin is in the ActionCommand
-				deplac = movementFactory.getMap().get(((JComboBox) e.getSource()).getSelectedItem());
+				movement = movementFactory.getMap().get(((JComboBox) e.getSource()).getSelectedItem());
 			}
 		};
 		
@@ -197,13 +197,13 @@ buttons.removeAll();
 		ActionListener actionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// the name of the plugin is in the ActionCommand
-				compor = actingFactory.getMap().get(((JComboBox) e.getSource()).getSelectedItem());
+				behavior = behaviorFactory.getMap().get(((JComboBox) e.getSource()).getSelectedItem());
 			}
 		};
 		
 		JComboBox<String> actionComboBox = new JComboBox<String>();
-		if (! actingFactory.getMap().keySet().isEmpty()) {
-			for (String s: actingFactory.getMap().keySet()) {
+		if (! behaviorFactory.getMap().keySet().isEmpty()) {
+			for (String s: behaviorFactory.getMap().keySet()) {
 				actionComboBox.addItem(s);
 			}
 		}
@@ -260,7 +260,7 @@ buttons.removeAll();
 		JButton actionLoader = new JButton("(Re-)load acting plugin");
 		actionLoader.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				actingFactory.reload();
+				behaviorFactory.reload();
 				buildInterface();
 			}
 		});
@@ -362,7 +362,7 @@ buttons.removeAll();
 		JButton restart = new JButton("(Re-)start simulation");
 		restart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if ((compor != null) && (deplac != null)) {
+				if ((behavior != null) && (movement != null)) {
 					synchronized(simulator) {
 						if (simulator.isRunning()) {
 							simulator.stop();
@@ -374,7 +374,7 @@ buttons.removeAll();
 					simulator.clearSpots();
 					simulator.clearStat();
 					try {
-						creatures = Builder.createCreatures(simulator, creatureNumber, colorConstructor.newInstance(Color.BLUE, creatureNumber),compor.newInstance(), deplac, myMaxSpeed);
+						creatures = Builder.createCreatures(simulator, creatureNumber, colorConstructor.newInstance(Color.BLUE, creatureNumber),behavior.newInstance(), movement, myMaxSpeed);
 					} catch (InstantiationException | IllegalAccessException
 							| InvocationTargetException e1) {
 						// TODO Auto-generated catch block
@@ -459,8 +459,8 @@ buttons.removeAll();
 	
 	public static void main(String args[]) {
 	    Logger.getLogger("plug").setLevel(Level.INFO);
-		DeplacementPluginFactory.init();
-		ComportementPluginFactory.init();
+		MovementPluginFactory.init();
+		BehaviorPluginFactory.init();
 		ColorPluginFactory.init();
 		Launcher launcher = new Launcher();
 		launcher.setVisible(true);

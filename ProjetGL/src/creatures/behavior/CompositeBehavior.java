@@ -4,13 +4,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import plug.creatures.ComportementPluginFactory;
+import plug.creatures.BehaviorPluginFactory;
 import creatures.AbstractCreature;
 import creatures.ICreature;
 
 public class CompositeBehavior implements IStrategyBehavior {
 	
-	private static float seuil;
+	private static float TRESHOLD;
 	Constructor<? extends IStrategyBehavior> energieConst = null;
 	Constructor<? extends IStrategyBehavior> smartConst = null;
 	private EnergyBehavior energyBehavior = null;
@@ -19,12 +19,12 @@ public class CompositeBehavior implements IStrategyBehavior {
 	
 	
 	public CompositeBehavior(){
-		boolean energie = false;
-		boolean smart = false ;
-		this.seuil=(float) (AbstractCreature.DEFAULT_HEALTH/2);
-		Map<String,Constructor<? extends IStrategyBehavior>> factory = ComportementPluginFactory.getInstance().getMap();
+		boolean isEnergyBehaviorHere = false;
+		boolean isEmergingBehaviorHere = false ;
+		this.TRESHOLD=(float) (AbstractCreature.DEFAULT_HEALTH/2);
+		Map<String,Constructor<? extends IStrategyBehavior>> factory = BehaviorPluginFactory.getInstance().getMap();
 		
-		// On regarde chaque comportement dans la factory et il faut trouver tous les comportments qu'on va utilisé
+		// We check every behavior in the factory. We have to find every behavior needed (emerging & energy)
 		for (String s : factory.keySet()){
 			IStrategyBehavior i = null;
 			if (!s.equals(this.getName())){
@@ -37,16 +37,16 @@ public class CompositeBehavior implements IStrategyBehavior {
 				}
 
 				if (i.getClass().isAssignableFrom(EnergyBehavior.class)){
-					energie = true;
+					isEnergyBehaviorHere = true;
 					this.energyBehavior = (EnergyBehavior) i;
 				}else if(i.getClass().isAssignableFrom(EmergingBehavior.class)){
-					smart = true ; 
+					isEmergingBehaviorHere = true ; 
 					this.emergingBehavior = (EmergingBehavior) i;
 				}
 			}
 		}
-		if(!(energie && smart)){
-			throw new IllegalArgumentException("Classes du comportement composite non trouvable");
+		if(!(isEnergyBehaviorHere && isEmergingBehaviorHere)){
+			throw new IllegalArgumentException("Missing Emerging or Energy behavior.");
 		}
 	}
 	
@@ -58,7 +58,7 @@ public class CompositeBehavior implements IStrategyBehavior {
 
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {
-		if(c.getHealth() > seuil){
+		if(c.getHealth() > TRESHOLD){
 			emergingBehavior.setNextDirectionAndSpeed(c);
 		} else {
 			energyBehavior.setNextDirectionAndSpeed(c);

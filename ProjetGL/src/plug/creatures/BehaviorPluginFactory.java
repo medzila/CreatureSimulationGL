@@ -20,12 +20,12 @@ import creatures.behavior.IStrategyBehavior;
 import creatures.color.IColorStrategy;
 import creatures.movement.IStrategieMovement;
 
-public class ComportementPluginFactory {
+public class BehaviorPluginFactory {
 	
 	/**
 	 * singleton for the abstract factory
 	 */
-	protected static ComportementPluginFactory _singleton;
+	protected static BehaviorPluginFactory _singleton;
 		
 	protected PluginLoader pluginLoader;
 	
@@ -44,15 +44,15 @@ public class ComportementPluginFactory {
             throw new RuntimeException("CreatureFactory already created by " 
 				  + _singleton.getClass().getName());
         } else {
-             _singleton = new ComportementPluginFactory();
+             _singleton = new BehaviorPluginFactory();
         }
      }
 
-    public static ComportementPluginFactory getInstance() {
+    public static BehaviorPluginFactory getInstance() {
     	return _singleton;
     }
 
-    private ComportementPluginFactory() {
+    private BehaviorPluginFactory() {
     	try {
     		pluginLoader = new PluginLoader(pluginDir,IStrategyBehavior.class);
     	}

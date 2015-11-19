@@ -106,7 +106,7 @@ public class HealthSystemTest {
 		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
 		
 		assertEquals(bouncing.getHealth(), defautHealth, 0.0);
-		when(environment.getPoints()).thenReturn(pointsArround);
+		when(environment.getEnergySources()).thenReturn(pointsArround);
 		
 		bouncing.gainOrLoseHealth();
 		
@@ -124,7 +124,7 @@ public class HealthSystemTest {
 		bouncing.setHealth(1);
 		assertEquals(bouncing.getHealth(), 1, 0.0);
 		
-		when(environment.getPoints()).thenReturn(pointsArround);
+		when(environment.getEnergySources()).thenReturn(pointsArround);
 		
 		bouncing.gainOrLoseHealth();
 		
@@ -137,7 +137,7 @@ public class HealthSystemTest {
 	public void IfIsNotNearAnEnergyPoint(){
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
 		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
-		when(environment.getPoints()).thenReturn(pointsArround);
+		when(environment.getEnergySources()).thenReturn(pointsArround);
 		
 		assertFalse(bouncing.isOnAnEnergySource());
 	}
@@ -148,7 +148,7 @@ public class HealthSystemTest {
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
 		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
 		pointsArround.add(new EnergySource(new Point2D.Double(0,0), 100));
-		when(environment.getPoints()).thenReturn(pointsArround);
+		when(environment.getEnergySources()).thenReturn(pointsArround);
 		
 		assertTrue(bouncing.isOnAnEnergySource());
 	}
@@ -160,7 +160,7 @@ public class HealthSystemTest {
 		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
 		pointsArround.add(new EnergySource(new Point2D.Double(0, EnergySource.DEFAULT_SIZE/2), 100));
 		
-		when(environment.getPoints()).thenReturn(pointsArround);
+		when(environment.getEnergySources()).thenReturn(pointsArround);
 		
 		assertTrue(bouncing.isOnAnEnergySource());
 	}

@@ -16,7 +16,7 @@ import creatures.behavior.RandomBehavior;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
-public class BouncingComportementTest {
+public class RandomBehaviorTest {
 
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 100;
@@ -39,7 +39,7 @@ public class BouncingComportementTest {
 	@Test
 	public void testBouncingNoise() throws Exception {
 		
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),Math.PI/2,0,
 				Color.BLACK,b,t);
 		
 		Point2D positionBefore = creature.getPosition();

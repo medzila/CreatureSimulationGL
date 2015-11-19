@@ -17,7 +17,7 @@ import creatures.movement.BouncingMovement;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
-public class BouncingDeplacementTest {
+public class BouncingMovementTest {
 
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 200;
@@ -35,7 +35,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testDirectLeftUp() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(-w/2+1, 0), toRadians(150), 10,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(-w/2+1, 0), toRadians(150), 10,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -46,7 +46,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testDirectLeftDown() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(-w/2+1, 0), toRadians(210), 10,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(-w/2+1, 0), toRadians(210), 10,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -58,7 +58,7 @@ public class BouncingDeplacementTest {
 	
 	@Test 
 	public void testDirectRightUp() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(w/2-1, 0), toRadians(30), 10,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(w/2-1, 0), toRadians(30), 10,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -69,7 +69,7 @@ public class BouncingDeplacementTest {
 	
 	@Test 
 	public void testDirectRightDown() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(w/2-1, 0), toRadians(330), 10,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(w/2-1, 0), toRadians(330), 10,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -81,7 +81,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testDirectUpRight() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(0, -h/2+1), toRadians(30), 10,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(0, -h/2+1), toRadians(30), 10,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -92,7 +92,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testDirectUpLeft() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(0, -h/2+1), toRadians(150), 10,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(0, -h/2+1), toRadians(150), 10,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -103,7 +103,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testDirectDownRight() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(0, h/2-1), toRadians(330), 10,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(0, h/2-1), toRadians(330), 10,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -114,7 +114,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testDirectDownLeft() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(0, h/2-1), toRadians(210), 10,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(0, h/2-1), toRadians(210), 10,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -126,7 +126,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testUpperRightCorner45() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(w/2, -h/2), toRadians(45), 1,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(w/2, -h/2), toRadians(45), 1,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 
@@ -137,7 +137,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testUpperRightCorner30() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(w/2, -h/2), toRadians(30), 1,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(w/2, -h/2), toRadians(30), 1,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 		
@@ -148,7 +148,7 @@ public class BouncingDeplacementTest {
 	
 	@Test
 	public void testDirectBottom() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(0, h/2), toRadians(270), 1,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(0, h/2), toRadians(270), 1,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 
@@ -161,7 +161,7 @@ public class BouncingDeplacementTest {
 	// Special case: in a corner but not really facing both sides
 	@Test
 	public void testSpecialCorner() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment, new Point2D.Double(w/2, h/2), toRadians(210), 1,
+		ComposableCreature creature = new ComposableCreature(environment, new Point2D.Double(w/2, h/2), toRadians(210), 1,
 				Color.BLACK,s,b);
 		b.setNextPosition(creature);
 

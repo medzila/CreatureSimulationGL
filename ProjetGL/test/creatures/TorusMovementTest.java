@@ -16,7 +16,7 @@ import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
 
-public class TorusDeplacementTest {
+public class TorusMovementTest {
 	
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 100;
@@ -34,7 +34,7 @@ public class TorusDeplacementTest {
 	
 	@Test
 	public void testTorusDeplacementRightWall() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(49,0),0,10,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(49,0),0,10,
 				Color.BLACK,s,t);
 		
 		Point2D positionBefore = creature.getPosition();
@@ -52,7 +52,7 @@ public class TorusDeplacementTest {
 	
 	@Test
 	public void testTorusDeplacementLeftWall() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(-49,0),Math.toRadians(180),10,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(-49,0),Math.toRadians(180),10,
 				Color.BLACK,s,t);
 		
 		Point2D positionBefore = creature.getPosition();
@@ -71,7 +71,7 @@ public class TorusDeplacementTest {
 
 	@Test
 	public void testTorusDeplacementUpWall() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,24),-Math.PI/2,5,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,24),-Math.PI/2,5,
 				Color.BLACK,s,t);
 		
 		Point2D positionBefore = creature.getPosition();
@@ -90,7 +90,7 @@ public class TorusDeplacementTest {
 	
 	@Test
 	public void testTorusDeplacementDownWall() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,-24),Math.PI/2,5,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,-24),Math.PI/2,5,
 				Color.BLACK,s,t);
 		
 		Point2D positionBefore = creature.getPosition();
@@ -109,7 +109,7 @@ public class TorusDeplacementTest {
 	
 	@Test
 	public void testTorusDeplacementAngleRightUp() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(49,24),Math.toRadians(-45),2,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(49,24),Math.toRadians(-45),2,
 				Color.BLACK,s,t);
 		
 		Point2D positionBefore = creature.getPosition();
@@ -128,7 +128,7 @@ public class TorusDeplacementTest {
 	
 	@Test
 	public void testTorusDeplacementAngleDownLeft() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(-49,-24),Math.toRadians(-225),2,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(-49,-24),Math.toRadians(-225),2,
 				Color.BLACK,s,t);
 		
 		Point2D positionBefore = creature.getPosition();
@@ -147,7 +147,7 @@ public class TorusDeplacementTest {
 	
 	@Test
 	public void testTorusDeplacementAngleUpLeft() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(-49,24),Math.toRadians(-135),2,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(-49,24),Math.toRadians(-135),2,
 				Color.BLACK,s,t);
 		
 		Point2D positionBefore = creature.getPosition();
@@ -166,17 +166,14 @@ public class TorusDeplacementTest {
 	
 	@Test
 	public void testTorusDeplacementAngleDownRight() throws Exception {
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(49,-24),Math.toRadians(45),2,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(49,-24),Math.toRadians(45),2,
 				Color.BLACK,s,t);
 		
 		Point2D positionBefore = creature.getPosition();
 		double directionBefore = creature.getDirection();
 		double speedBefore = creature.getSpeed();
 		
-		System.out.println(creature.getPosition()+" "+creature.getDirection()+" "+creature.getSpeed());
 		t.setNextPosition(creature);
-		System.out.println(creature.getPosition()+" "+creature.getDirection()+" "+creature.getSpeed());
-
 		
 		assertNotEquals(creature.getPosition(),positionBefore);
 		assertEquals(creature.getPosition().getY(),24,1);

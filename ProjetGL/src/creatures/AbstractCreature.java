@@ -33,6 +33,8 @@ public abstract class AbstractCreature implements ICreature, ImageObserver {
 	public static final double DEFAULT_LOSS_HEALTH = 0.05d;
 	public static final double DEFAULT_GAINED_HEALTH = 5d;
 	public static final int DEFAULT_TICKS_BEFORE_BURN = 20;
+	public static final String FLAME_IMAGE_PATH = "src/commons/flame.png";
+	
 	public static BufferedImage img = null;
 	
 	/** Health at the init */
@@ -88,7 +90,7 @@ public abstract class AbstractCreature implements ICreature, ImageObserver {
 
 		setPosition(position);
 		try{
-			img = ImageIO.read(new File("src/commons/flame.png"));
+			img = ImageIO.read(new File(FLAME_IMAGE_PATH));
 		}catch(Exception e){
 		}
 	}
@@ -232,7 +234,7 @@ public abstract class AbstractCreature implements ICreature, ImageObserver {
 	 * @return <code>true</code> if the creature is near a {@link EnergySource}.
 	 */
 	public boolean isOnAnEnergySource(){
-		ArrayList<EnergySource> tab = (ArrayList<EnergySource>) environment.getPoints();
+		ArrayList<EnergySource> tab = (ArrayList<EnergySource>) environment.getEnergySources();
 		if (!tab.isEmpty()) {
 			for(EnergySource p : tab)
 				if(distanceFromAPoint(p.position) <= p.getSize()/2)

@@ -40,7 +40,7 @@ public class SmartCreatureTest {
 		creaturesAround.add(other);
 		
 		when(environment.getCreatures()).thenReturn(creaturesAround);
-		when(environment.getPoints()).thenReturn(new ArrayList<EnergySource>());
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
 		
 		main.act();
 		
@@ -64,7 +64,7 @@ public class SmartCreatureTest {
 		SmartCreature c1 = new SmartCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED);
 		ArrayList<ICreature> creaturesAround = new ArrayList<ICreature>();
 		when(environment.getCreatures()).thenReturn(creaturesAround);
-		when(environment.getPoints()).thenReturn(new ArrayList<EnergySource>());
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
 		
 		assertEquals(c1.getHealth(),100.0,0.001);
 		c1.act();
@@ -88,7 +88,7 @@ public class SmartCreatureTest {
 		creaturesAround.add(other);
 
 		when(environment.getCreatures()).thenReturn(creaturesAround);
-		when(environment.getPoints()).thenReturn(new ArrayList<EnergySource>());
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
 		
 		assertEquals(c1.getHealth(),100.0,0.001);
 		c1.act();
@@ -118,7 +118,7 @@ public class SmartCreatureTest {
 		creaturesAround.add(other);
 
 		when(environment.getCreatures()).thenReturn(creaturesAround);
-		when(environment.getPoints()).thenReturn(new ArrayList<EnergySource>());
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
 		
 		assertEquals(c1.getHealth(),100.0,0.001);
 		c1.act();
@@ -137,7 +137,7 @@ public class SmartCreatureTest {
 		when(other.getDirection()).thenReturn(toRadians(270));
 		when(other.getSpeed()).thenReturn(10.0);
 		when(other.getPosition()).thenReturn(new Point2D.Double(1,0));
-		when(environment.getPoints()).thenReturn(new ArrayList<EnergySource>());
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
 		
 		ArrayList<ICreature> creaturesAround = new ArrayList<ICreature>();
 		creaturesAround.add(other);
@@ -172,7 +172,7 @@ public class SmartCreatureTest {
 		when(other.getDirection()).thenReturn(toRadians(270));
 		when(other.getSpeed()).thenReturn(10.0);
 		when(other.getPosition()).thenReturn(new Point2D.Double(1,0));
-		when(environment.getPoints()).thenReturn(new ArrayList<EnergySource>());
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
 		
 		ArrayList<ICreature> creaturesAround = new ArrayList<ICreature>();
 		creaturesAround.add(other);

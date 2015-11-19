@@ -20,7 +20,7 @@ import creatures.behavior.EmergingBehavior;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
-public class SmartComportementTest {
+public class EmergingBehaviorTest {
 
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 100;
@@ -43,7 +43,7 @@ public class SmartComportementTest {
 	@Test
 	public void testEmerginComportement() throws Exception {
 		
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),toRadians(10),5,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(10),5,
 				Color.BLACK,s,t);
 		
 		ICreature other = mock(ICreature.class);
@@ -57,7 +57,7 @@ public class SmartComportementTest {
 		creaturesAround.add(other);
 		Point2D positionBefore = creature.getPosition();
 		when(environment.getCreatures()).thenReturn(creaturesAround);
-		when(environment.getPoints()).thenReturn(new ArrayList<EnergySource>());
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
 		
 		s.setNextDirectionAndSpeed(creature);
 		

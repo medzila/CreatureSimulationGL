@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import commons.Utils.Predicate;
 import creatures.AbstractCreature;
-import creatures.CreatureComposable;
+import creatures.ComposableCreature;
 import creatures.ICreature;
 import creatures.EnergySource;
 
@@ -22,10 +22,10 @@ public class EnergyBehavior implements IStrategyBehavior {
 	 */
 	private static final int NUMBER_OF_CYCLES_PER_CHANGE = 50;
 	
-	static class EnergieAroundCreature implements Predicate<EnergySource> {
+	static class EnergySourceAroundCreature implements Predicate<EnergySource> {
 		private final AbstractCreature observer;
 
-		public EnergieAroundCreature(AbstractCreature observer) {
+		public EnergySourceAroundCreature(AbstractCreature observer) {
 			this.observer = observer;
 		}
 
@@ -45,7 +45,7 @@ public class EnergyBehavior implements IStrategyBehavior {
 
 	public Iterable<EnergySource> ptsAround(
 			ICreature c) {
-		return filter(c.getEnvironment().getPoints(), new EnergieAroundCreature((AbstractCreature)c));
+		return filter(c.getEnvironment().getEnergySources(), new EnergySourceAroundCreature((AbstractCreature)c));
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class EnergyBehavior implements IStrategyBehavior {
 
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {
-		CreatureComposable c1 = (CreatureComposable)c;
+		ComposableCreature c1 = (ComposableCreature)c;
 		double angle = Double.MAX_VALUE;
 		boolean energieDirection = true;
 
@@ -76,16 +76,13 @@ public class EnergyBehavior implements IStrategyBehavior {
 		c1.move();
 	}
 	
-	/**
-	 * Every number of cycles we apply some random noise over speed and
-	 * direction
-	 */
+
 	/**
 	 * Every number of cycles we apply some random noise over speed and
 	 * direction
 	 */
 	public void applyNoise(ICreature c) {
-		CreatureComposable c1 = (CreatureComposable)c;
+		ComposableCreature c1 = (ComposableCreature)c;
 		c1.setCurrCycle(c1.getCurrCycle()+1);
 		c1.currCycle %= NUMBER_OF_CYCLES_PER_CHANGE;
 

@@ -19,12 +19,12 @@ import creatures.IEnvironment;
 import creatures.color.IColorStrategy;
 import creatures.movement.IStrategieMovement;
 
-public class DeplacementPluginFactory {
+public class MovementPluginFactory {
 	
 	/**
 	 * singleton for the abstract factory
 	 */
-	protected static DeplacementPluginFactory _singleton;
+	protected static MovementPluginFactory _singleton;
 		
 	protected PluginLoader pluginLoader;
 	
@@ -43,15 +43,15 @@ public class DeplacementPluginFactory {
             throw new RuntimeException("CreatureFactory already created by " 
 				  + _singleton.getClass().getName());
         } else {
-             _singleton = new DeplacementPluginFactory();
+             _singleton = new MovementPluginFactory();
         }
      }
 
-    public static DeplacementPluginFactory getInstance() {
+    public static MovementPluginFactory getInstance() {
     	return _singleton;
     }
 
-    private DeplacementPluginFactory() {
+    private MovementPluginFactory() {
     	try {
     		pluginLoader = new PluginLoader(pluginDir,IStrategieMovement.class);
     	}

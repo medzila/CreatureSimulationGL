@@ -142,7 +142,7 @@ public class CreatureVisualizer extends Visualizer {
 		for (ICreature c : simulator.getCreatures()) {
 			al.add(c);
 		}
-		for (EnergySource p : simulator.getPoints()) {
+		for (EnergySource p : simulator.getEnergySources()) {
 			al.add(p);
 		}
 		return al;

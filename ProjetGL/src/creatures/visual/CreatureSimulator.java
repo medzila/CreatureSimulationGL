@@ -133,7 +133,7 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 		actionables.clear();
 	}
 	
-	public Iterable<EnergySource> getPoints() {
+	public Iterable<EnergySource> getEnergySources() {
 		return points;
 	}
 	

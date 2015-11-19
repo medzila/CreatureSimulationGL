@@ -20,7 +20,7 @@ import creatures.behavior.EnergyBehavior;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
-public class EnergieComportementTest {
+public class EnergyBehaviorTest {
 	
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 100;
@@ -43,7 +43,7 @@ public class EnergieComportementTest {
 	@Test
 	public void testPointAround() throws Exception {
 		
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),Math.PI/2,0,
 				Color.BLACK,e,t);
 		
 		EnergySource pte = new EnergySource(new Point2D.Double(0,10),20);
@@ -51,7 +51,7 @@ public class EnergieComportementTest {
 		ArrayList<EnergySource> ptl = (ArrayList<EnergySource>)new ArrayList<EnergySource>();
 		ptl.add(pte);
 		
-		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
+		when(creature.getEnvironment().getEnergySources()).thenReturn(ptl);
 		
 		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
 		e.setNextDirectionAndSpeed(creature);
@@ -69,7 +69,7 @@ public class EnergieComportementTest {
 	@Test
 	public void testPointsAround() throws Exception {
 		
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),Math.PI/2,0,
 				Color.BLACK,e,t);
 		
 		EnergySource pte = new EnergySource(new Point2D.Double(0,10),20);
@@ -83,7 +83,7 @@ public class EnergieComportementTest {
 		ptl.add(pte2);
 
 		
-		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
+		when(creature.getEnvironment().getEnergySources()).thenReturn(ptl);
 		
 		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
 		e.setNextDirectionAndSpeed(creature);
@@ -100,7 +100,7 @@ public class EnergieComportementTest {
 	@Test
 	public void testCreatureLengthOfView() throws Exception {
 		
-		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),Math.PI/2,0,
 				Color.BLACK,e,t);
 		
 		EnergySource pte = new EnergySource(new Point2D.Double(0,10),20);
@@ -116,7 +116,7 @@ public class EnergieComportementTest {
 		ptl.add(pte3);
 
 		
-		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
+		when(creature.getEnvironment().getEnergySources()).thenReturn(ptl);
 		
 		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
 		e.setNextDirectionAndSpeed(creature);

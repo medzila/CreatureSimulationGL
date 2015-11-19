@@ -80,8 +80,8 @@ public class EmergingBehavior implements IStrategyBehavior {
 				// if we are not too close move closer
 				if (minDist > MIN_DIST) {
 					c.move();
-					
 				}
+				
 
 	}
 

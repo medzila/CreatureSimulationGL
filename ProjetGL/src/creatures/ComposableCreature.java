@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import creatures.behavior.IStrategyBehavior;
 import creatures.movement.IStrategieMovement;
 
-public class CreatureComposable extends AbstractCreature{
+public class ComposableCreature extends AbstractCreature{
 
 	IStrategyBehavior comportement;
 	IStrategieMovement deplacement;
@@ -15,7 +15,7 @@ public class CreatureComposable extends AbstractCreature{
 	public int currCycle;
 	
 	
-	public CreatureComposable(IEnvironment environment, Point2D position, double direction, double speed,
+	public ComposableCreature(IEnvironment environment, Point2D position, double direction, double speed,
 			Color color, IStrategyBehavior comp, IStrategieMovement depl) {
 		super(environment, position);
 		this.direction=direction;

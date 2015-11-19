@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 import plug.IPlugin;
 import plug.PluginLoader;
-import creatures.CreatureComposable;
+import creatures.ComposableCreature;
 import creatures.ICreature;
 import creatures.IEnvironment;
 import creatures.behavior.IStrategyBehavior;
@@ -26,9 +26,9 @@ public class Builder {
 
 	private final static Random rand = new Random();
 
-	static public  Collection<CreatureComposable> createCreatures(IEnvironment env, int count, 
+	static public  Collection<ComposableCreature> createCreatures(IEnvironment env, int count, 
 								IColorStrategy colorStrategy, IStrategyBehavior comp, IStrategieMovement depl, double maxSpeed) {
-		Collection<CreatureComposable> creatures = new ArrayList<CreatureComposable>();		
+		Collection<ComposableCreature> creatures = new ArrayList<ComposableCreature>();		
 		Dimension s = env.getSize();		
 		for (int i=0; i<count; i++) {	
 			// X coordinate
@@ -39,8 +39,8 @@ public class Builder {
 			double direction = (rand.nextDouble() * 2 * Math.PI);
 			// speed
 			int speed = (int) (rand.nextDouble() * maxSpeed);			
-			CreatureComposable creature = null;
-			creature = new CreatureComposable(env, new Point2D.Double(x,y), direction, speed, colorStrategy.getColor(), comp, depl);
+			ComposableCreature creature = null;
+			creature = new ComposableCreature(env, new Point2D.Double(x,y), direction, speed, colorStrategy.getColor(), comp, depl);
 			creatures.add(creature);
 		}		
 		return creatures;

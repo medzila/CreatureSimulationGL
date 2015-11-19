@@ -7,7 +7,7 @@ import static java.lang.Math.random;
 
 import commons.Utils.Predicate;
 import creatures.AbstractCreature;
-import creatures.CreatureComposable;
+import creatures.ComposableCreature;
 import creatures.ICreature;
 
 public class PredatorBehavior implements IStrategyBehavior {
@@ -47,22 +47,22 @@ public class PredatorBehavior implements IStrategyBehavior {
 
 
 	public Iterable<ICreature> creaturesAround(
-			CreatureComposable creature) {
+			ComposableCreature creature) {
 		return filter(creature.getEnvironment().getCreatures(), new CreaturesAroundCreature((AbstractCreature)creature));
 	}
 
 
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {
-		CreatureComposable c1 = (CreatureComposable)c;
-		CreatureComposable toFollow = null;
+		ComposableCreature c1 = (ComposableCreature)c;
+		ComposableCreature toFollow = null;
 		boolean noise = true;
 
 		Iterable<ICreature> creatures = creaturesAround(c1);
 		
 		for (ICreature c2 : creatures) {
 			if(c1.getHealth()>c2.getHealth()){
-				toFollow = (CreatureComposable)c2;
+				toFollow = (ComposableCreature)c2;
 				c1.setDirection(c2.getDirection());
 				noise = false;
 				break;
@@ -86,11 +86,7 @@ public class PredatorBehavior implements IStrategyBehavior {
 	 * Every number of cycles we apply some random noise over speed and
 	 * direction
 	 */
-	/**
-	 * Every number of cycles we apply some random noise over speed and
-	 * direction
-	 */
-	public void applyNoise(CreatureComposable c1) {
+	public void applyNoise(ComposableCreature c1) {
 		c1.setCurrCycle(c1.getCurrCycle()+1);
 		c1.currCycle %= NUMBER_OF_CYCLES_PER_CHANGE;
 

@@ -3,7 +3,7 @@ package creatures.behavior;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 
-import creatures.CreatureComposable;
+import creatures.ComposableCreature;
 import creatures.ICreature;
 
 public class RandomBehavior implements IStrategyBehavior {
@@ -18,7 +18,7 @@ public class RandomBehavior implements IStrategyBehavior {
 	
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {
-		CreatureComposable c1 = (CreatureComposable)c;
+		ComposableCreature c1 = (ComposableCreature)c;
 		applyNoise(c1);
 		c1.move();
 	}
@@ -28,7 +28,7 @@ public class RandomBehavior implements IStrategyBehavior {
 	 * direction
 	 */
 	public void applyNoise(ICreature c) {
-		CreatureComposable c1 = (CreatureComposable)c;
+		ComposableCreature c1 = (ComposableCreature)c;
 		c1.setCurrCycle(c1.getCurrCycle()+1);
 		c1.currCycle %= NUMBER_OF_CYCLES_PER_CHANGE;
 
