@@ -1,5 +1,6 @@
 package creatures.behavior;
 
+import java.awt.image.ImageConsumer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -8,7 +9,8 @@ import plug.creatures.BehaviorPluginFactory;
 import creatures.AbstractCreature;
 import creatures.ICreature;
 
-public class CompositeBehavior implements IStrategyBehavior {
+
+public class CompositeBehavior implements ICompoundActingStrategy {
 	
 	private static float TRESHOLD;
 	Constructor<? extends IStrategyBehavior> energieConst = null;
@@ -27,7 +29,7 @@ public class CompositeBehavior implements IStrategyBehavior {
 		// We check every behavior in the factory. We have to find every behavior needed (emerging & energy)
 		for (String s : factory.keySet()){
 			IStrategyBehavior i = null;
-			if (!s.equals(this.getName())){
+			if (!ICompoundActingStrategy.class.isAssignableFrom(factory.get(s).getDeclaringClass())){
 				try {
 					i = factory.get(s).newInstance();
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
