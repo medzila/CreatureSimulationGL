@@ -66,9 +66,9 @@
             <configuration>
               <target>
 
-				<move todir="myplugins/repository/creatures/comportement">
-    				<fileset dir="target/classes/creatures/comportement">
-    					<exclude name="**/IStrategieComportement.class"/>
+				<move todir="myplugins/repository/creatures/behavior">
+    				<fileset dir="target/classes/creatures/behavior">
+    					<exclude name="**/IStrategieBehavior.class"/>
     				</fileset>
   				</move>
 
@@ -78,9 +78,9 @@
     				</fileset>
   				</move>
 
-  				<move todir="myplugins/repository/creatures/deplacement">
-    				<fileset dir="target/classes/creatures/deplacement">
-    					<exclude name="**/IStrategieDeplacement.class"/>
+  				<move todir="myplugins/repository/creatures/movement">
+    				<fileset dir="target/classes/creatures/movement">
+    					<exclude name="**/IStrategieMovement.class"/>
     				</fileset>
   				</move>
 	
