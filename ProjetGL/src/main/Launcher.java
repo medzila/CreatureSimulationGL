@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -120,18 +121,12 @@ public class Launcher extends JFrame {
 
 	public void buildInterface() {	
 		
-		buttons.removeAll();
+buttons.removeAll();
 		
 		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraints c1 = new GridBagConstraints();
 
 		// La partie de l'interface pour definir la strategie de coloriage
-		
-		JTextField textFieldColor = new JTextField("Color:");
-		textFieldColor.setEditable(false);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		buttons.add(textFieldColor, c);
 		
 		ActionListener colorListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -147,24 +142,24 @@ public class Launcher extends JFrame {
 			}
 		}
 		else {
-			colorComboBox.addItem("Aucun plugin trouvé");
+			colorComboBox.addItem("Aucun plugin trouver");
 		}
 		colorComboBox.addActionListener(colorListener);
 		colorComboBox.setSelectedIndex(0);
+		
+		JPanel choiceColorPanel = new JPanel();
+		choiceColorPanel.setLayout(new BorderLayout());
+		JLabel labelColorCrea = new JLabel("Color", JLabel.CENTER);
+		choiceColorPanel.add(labelColorCrea, BorderLayout.NORTH);
+		choiceColorPanel.add(colorComboBox, BorderLayout.SOUTH);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 0;
-		buttons.add(colorComboBox, c); 
+		buttons.add(choiceColorPanel, c); 
 		
 		
 		// La partie de l'interface pour definir la strategie de mouvement
-		
-		JTextField textFieldMovement = new JTextField("Movement:");
-		textFieldMovement.setEditable(false);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
-		c.gridy = 0;
-		buttons.add(textFieldMovement, c);
 		
 		ActionListener movementListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -180,24 +175,24 @@ public class Launcher extends JFrame {
 			}
 		}
 		else {
-			movementComboBox.addItem("Aucun plugin trouvé");
+			movementComboBox.addItem("Aucun plugin trouver");
 		}
 		movementComboBox.addActionListener(movementListener);
 		movementComboBox.setSelectedIndex(0);
+		
+		JPanel choiceMovementPanel = new JPanel();
+		choiceMovementPanel.setLayout(new BorderLayout());
+		JLabel labelMovementCrea = new JLabel("Movement", JLabel.CENTER);
+		choiceMovementPanel.add(labelMovementCrea, BorderLayout.NORTH);
+		choiceMovementPanel.add(movementComboBox, BorderLayout.SOUTH);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 3;
+		c.gridx = 1;
 		c.gridy = 0;
-		buttons.add(movementComboBox,c);
+		buttons.add(choiceMovementPanel,c);
 		
 		
 		// La partie de l'interface pour definir la strategie de comportement
-		
-		JTextField textFieldAction = new JTextField("Acting:");
-		textFieldAction.setEditable(false);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 4;
-		c.gridy = 0;
-		buttons.add(textFieldAction, c);
 		
 		ActionListener actionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -213,14 +208,21 @@ public class Launcher extends JFrame {
 			}
 		}
 		else {
-			actionComboBox.addItem("Aucun plugin trouvÃ©");
+			actionComboBox.addItem("Aucun plugin trouvé");
 		}
 		actionComboBox.addActionListener(actionListener);
 		actionComboBox.setSelectedIndex(0);
+		
+		JPanel choiceActionPanel = new JPanel();
+		choiceActionPanel.setLayout(new BorderLayout());
+		JLabel labelActionCrea = new JLabel("Action", JLabel.CENTER);
+		choiceActionPanel.add(labelActionCrea, BorderLayout.NORTH);
+		choiceActionPanel.add(actionComboBox, BorderLayout.SOUTH);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 5;
+		c.gridx = 2;
 		c.gridy = 0;
-		buttons.add(actionComboBox,c);
+		buttons.add(choiceActionPanel,c);
 		
 		
 		// Le bouton pour recharger les plugins qui gere le coloriage
@@ -233,7 +235,7 @@ public class Launcher extends JFrame {
 			}
 		});
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 1;
 		buttons.add(colorLoader, c);
 		
@@ -248,7 +250,7 @@ public class Launcher extends JFrame {
 			}
 		});
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 3;
+		c.gridx = 1;
 		c.gridy = 1;
 		buttons.add(movementLoader, c);
 		
@@ -263,19 +265,12 @@ public class Launcher extends JFrame {
 			}
 		});
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 5;
+		c.gridx = 2;
 		c.gridy = 1;
 		buttons.add(actionLoader, c);
 		
 		
 		// Le slider pour qui gere le nombre de creatures
-		
-		JTextField textFieldNumberCreatures = new JTextField("Number of creatures:");
-		textFieldNumberCreatures.setEditable(false);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 3;
-		buttons.add(textFieldNumberCreatures, c);
 		
 		JSlider numberOfCreaturesSlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
 		numberOfCreaturesSlider.addChangeListener(new ChangeListener() {
@@ -290,22 +285,21 @@ public class Launcher extends JFrame {
 		numberOfCreaturesSlider.setMajorTickSpacing(10);  
 		  
 		numberOfCreaturesSlider.setPaintTicks(true);  
-		numberOfCreaturesSlider.setPaintLabels(true);  
+		numberOfCreaturesSlider.setPaintLabels(true); 
+		
+		JPanel sliderNumberCreaPanel = new JPanel();
+		sliderNumberCreaPanel.setLayout(new BorderLayout());
+		JLabel labelNumberCrea = new JLabel("Number of Creatures", JLabel.CENTER);
+		sliderNumberCreaPanel.add(labelNumberCrea, BorderLayout.NORTH);
+		sliderNumberCreaPanel.add(numberOfCreaturesSlider, BorderLayout.SOUTH);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 3;
-		buttons.add(numberOfCreaturesSlider, c);  
+		buttons.add(sliderNumberCreaPanel, c);  
 		
 		
 		// Le slider pour qui gere le nombre de points d'energie
-		
-		JTextField textFieldNumberEnergy = new JTextField("Number of energy points:");
-		textFieldNumberEnergy.setEditable(false);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
-		c.gridy = 3;
-		buttons.add(textFieldNumberEnergy, c);
 
 		JSlider numberOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
 		numberOfEnergySlider.addChangeListener(new ChangeListener() {
@@ -320,22 +314,21 @@ public class Launcher extends JFrame {
 		numberOfEnergySlider.setMajorTickSpacing(10);  
 
 		numberOfEnergySlider.setPaintTicks(true);  
-		numberOfEnergySlider.setPaintLabels(true);  
+		numberOfEnergySlider.setPaintLabels(true); 
+		
+		JPanel sliderNumberPanel = new JPanel();
+		sliderNumberPanel.setLayout(new BorderLayout());
+		JLabel labelNumber = new JLabel("Number of Energy", JLabel.CENTER);
+		sliderNumberPanel.add(labelNumber, BorderLayout.NORTH);
+		sliderNumberPanel.add(numberOfEnergySlider, BorderLayout.SOUTH);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 3;
+		c.gridx = 1;
 		c.gridy = 3;
-		buttons.add(numberOfEnergySlider, c);  
+		buttons.add(sliderNumberPanel, c);  
 
 		
 		// Le slider pour qui gere la taille de points d'energie
-		
-		JTextField textFieldSizeEnergy = new JTextField("Number of energy points:");
-		textFieldSizeEnergy.setEditable(false);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 4;
-		c.gridy = 3;
-		buttons.add(textFieldSizeEnergy, c);
 
 		JSlider sizeOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);  
 		sizeOfEnergySlider.addChangeListener(new ChangeListener() {
@@ -351,11 +344,17 @@ public class Launcher extends JFrame {
 
 		sizeOfEnergySlider.setPaintTicks(true);  
 		sizeOfEnergySlider.setPaintLabels(true);  
+		
+		JPanel sliderSizePanel = new JPanel();
+		sliderSizePanel.setLayout(new BorderLayout());
+		JLabel label = new JLabel("Size of Energy", JLabel.CENTER);
+		sliderSizePanel.add(label, BorderLayout.NORTH);
+		sliderSizePanel.add(sizeOfEnergySlider, BorderLayout.SOUTH);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 5;
+		c.gridx = 2;
 		c.gridy = 3;
-		buttons.add(sizeOfEnergySlider, c);  
+		buttons.add(sliderSizePanel, c);  
 		
 		
 		// Le button qui gere le (re-)demarrage de la simulation
@@ -392,7 +391,7 @@ public class Launcher extends JFrame {
 			}
 		});
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
+		c.gridx = 0;
 		c.gridy = 4;
 		buttons.add(restart, c);
 		
@@ -406,7 +405,7 @@ public class Launcher extends JFrame {
 			}
 		});
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 4;
+		c.gridx = 2;
 		c.gridy = 4;
 		buttons.add(stopButton, c);
 		
