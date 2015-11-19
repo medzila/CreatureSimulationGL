@@ -22,6 +22,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -60,7 +61,7 @@ public class Launcher extends JFrame {
 	private final ComportementPluginFactory actingFactory;
 	private final ColorPluginFactory colorFactory;
 	
-	IStrategieComportement compor = null;
+	Constructor<? extends IStrategieComportement> compor = null;
 	IStrategieDeplacement deplac = null;
 	Constructor<? extends IColorStrategy> colorConstructor = null;
 	
@@ -374,11 +375,14 @@ public class Launcher extends JFrame {
 					simulator.clearSpots();
 					simulator.clearStat();
 					try {
-						creatures = Builder.createCreatures(simulator, creatureNumber, colorConstructor.newInstance(Color.BLUE, creatureNumber),compor, deplac, myMaxSpeed);
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						creatures = Builder.createCreatures(simulator, creatureNumber, colorConstructor.newInstance(Color.BLUE, creatureNumber),compor.newInstance(), deplac, myMaxSpeed);
+					} catch (InstantiationException | IllegalAccessException
 							| InvocationTargetException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					}
+					catch (IllegalArgumentException e2) {
+						JOptionPane.showMessageDialog(buttons, "Eggs are not supposed to be green.");
 					}
 					Collection<PointEnergie> spots = Builder.createPoints(simulator, spotsNumber, spotsSize);
 					simulator.addAllCreatures(creatures);

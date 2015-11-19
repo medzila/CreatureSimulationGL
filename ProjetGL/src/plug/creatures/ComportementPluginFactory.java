@@ -31,7 +31,7 @@ public class ComportementPluginFactory {
 	
 	private final String pluginDir = "myplugins/repository";
 	
-	protected Map<String,IStrategieComportement> constructorMap; 
+	protected Map<String,Constructor<? extends IStrategieComportement>> constructorMap; 
 
 	/**
 	   * logger facilities to trace plugin loading...
@@ -58,7 +58,7 @@ public class ComportementPluginFactory {
     	}
     	catch (MalformedURLException ex) {
     	}
-		constructorMap = new HashMap<String,IStrategieComportement>();
+		constructorMap = new HashMap<String,Constructor<? extends IStrategieComportement>>();
     	load();
     }
 	
@@ -89,17 +89,11 @@ public class ComportementPluginFactory {
 				e.printStackTrace();
 			}
 			if (c != null)
-				try {
-					constructorMap.put(p.getName(),c.newInstance());
-				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				constructorMap.put(p.getName(),c);
 		}
 	}
 	
-	public Map<String,IStrategieComportement> getMap() {
+	public Map<String,Constructor<? extends IStrategieComportement>> getMap() {
 		return constructorMap;
 	}
 
