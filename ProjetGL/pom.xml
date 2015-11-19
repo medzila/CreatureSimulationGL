@@ -40,7 +40,7 @@
        <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.3.2</version>
+        <version>1.4.0</version>
         <executions>
           <execution>
             <goals>
@@ -50,23 +50,38 @@
         </executions>
         <configuration>
           <mainClass>main.Launcher</mainClass> 
+          <additionalClasspathElements>
+    		<additionalClasspathElement>target/tp5-final-0.0.1-SNAPSHOT.jar</additionalClasspathElement>
+		</additionalClasspathElements>
         </configuration>
        </plugin>   
        <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
         <executions>
           <execution>
-            <phase>package</phase>
+            <phase>prepare-package</phase>
             <configuration>
               <target>
 
 				<move todir="myplugins/repository/creatures/comportement">
-    				<fileset dir="target/classes/creature/comportement">
-      					<exclude name="IStrategieComportement.class"/>
+    				<fileset dir="target/classes/creatures/comportement">
+    					<exclude name="**/IStrategieComportement.class"/>
+    				</fileset>
+  				</move>
+
+  				<move todir="myplugins/repository/creatures/color">
+    				<fileset dir="target/classes/creatures/color">
+    					<exclude name="**/IColorStrategy.class"/>
+    				</fileset>
+  				</move>
+
+  				<move todir="myplugins/repository/creatures/deplacement">
+    				<fileset dir="target/classes/creatures/deplacement">
+    					<exclude name="**/IStrategieDeplacement.class"/>
     				</fileset>
   				</move>
 	
-
               </target>
             </configuration>
             <goals>
