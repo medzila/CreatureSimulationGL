@@ -1,6 +1,7 @@
 package creatures.visual;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -23,10 +24,11 @@ public class CreatureVisualizer extends Visualizer {
 	private CreatureInspector inspector;
 	private final CreatureSimulator simulator;
 	private boolean debug;
+	private Dimension lastSize;
 
 	public CreatureVisualizer(CreatureSimulator simulator) {
 		this.simulator = simulator;
-		
+		this.lastSize = simulator.getSize();
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -143,8 +145,12 @@ public class CreatureVisualizer extends Visualizer {
 			al.add(c);
 		}
 		for (EnergySource p : simulator.getEnergySources()) {
+			double newHeight = p.getPosition().getX() * (1.0 -(((double)lastSize.height-(double)getHeight())/(double)getHeight()));
+			double newWidth = p.getPosition().getY() * (1.0 -(((double)lastSize.width-(double)getWidth())/(double)getWidth()));
+			p.setPosition(new Point2D.Double(newHeight , newWidth));
 			al.add(p);
 		}
+		this.lastSize = simulator.getSize();
 		return al;
 	}
 

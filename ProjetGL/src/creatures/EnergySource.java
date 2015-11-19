@@ -23,6 +23,11 @@ public class EnergySource implements IDrawable {
 		this.size = size;
 	}
 	
+	public void setPosition(Point2D p){
+		this.position = p;
+	}
+	
+
 	@Override
 	public Color getColor() {
 		return DEFAULT_COLOR;
