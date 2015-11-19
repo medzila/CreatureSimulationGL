@@ -61,8 +61,6 @@ public class proieComportement implements IStrategieComportement {
 		}
 
 		if(toFollow != null && c1.distanceFromAPoint(toFollow.getPosition())<40){
-			c1.setSpeed(0);
-			toFollow.setSpeed(0);
 			toFollow.setLossHealth(c1.getHealth());
 			c1.setSpeed(6);
 			toFollow.setSpeed(3);
