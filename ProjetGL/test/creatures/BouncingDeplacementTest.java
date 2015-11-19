@@ -12,9 +12,9 @@ import java.awt.geom.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
-import creatures.comportement.StupidComportement;
-import creatures.deplacement.BouncingDeplacement;
-import creatures.deplacement.TorusDeplacement;
+import creatures.behavior.StupidBehavior;
+import creatures.movement.BouncingMovement;
+import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
 public class BouncingDeplacementTest {
@@ -22,14 +22,14 @@ public class BouncingDeplacementTest {
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 200;
 	final double h = 100;
-	StupidComportement s;
-	BouncingDeplacement b;
+	StupidBehavior s;
+	BouncingMovement b;
 	
 	@Before
 	public void setup() {
 		when(environment.getSize()).thenReturn(new Dimension((int)w, (int)h));
-		s = new StupidComportement();
-		b = new BouncingDeplacement();
+		s = new StupidBehavior();
+		b = new BouncingMovement();
 	}
 
 	

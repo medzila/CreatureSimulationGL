@@ -18,7 +18,7 @@ import commons.Utils.Predicate;
 
 import creatures.ICreature;
 import creatures.IEnvironment;
-import creatures.PointEnergie;
+import creatures.EnergySource;
 
 
 /**
@@ -42,7 +42,7 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	}
 
 	private Dimension size;
-	private ArrayList<PointEnergie> points = new ArrayList<PointEnergie>();
+	private ArrayList<EnergySource> points = new ArrayList<EnergySource>();
 	private int creaturesDead;
 	private JLabel creaturesTotal;
 	private JLabel creaturesMortes;
@@ -133,11 +133,11 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 		actionables.clear();
 	}
 	
-	public Iterable<PointEnergie> getPoints() {
+	public Iterable<EnergySource> getPoints() {
 		return points;
 	}
 	
-	public void addAllSpots(Collection<? extends PointEnergie> spots) {
+	public void addAllSpots(Collection<? extends EnergySource> spots) {
 		points.addAll(spots);
 	}
 	

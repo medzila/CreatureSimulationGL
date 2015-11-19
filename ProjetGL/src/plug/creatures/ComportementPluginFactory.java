@@ -16,9 +16,9 @@ import plug.IPlugin;
 import plug.PluginLoader;
 import creatures.ICreature;
 import creatures.IEnvironment;
+import creatures.behavior.IStrategyBehavior;
 import creatures.color.IColorStrategy;
-import creatures.comportement.IStrategieComportement;
-import creatures.deplacement.IStrategieDeplacement;
+import creatures.movement.IStrategieMovement;
 
 public class ComportementPluginFactory {
 	
@@ -31,7 +31,7 @@ public class ComportementPluginFactory {
 	
 	private final String pluginDir = "myplugins/repository";
 	
-	protected Map<String,Constructor<? extends IStrategieComportement>> constructorMap; 
+	protected Map<String,Constructor<? extends IStrategyBehavior>> constructorMap; 
 
 	/**
 	   * logger facilities to trace plugin loading...
@@ -54,11 +54,11 @@ public class ComportementPluginFactory {
 
     private ComportementPluginFactory() {
     	try {
-    		pluginLoader = new PluginLoader(pluginDir,IStrategieComportement.class);
+    		pluginLoader = new PluginLoader(pluginDir,IStrategyBehavior.class);
     	}
     	catch (MalformedURLException ex) {
     	}
-		constructorMap = new HashMap<String,Constructor<? extends IStrategieComportement>>();
+		constructorMap = new HashMap<String,Constructor<? extends IStrategyBehavior>>();
     	load();
     }
 	
@@ -76,10 +76,10 @@ public class ComportementPluginFactory {
 	@SuppressWarnings("unchecked")
 	private void buildConstructorMap() {
 		for (Class<? extends IPlugin> p : pluginLoader.getPluginClasses()) {
-			Constructor<? extends IStrategieComportement> c = null;
+			Constructor<? extends IStrategyBehavior> c = null;
 
 			try {				
-				c = (Constructor<? extends IStrategieComportement>)p.getDeclaredConstructor();
+				c = (Constructor<? extends IStrategyBehavior>)p.getDeclaredConstructor();
 				c.setAccessible(true);
 			} catch (SecurityException e) {
 				logger.info("Cannot access (security) constructor for plugin" + p.getName());
@@ -93,7 +93,7 @@ public class ComportementPluginFactory {
 		}
 	}
 	
-	public Map<String,Constructor<? extends IStrategieComportement>> getMap() {
+	public Map<String,Constructor<? extends IStrategyBehavior>> getMap() {
 		return constructorMap;
 	}
 

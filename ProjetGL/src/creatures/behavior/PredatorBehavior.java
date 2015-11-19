@@ -1,4 +1,4 @@
-package creatures.comportement;
+package creatures.behavior;
 
 import static commons.Utils.filter;
 import static java.lang.Math.PI;
@@ -10,7 +10,7 @@ import creatures.AbstractCreature;
 import creatures.CreatureComposable;
 import creatures.ICreature;
 
-public class proieComportement implements IStrategieComportement {
+public class PredatorBehavior implements IStrategyBehavior {
 	private static final double MAX_SPEED = 6;
 	/**
 	 * Number of cycles after which we apply some random noise.
@@ -113,6 +113,6 @@ public class proieComportement implements IStrategieComportement {
 
 	@Override
 	public String getName() {
-		return proieComportement.class.getName();
+		return PredatorBehavior.class.getName();
 		}
 }

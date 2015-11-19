@@ -1,4 +1,4 @@
-package creatures.comportement;
+package creatures.behavior;
 
 import static commons.Utils.filter;
 import static java.lang.Math.abs;
@@ -7,7 +7,7 @@ import commons.Utils.Predicate;
 import creatures.AbstractCreature;
 import creatures.ICreature;
 
-public class SmartComportement implements IStrategieComportement {
+public class EmergingBehavior implements IStrategyBehavior {
 	
 	static class CreaturesAroundCreature implements Predicate<ICreature> {
 		private final AbstractCreature observer;
@@ -88,7 +88,7 @@ public class SmartComportement implements IStrategieComportement {
 
 	@Override
 	public String getName() {
-		return SmartComportement.class.getName();
+		return EmergingBehavior.class.getName();
 	}
 
 }

@@ -1,4 +1,4 @@
-package creatures.comportement;
+package creatures.behavior;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -8,25 +8,25 @@ import plug.creatures.ComportementPluginFactory;
 import creatures.AbstractCreature;
 import creatures.ICreature;
 
-public class CompositeComportement implements IStrategieComportement {
+public class CompositeBehavior implements IStrategyBehavior {
 	
 	private static float seuil;
-	Constructor<? extends IStrategieComportement> energieConst = null;
-	Constructor<? extends IStrategieComportement> smartConst = null;
-	private EnergieComportement energieComportement = null;
-	private SmartComportement smartComportement = null;
+	Constructor<? extends IStrategyBehavior> energieConst = null;
+	Constructor<? extends IStrategyBehavior> smartConst = null;
+	private EnergyBehavior energyBehavior = null;
+	private EmergingBehavior emergingBehavior = null;
 	
 	
 	
-	public CompositeComportement(){
+	public CompositeBehavior(){
 		boolean energie = false;
 		boolean smart = false ;
 		this.seuil=(float) (AbstractCreature.DEFAULT_HEALTH/2);
-		Map<String,Constructor<? extends IStrategieComportement>> factory = ComportementPluginFactory.getInstance().getMap();
+		Map<String,Constructor<? extends IStrategyBehavior>> factory = ComportementPluginFactory.getInstance().getMap();
 		
 		// On regarde chaque comportement dans la factory et il faut trouver tous les comportments qu'on va utilisé
 		for (String s : factory.keySet()){
-			IStrategieComportement i = null;
+			IStrategyBehavior i = null;
 			if (!s.equals(this.getName())){
 				try {
 					i = factory.get(s).newInstance();
@@ -36,12 +36,12 @@ public class CompositeComportement implements IStrategieComportement {
 					e.printStackTrace();
 				}
 
-				if (i.getClass().isAssignableFrom(EnergieComportement.class)){
+				if (i.getClass().isAssignableFrom(EnergyBehavior.class)){
 					energie = true;
-					this.energieComportement = (EnergieComportement) i;
-				}else if(i.getClass().isAssignableFrom(SmartComportement.class)){
+					this.energyBehavior = (EnergyBehavior) i;
+				}else if(i.getClass().isAssignableFrom(EmergingBehavior.class)){
 					smart = true ; 
-					this.smartComportement = (SmartComportement) i;
+					this.emergingBehavior = (EmergingBehavior) i;
 				}
 			}
 		}
@@ -59,9 +59,9 @@ public class CompositeComportement implements IStrategieComportement {
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {
 		if(c.getHealth() > seuil){
-			smartComportement.setNextDirectionAndSpeed(c);
+			emergingBehavior.setNextDirectionAndSpeed(c);
 		} else {
-			energieComportement.setNextDirectionAndSpeed(c);
+			energyBehavior.setNextDirectionAndSpeed(c);
 		}
 
 	}

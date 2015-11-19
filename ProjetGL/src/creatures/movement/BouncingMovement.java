@@ -1,4 +1,4 @@
-package creatures.deplacement;
+package creatures.movement;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
@@ -8,11 +8,11 @@ import java.awt.Dimension;
 
 import creatures.ICreature;
 
-public class BouncingDeplacement implements IStrategieDeplacement {
+public class BouncingMovement implements IStrategieMovement {
 
 	
 	
-	public BouncingDeplacement() {
+	public BouncingMovement() {
 		// TODO Auto-generated constructor stub
 	}
 	

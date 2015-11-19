@@ -1,4 +1,4 @@
-package creatures.comportement;
+package creatures.behavior;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
@@ -6,7 +6,7 @@ import static java.lang.Math.random;
 import creatures.CreatureComposable;
 import creatures.ICreature;
 
-public class BouncingComportement implements IStrategieComportement {
+public class RandomBehavior implements IStrategyBehavior {
 	
 	private static final double MIN_SPEED = 3;
 	private static final double MAX_SPEED = 10;
@@ -50,7 +50,7 @@ public class BouncingComportement implements IStrategieComportement {
 
 	@Override
 	public String getName() {
-		return BouncingComportement.class.getName();
+		return RandomBehavior.class.getName();
 	}
 
 }

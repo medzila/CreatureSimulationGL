@@ -1,8 +1,8 @@
-package creatures.comportement;
+package creatures.behavior;
 
 import creatures.ICreature;
 
-public class StupidComportement implements IStrategieComportement {
+public class StupidBehavior implements IStrategyBehavior {
 
 	@Override
 	public void setNextDirectionAndSpeed(ICreature c) {

@@ -1,4 +1,4 @@
-package creatures.comportement;
+package creatures.behavior;
 
 import static commons.Utils.filter;
 import static java.lang.Math.PI;
@@ -11,9 +11,9 @@ import commons.Utils.Predicate;
 import creatures.AbstractCreature;
 import creatures.CreatureComposable;
 import creatures.ICreature;
-import creatures.PointEnergie;
+import creatures.EnergySource;
 
-public class EnergieComportement implements IStrategieComportement {
+public class EnergyBehavior implements IStrategyBehavior {
 	private static final double MIN_SPEED = 2;
 	private static final double MAX_SPEED = 6;
 
@@ -22,7 +22,7 @@ public class EnergieComportement implements IStrategieComportement {
 	 */
 	private static final int NUMBER_OF_CYCLES_PER_CHANGE = 50;
 	
-	static class EnergieAroundCreature implements Predicate<PointEnergie> {
+	static class EnergieAroundCreature implements Predicate<EnergySource> {
 		private final AbstractCreature observer;
 
 		public EnergieAroundCreature(AbstractCreature observer) {
@@ -30,7 +30,7 @@ public class EnergieComportement implements IStrategieComportement {
 		}
 
 		@Override
-		public boolean apply(PointEnergie input) {
+		public boolean apply(EnergySource input) {
 			if (input.position == observer.getPosition()) {
 				return false;
 			}
@@ -43,14 +43,14 @@ public class EnergieComportement implements IStrategieComportement {
 
 	}
 
-	public Iterable<PointEnergie> ptsAround(
+	public Iterable<EnergySource> ptsAround(
 			ICreature c) {
 		return filter(c.getEnvironment().getPoints(), new EnergieAroundCreature((AbstractCreature)c));
 	}
 
 	@Override
 	public String getName() {
-		return EnergieComportement.class.getName();
+		return EnergyBehavior.class.getName();
 	}
 
 	@Override
@@ -59,8 +59,8 @@ public class EnergieComportement implements IStrategieComportement {
 		double angle = Double.MAX_VALUE;
 		boolean energieDirection = true;
 
-		PointEnergie p = null;
-		ArrayList<PointEnergie> ptsEnergie = (ArrayList) ptsAround(c1);
+		EnergySource p = null;
+		ArrayList<EnergySource> ptsEnergie = (ArrayList) ptsAround(c1);
 		
 		if(!ptsEnergie.isEmpty()){
 			p = ptsEnergie.get(0);

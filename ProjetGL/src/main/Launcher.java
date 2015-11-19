@@ -35,15 +35,15 @@ import plug.creatures.ComportementPluginFactory;
 import plug.creatures.DeplacementPluginFactory;
 import plug.creatures.PluginComboBoxItemBuilder;
 import creatures.ICreature;
-import creatures.PointEnergie;
+import creatures.behavior.IStrategyBehavior;
+import creatures.behavior.EmergingBehavior;
+import creatures.behavior.StupidBehavior;
+import creatures.EnergySource;
 import creatures.color.ColorCube;
 import creatures.color.IColorStrategy;
-import creatures.comportement.IStrategieComportement;
-import creatures.comportement.SmartComportement;
-import creatures.comportement.StupidComportement;
-import creatures.deplacement.BouncingDeplacement;
-import creatures.deplacement.TorusDeplacement;
-import creatures.deplacement.IStrategieDeplacement;
+import creatures.movement.BouncingMovement;
+import creatures.movement.IStrategieMovement;
+import creatures.movement.TorusMovement;
 import creatures.visual.CreatureInspector;
 import creatures.visual.CreatureSimulator;
 import creatures.visual.CreatureVisualizer;
@@ -62,8 +62,8 @@ public class Launcher extends JFrame {
 	private final ComportementPluginFactory actingFactory;
 	private final ColorPluginFactory colorFactory;
 	
-	Constructor<? extends IStrategieComportement> compor = null;
-	IStrategieDeplacement deplac = null;
+	Constructor<? extends IStrategyBehavior> compor = null;
+	IStrategieMovement deplac = null;
 	Constructor<? extends IColorStrategy> colorConstructor = null;
 	
 	private final CreatureInspector inspector;
@@ -383,7 +383,7 @@ buttons.removeAll();
 					catch (IllegalArgumentException e2) {
 						JOptionPane.showMessageDialog(buttons, "Eggs are not supposed to be green.");
 					}
-					Collection<PointEnergie> spots = Builder.createPoints(simulator, spotsNumber, spotsSize);
+					Collection<EnergySource> spots = Builder.createPoints(simulator, spotsNumber, spotsSize);
 					simulator.addAllCreatures(creatures);
 					simulator.addAllSpots(spots);
 					simulator.start();

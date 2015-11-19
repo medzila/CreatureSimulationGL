@@ -17,7 +17,7 @@ import plug.PluginLoader;
 import creatures.ICreature;
 import creatures.IEnvironment;
 import creatures.color.IColorStrategy;
-import creatures.deplacement.IStrategieDeplacement;
+import creatures.movement.IStrategieMovement;
 
 public class DeplacementPluginFactory {
 	
@@ -30,7 +30,7 @@ public class DeplacementPluginFactory {
 	
 	private final String pluginDir = "myplugins/repository";
 	
-	protected Map<String,IStrategieDeplacement> constructorMap; 
+	protected Map<String,IStrategieMovement> constructorMap; 
 
 	/**
 	   * logger facilities to trace plugin loading...
@@ -53,11 +53,11 @@ public class DeplacementPluginFactory {
 
     private DeplacementPluginFactory() {
     	try {
-    		pluginLoader = new PluginLoader(pluginDir,IStrategieDeplacement.class);
+    		pluginLoader = new PluginLoader(pluginDir,IStrategieMovement.class);
     	}
     	catch (MalformedURLException ex) {
     	}
-		constructorMap = new HashMap<String,IStrategieDeplacement>();
+		constructorMap = new HashMap<String,IStrategieMovement>();
     	load();
     }
 	
@@ -75,10 +75,10 @@ public class DeplacementPluginFactory {
 	@SuppressWarnings("unchecked")
 	private void buildConstructorMap() {
 		for (Class<? extends IPlugin> p : pluginLoader.getPluginClasses()) {
-			Constructor<? extends IStrategieDeplacement> c = null;
+			Constructor<? extends IStrategieMovement> c = null;
 
 			try {				
-				c = (Constructor<? extends IStrategieDeplacement>)p.getDeclaredConstructor();
+				c = (Constructor<? extends IStrategieMovement>)p.getDeclaredConstructor();
 				c.setAccessible(true);
 			} catch (SecurityException e) {
 				logger.info("Cannot access (security) constructor for plugin" + p.getName());
@@ -98,7 +98,7 @@ public class DeplacementPluginFactory {
 		}
 	}
 	
-	public Map<String,IStrategieDeplacement> getMap() {
+	public Map<String,IStrategieMovement> getMap() {
 		return constructorMap;
 	}
 

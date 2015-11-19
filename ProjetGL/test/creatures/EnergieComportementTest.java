@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import creatures.comportement.EnergieComportement;
-import creatures.deplacement.TorusDeplacement;
+import creatures.behavior.EnergyBehavior;
+import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
 public class EnergieComportementTest {
@@ -25,15 +25,15 @@ public class EnergieComportementTest {
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 100;
 	final double h = 100;
-	EnergieComportement e;
-	TorusDeplacement t;
+	EnergyBehavior e;
+	TorusMovement t;
 	
 	
 	@Before
 	public void setup() {
 		when(environment.getSize()).thenReturn(new Dimension((int)w, (int)h));
-		e = new EnergieComportement();
-		t = new TorusDeplacement();
+		e = new EnergyBehavior();
+		t = new TorusMovement();
 	}
 	
 	/**
@@ -46,14 +46,14 @@ public class EnergieComportementTest {
 		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
 				Color.BLACK,e,t);
 		
-		PointEnergie pte = new PointEnergie(new Point2D.Double(0,10),20);
+		EnergySource pte = new EnergySource(new Point2D.Double(0,10),20);
 				
-		ArrayList<PointEnergie> ptl = (ArrayList<PointEnergie>)new ArrayList<PointEnergie>();
+		ArrayList<EnergySource> ptl = (ArrayList<EnergySource>)new ArrayList<EnergySource>();
 		ptl.add(pte);
 		
 		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
 		
-		ArrayList<PointEnergie> ptsAround = (ArrayList<PointEnergie>)e.ptsAround(creature);
+		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
 		e.setNextDirectionAndSpeed(creature);
 		
 		assertEquals(1, ptsAround.size());
@@ -72,12 +72,12 @@ public class EnergieComportementTest {
 		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
 				Color.BLACK,e,t);
 		
-		PointEnergie pte = new PointEnergie(new Point2D.Double(0,10),20);
-		PointEnergie pte1 = new PointEnergie(new Point2D.Double(-10,10),20);
-		PointEnergie pte2 = new PointEnergie(new Point2D.Double(10,10),20);
+		EnergySource pte = new EnergySource(new Point2D.Double(0,10),20);
+		EnergySource pte1 = new EnergySource(new Point2D.Double(-10,10),20);
+		EnergySource pte2 = new EnergySource(new Point2D.Double(10,10),20);
 
 				
-		ArrayList<PointEnergie> ptl = (ArrayList<PointEnergie>)new ArrayList<PointEnergie>();
+		ArrayList<EnergySource> ptl = (ArrayList<EnergySource>)new ArrayList<EnergySource>();
 		ptl.add(pte);
 		ptl.add(pte1);
 		ptl.add(pte2);
@@ -85,7 +85,7 @@ public class EnergieComportementTest {
 		
 		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
 		
-		ArrayList<PointEnergie> ptsAround = (ArrayList<PointEnergie>)e.ptsAround(creature);
+		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
 		e.setNextDirectionAndSpeed(creature);
 		
 		assertEquals(1, ptsAround.size());
@@ -103,13 +103,13 @@ public class EnergieComportementTest {
 		CreatureComposable creature = new CreatureComposable(environment,new Point2D.Double(0,0),Math.PI/2,0,
 				Color.BLACK,e,t);
 		
-		PointEnergie pte = new PointEnergie(new Point2D.Double(0,10),20);
-		PointEnergie pte1 = new PointEnergie(new Point2D.Double(0,51),20);
-		PointEnergie pte2 = new PointEnergie(new Point2D.Double(0,80),20); // Max = 80 car dans le apply il y a le +30
-		PointEnergie pte3 = new PointEnergie(new Point2D.Double(0,81),20);// et par default LengthOfView = 50
+		EnergySource pte = new EnergySource(new Point2D.Double(0,10),20);
+		EnergySource pte1 = new EnergySource(new Point2D.Double(0,51),20);
+		EnergySource pte2 = new EnergySource(new Point2D.Double(0,80),20); // Max = 80 car dans le apply il y a le +30
+		EnergySource pte3 = new EnergySource(new Point2D.Double(0,81),20);// et par default LengthOfView = 50
 
 				
-		ArrayList<PointEnergie> ptl = (ArrayList<PointEnergie>)new ArrayList<PointEnergie>();
+		ArrayList<EnergySource> ptl = (ArrayList<EnergySource>)new ArrayList<EnergySource>();
 		ptl.add(pte);
 		ptl.add(pte1);
 		ptl.add(pte2);
@@ -118,7 +118,7 @@ public class EnergieComportementTest {
 		
 		when(creature.getEnvironment().getPoints()).thenReturn(ptl);
 		
-		ArrayList<PointEnergie> ptsAround = (ArrayList<PointEnergie>)e.ptsAround(creature);
+		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
 		e.setNextDirectionAndSpeed(creature);
 		
 		//La creature doit voir seulement que 3 points.

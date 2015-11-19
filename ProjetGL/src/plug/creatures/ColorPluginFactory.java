@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import creatures.behavior.IStrategyBehavior;
 import creatures.color.IColorStrategy;
-import creatures.comportement.IStrategieComportement;
 import plug.IPlugin;
 import plug.PluginLoader;
 

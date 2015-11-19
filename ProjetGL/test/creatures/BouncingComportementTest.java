@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import creatures.comportement.BouncingComportement;
-import creatures.deplacement.TorusDeplacement;
+import creatures.behavior.RandomBehavior;
+import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
 public class BouncingComportementTest {
@@ -21,15 +21,15 @@ public class BouncingComportementTest {
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 100;
 	final double h = 100;
-	BouncingComportement b;
-	TorusDeplacement t;
+	RandomBehavior b;
+	TorusMovement t;
 	
 	
 	@Before
 	public void setup() {
 		when(environment.getSize()).thenReturn(new Dimension((int)w, (int)h));
-		b = new BouncingComportement();
-		t = new TorusDeplacement();
+		b = new RandomBehavior();
+		t = new TorusMovement();
 	}
 	
 	/**

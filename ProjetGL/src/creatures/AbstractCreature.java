@@ -31,8 +31,8 @@ public abstract class AbstractCreature implements ICreature, ImageObserver {
 	public static final int DEFAULT_VISION_DISTANCE = 50;
 	public static final double DEFAULT_HEALTH = 100d;
 	public static final double DEFAULT_LOSS_HEALTH = 0.05d;
-	public static final double DEFAULT_GAINED_HEALTH = 10d;
-	public static final int DEFAULT_TICKS_BEFORE_DIE = PointEnergie.DEFAULT_SIZE/2;
+	public static final double DEFAULT_GAINED_HEALTH = 5d;
+	public static final int DEFAULT_TICKS_BEFORE_BURN = 20;
 	public static BufferedImage img = null;
 	
 	/** Health at the init */
@@ -229,12 +229,12 @@ public abstract class AbstractCreature implements ICreature, ImageObserver {
 	}
 	
 	/**
-	 * @return <code>true</code> if the creature is near a {@link PointEnergie}.
+	 * @return <code>true</code> if the creature is near a {@link EnergySource}.
 	 */
-	public boolean isNearEnergyPoint(){
-		ArrayList<PointEnergie> tab = (ArrayList<PointEnergie>) environment.getPoints();
+	public boolean isOnAnEnergySource(){
+		ArrayList<EnergySource> tab = (ArrayList<EnergySource>) environment.getPoints();
 		if (!tab.isEmpty()) {
-			for(PointEnergie p : tab)
+			for(EnergySource p : tab)
 				if(distanceFromAPoint(p.position) <= p.getSize()/2)
 					return true;
 		}
@@ -242,11 +242,12 @@ public abstract class AbstractCreature implements ICreature, ImageObserver {
 	}
 	
 	/**
-	 * If the creature is near a {@link PointEnergie}, {@link AbstractCreature#gainHealth()}.
+	 * If the creature is near a {@link EnergySource}, {@link AbstractCreature#gainHealth()}.
 	 * Else, {@link AbstractCreature#looseHealth()}.
+	 * If a creature stay more time than {@link AbstractCreature#DEFAULT_TICKS_BEFORE_BURN}
 	 */
 	public void gainOrLoseHealth(){
-		if(isNearEnergyPoint()){
+		if(isOnAnEnergySource()){
 			if(currentTicksOnEnergyPoint <= 10){
 				currentTicksOnEnergyPoint++;
 				gainHealth();
@@ -265,9 +266,12 @@ public abstract class AbstractCreature implements ICreature, ImageObserver {
 		}
 	}
 	
+	/**
+	 * If a creature is burning, lose more health than usually.
+	 */
 	public void burn(){
 		isBurning = true;
-		setLossHealth(DEFAULT_LOSS_HEALTH * 10);
+		setLossHealth(DEFAULT_LOSS_HEALTH*20);
 		looseHealth();
 	}
 	

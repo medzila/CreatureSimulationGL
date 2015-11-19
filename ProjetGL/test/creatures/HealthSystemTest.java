@@ -103,7 +103,7 @@ public class HealthSystemTest {
 	@Test
 	public void loseHealthDependingOnIfAnEnergyPointIsNearTest() {
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
-		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
+		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
 		
 		assertEquals(bouncing.getHealth(), defautHealth, 0.0);
 		when(environment.getPoints()).thenReturn(pointsArround);
@@ -118,8 +118,8 @@ public class HealthSystemTest {
 	@Test
 	public void gainHealthDependingOnIfAnEnergyPointIsNearTest() {
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
-		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
-		pointsArround.add(new PointEnergie(new Point2D.Double(0, 0), 100));
+		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
+		pointsArround.add(new EnergySource(new Point2D.Double(0, 0), 100));
 		
 		bouncing.setHealth(1);
 		assertEquals(bouncing.getHealth(), 1, 0.0);
@@ -132,36 +132,36 @@ public class HealthSystemTest {
 		
 	}
 	
-	/** Test if {@link AbstractCreature#isNearEnergyPoint()} returns false is there is no energy point around. */	
+	/** Test if {@link AbstractCreature#isOnAnEnergySource()} returns false is there is no energy point around. */	
 	@Test
 	public void IfIsNotNearAnEnergyPoint(){
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
-		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
+		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
 		when(environment.getPoints()).thenReturn(pointsArround);
 		
-		assertFalse(bouncing.isNearEnergyPoint());
+		assertFalse(bouncing.isOnAnEnergySource());
 	}
 	
-	/** Test if {@link AbstractCreature#isNearEnergyPoint()} returns true if the creature and an energy point have the same position. */	
+	/** Test if {@link AbstractCreature#isOnAnEnergySource()} returns true if the creature and an energy point have the same position. */	
 	@Test
 	public void IfIsNearCenterOfAnEnergyPoint(){
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
-		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
-		pointsArround.add(new PointEnergie(new Point2D.Double(0,0), 100));
+		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
+		pointsArround.add(new EnergySource(new Point2D.Double(0,0), 100));
 		when(environment.getPoints()).thenReturn(pointsArround);
 		
-		assertTrue(bouncing.isNearEnergyPoint());
+		assertTrue(bouncing.isOnAnEnergySource());
 	}
 	
-	/** Test if {@link AbstractCreature#isNearEnergyPoint()} returns true if the creature is at a bound of an energy point. */	
+	/** Test if {@link AbstractCreature#isOnAnEnergySource()} returns true if the creature is at a bound of an energy point. */	
 	@Test
 	public void IfIsNearBoundsOfEnergyPoint(){
 		BouncingCreature bouncing = new BouncingCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5,  Color.RED);
-		ArrayList<PointEnergie> pointsArround = new ArrayList<PointEnergie>();
-		pointsArround.add(new PointEnergie(new Point2D.Double(0, PointEnergie.DEFAULT_SIZE/2), 100));
+		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
+		pointsArround.add(new EnergySource(new Point2D.Double(0, EnergySource.DEFAULT_SIZE/2), 100));
 		
 		when(environment.getPoints()).thenReturn(pointsArround);
 		
-		assertTrue(bouncing.isNearEnergyPoint());
+		assertTrue(bouncing.isOnAnEnergySource());
 	}
 }

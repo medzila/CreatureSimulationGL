@@ -17,17 +17,17 @@ import plug.PluginLoader;
 import creatures.CreatureComposable;
 import creatures.ICreature;
 import creatures.IEnvironment;
-import creatures.PointEnergie;
+import creatures.behavior.IStrategyBehavior;
+import creatures.EnergySource;
 import creatures.color.IColorStrategy;
-import creatures.comportement.IStrategieComportement;
-import creatures.deplacement.IStrategieDeplacement;
+import creatures.movement.IStrategieMovement;
 
 public class Builder {
 
 	private final static Random rand = new Random();
 
 	static public  Collection<CreatureComposable> createCreatures(IEnvironment env, int count, 
-								IColorStrategy colorStrategy, IStrategieComportement comp, IStrategieDeplacement depl, double maxSpeed) {
+								IColorStrategy colorStrategy, IStrategyBehavior comp, IStrategieMovement depl, double maxSpeed) {
 		Collection<CreatureComposable> creatures = new ArrayList<CreatureComposable>();		
 		Dimension s = env.getSize();		
 		for (int i=0; i<count; i++) {	
@@ -46,11 +46,11 @@ public class Builder {
 		return creatures;
 	}
 
-	static public Collection<PointEnergie> createPoints(IEnvironment env, int number, int size) {
+	static public Collection<EnergySource> createPoints(IEnvironment env, int number, int size) {
 		Random randomInts = new Random();
-		Collection<PointEnergie> energySpots = new ArrayList<PointEnergie>();
+		Collection<EnergySource> energySpots = new ArrayList<EnergySource>();
 		for (int i = 0; i < number; i++) {
-			energySpots.add(new PointEnergie(new Point2D.Double(randomInts.nextInt(env.getSize().width) - env.getSize().width / 2,
+			energySpots.add(new EnergySource(new Point2D.Double(randomInts.nextInt(env.getSize().width) - env.getSize().width / 2,
 					randomInts.nextInt(env.getSize().height) - env.getSize().height / 2), size));
 		}
 		return energySpots;

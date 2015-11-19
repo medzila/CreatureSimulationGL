@@ -4,19 +4,19 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 
-import creatures.comportement.IStrategieComportement;
-import creatures.deplacement.IStrategieDeplacement;
+import creatures.behavior.IStrategyBehavior;
+import creatures.movement.IStrategieMovement;
 
 public class CreatureComposable extends AbstractCreature{
 
-	IStrategieComportement comportement;
-	IStrategieDeplacement deplacement;
+	IStrategyBehavior comportement;
+	IStrategieMovement deplacement;
 	
 	public int currCycle;
 	
 	
 	public CreatureComposable(IEnvironment environment, Point2D position, double direction, double speed,
-			Color color, IStrategieComportement comp, IStrategieDeplacement depl) {
+			Color color, IStrategyBehavior comp, IStrategieMovement depl) {
 		super(environment, position);
 		this.direction=direction;
 		this.speed=speed;

@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import creatures.comportement.SmartComportement;
-import creatures.deplacement.TorusDeplacement;
+import creatures.behavior.EmergingBehavior;
+import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
 public class SmartComportementTest {
@@ -25,15 +25,15 @@ public class SmartComportementTest {
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 100;
 	final double h = 100;
-	SmartComportement s;
-	TorusDeplacement t;
+	EmergingBehavior s;
+	TorusMovement t;
 	
 	
 	@Before
 	public void setup() {
 		when(environment.getSize()).thenReturn(new Dimension((int)w, (int)h));
-		s = new SmartComportement();
-		t = new TorusDeplacement();
+		s = new EmergingBehavior();
+		t = new TorusMovement();
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class SmartComportementTest {
 		creaturesAround.add(other);
 		Point2D positionBefore = creature.getPosition();
 		when(environment.getCreatures()).thenReturn(creaturesAround);
-		when(environment.getPoints()).thenReturn(new ArrayList<PointEnergie>());
+		when(environment.getPoints()).thenReturn(new ArrayList<EnergySource>());
 		
 		s.setNextDirectionAndSpeed(creature);
 		

@@ -1,4 +1,4 @@
-package creatures.deplacement;
+package creatures.movement;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -7,7 +7,7 @@ import java.awt.Dimension;
 
 import creatures.ICreature;
 
-public class TorusDeplacement implements IStrategieDeplacement {
+public class TorusMovement implements IStrategieMovement {
 
 	@Override
 	public void setNextPosition(ICreature c) {
@@ -36,7 +36,7 @@ public class TorusDeplacement implements IStrategieDeplacement {
 
 	@Override
 	public String getName() {
-		return TorusDeplacement.class.getName();
+		return TorusMovement.class.getName();
 	}
 
 }

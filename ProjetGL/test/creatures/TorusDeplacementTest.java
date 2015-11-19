@@ -11,8 +11,8 @@ import java.awt.geom.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
-import creatures.comportement.StupidComportement;
-import creatures.deplacement.TorusDeplacement;
+import creatures.behavior.StupidBehavior;
+import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
 
@@ -21,15 +21,15 @@ public class TorusDeplacementTest {
 	CreatureSimulator environment = mock(CreatureSimulator.class);
 	final double w = 100;
 	final double h = 50;
-	StupidComportement s;
-	TorusDeplacement t;
+	StupidBehavior s;
+	TorusMovement t;
 	
 	
 	@Before
 	public void setup() {
 		when(environment.getSize()).thenReturn(new Dimension((int)w, (int)h));
-		s = new StupidComportement();
-		t = new TorusDeplacement();
+		s = new StupidBehavior();
+		t = new TorusMovement();
 	}
 	
 	@Test

@@ -15,7 +15,7 @@ import simulator.ISimulationListener;
 import visual.IDrawable;
 import visual.Visualizer;
 import creatures.ICreature;
-import creatures.PointEnergie;
+import creatures.EnergySource;
 
 @SuppressWarnings("serial")
 public class CreatureVisualizer extends Visualizer {
@@ -142,7 +142,7 @@ public class CreatureVisualizer extends Visualizer {
 		for (ICreature c : simulator.getCreatures()) {
 			al.add(c);
 		}
-		for (PointEnergie p : simulator.getPoints()) {
+		for (EnergySource p : simulator.getPoints()) {
 			al.add(p);
 		}
 		return al;

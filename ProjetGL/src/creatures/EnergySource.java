@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 
 import visual.IDrawable;
 
-public class PointEnergie implements IDrawable {
+public class EnergySource implements IDrawable {
 
 	public static final int DEFAULT_SIZE = 100;
 	public static final Color DEFAULT_COLOR = new Color(255, 0, 0, 128);
@@ -18,7 +18,7 @@ public class PointEnergie implements IDrawable {
 	public Point2D position;
 	public int size;
 	
-	public PointEnergie(Point2D p, int size) {
+	public EnergySource(Point2D p, int size) {
 		this.position = p;
 		this.size = size;
 	}

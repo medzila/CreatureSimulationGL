@@ -1,9 +1,9 @@
-package creatures.deplacement;
+package creatures.movement;
 
 import creatures.ICreature;
 import plug.IPlugin;
 
-public interface IStrategieDeplacement extends IPlugin{
+public interface IStrategieMovement extends IPlugin{
 	
 	void setNextPosition(ICreature c);
 }
