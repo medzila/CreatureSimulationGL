@@ -7,12 +7,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,11 +19,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -36,19 +31,13 @@ import plug.creatures.MovementPluginFactory;
 import plug.creatures.PluginComboBoxItemBuilder;
 import creatures.ICreature;
 import creatures.behavior.IStrategyBehavior;
-import creatures.behavior.EmergingBehavior;
-import creatures.behavior.StupidBehavior;
 import creatures.EnergySource;
-import creatures.color.ColorCube;
 import creatures.color.IColorStrategy;
-import creatures.movement.BouncingMovement;
 import creatures.movement.IStrategieMovement;
-import creatures.movement.TorusMovement;
 import creatures.visual.CreatureInspector;
 import creatures.visual.CreatureSimulator;
 import creatures.visual.CreatureVisualizer;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
 import javax.swing.JMenu;
 
 /**
@@ -375,18 +364,14 @@ buttons.removeAll();
 					simulator.clearStat();
 					try {
 						creatures = Builder.createCreatures(simulator, creatureNumber, colorConstructor.newInstance(Color.BLUE, creatureNumber),behavior.newInstance(), movement, myMaxSpeed);
-					} catch (InstantiationException | IllegalAccessException
-							| InvocationTargetException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						Collection<EnergySource> spots = Builder.createPoints(simulator, spotsNumber, spotsSize);
+						simulator.addAllCreatures(creatures);
+						simulator.addAllSpots(spots);
+						simulator.start();
+					} 
+					catch (Exception exception) {
+						JOptionPane.showMessageDialog(buttons, exception.getCause().getMessage(), "Missing mandatory behavior", JOptionPane.ERROR_MESSAGE);
 					}
-					catch (IllegalArgumentException e2) {
-						JOptionPane.showMessageDialog(buttons, "Eggs are not supposed to be green.");
-					}
-					Collection<EnergySource> spots = Builder.createPoints(simulator, spotsNumber, spotsSize);
-					simulator.addAllCreatures(creatures);
-					simulator.addAllSpots(spots);
-					simulator.start();
 				}
 			}
 		});
