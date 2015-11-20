@@ -4,15 +4,15 @@ import static commons.Utils.filter;
 import static java.lang.Math.abs;
 
 import commons.Utils.Predicate;
-import creatures.AbstractCreature;
+import creatures.ComposableCreature;
 import creatures.ICreature;
 
 public class EmergingBehavior implements IStrategyBehavior {
 	
 	static class CreaturesAroundCreature implements Predicate<ICreature> {
-		private final AbstractCreature observer;
+		private final ComposableCreature observer;
 
-		public CreaturesAroundCreature(AbstractCreature observer) {
+		public CreaturesAroundCreature(ComposableCreature observer) {
 			this.observer = observer;
 		}
 		@Override
@@ -40,12 +40,11 @@ public class EmergingBehavior implements IStrategyBehavior {
 	
 	public Iterable<ICreature> creaturesAround(
 			ICreature creature) {
-		return filter(creature.getEnvironment().getCreatures(), new CreaturesAroundCreature((AbstractCreature)creature));
+		return filter(creature.getEnvironment().getCreatures(), new CreaturesAroundCreature((ComposableCreature)creature));
 	}
 	
 	
-	@Override
-	public void setNextDirectionAndSpeed(ICreature c) {
+	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		// speed - will be used to compute the average speed of the nearby
 				// creatures including this instance
 				double avgSpeed = c.getSpeed();
@@ -81,9 +80,22 @@ public class EmergingBehavior implements IStrategyBehavior {
 				if (minDist > MIN_DIST) {
 					c.move();
 				}
+				if(count==0){
+					c.setLossHealth(c.DEFAULT_LOSS_HEALTH);
+				}else if(count < 6){
+					c.setLossHealth(0.04);
+				}else if(count < 11){
+					c.setLossHealth(0.03);
+				}else if(count < 16){
+					c.setLossHealth(0.02);
+				}else{
+					c.setLossHealth(0.01);
+				}
 				
+				c.gainOrLoseHealth();	
+			}
 
-	}
+	
 
 
 	@Override

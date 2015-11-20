@@ -8,7 +8,7 @@ import static java.lang.Math.random;
 import java.util.ArrayList;
 
 import commons.Utils.Predicate;
-import creatures.AbstractCreature;
+import creatures.ComposableCreature;
 import creatures.ComposableCreature;
 import creatures.ICreature;
 import creatures.EnergySource;
@@ -23,9 +23,9 @@ public class EnergyBehavior implements IStrategyBehavior {
 	private static final int NUMBER_OF_CYCLES_PER_CHANGE = 50;
 	
 	static class EnergySourceAroundCreature implements Predicate<EnergySource> {
-		private final AbstractCreature observer;
+		private final ComposableCreature observer;
 
-		public EnergySourceAroundCreature(AbstractCreature observer) {
+		public EnergySourceAroundCreature(ComposableCreature observer) {
 			this.observer = observer;
 		}
 
@@ -45,7 +45,7 @@ public class EnergyBehavior implements IStrategyBehavior {
 
 	public Iterable<EnergySource> ptsAround(
 			ICreature c) {
-		return filter(c.getEnvironment().getEnergySources(), new EnergySourceAroundCreature((AbstractCreature)c));
+		return filter(c.getEnvironment().getEnergySources(), new EnergySourceAroundCreature((ComposableCreature)c));
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class EnergyBehavior implements IStrategyBehavior {
 	}
 
 	@Override
-	public void setNextDirectionAndSpeed(ICreature c) {
+	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		ComposableCreature c1 = (ComposableCreature)c;
 		double angle = Double.MAX_VALUE;
 		boolean energieDirection = true;

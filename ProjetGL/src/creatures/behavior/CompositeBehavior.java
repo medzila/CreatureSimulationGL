@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.Map;
 
 import plug.creatures.BehaviorPluginFactory;
-import creatures.AbstractCreature;
+import creatures.ComposableCreature;
 import creatures.ICreature;
 
 public class CompositeBehavior implements ICompoundActingStrategy {
@@ -19,7 +19,7 @@ public class CompositeBehavior implements ICompoundActingStrategy {
 	
 	
 	public CompositeBehavior() throws Exception {
-		CompositeBehavior.TRESHOLD=(float) (AbstractCreature.DEFAULT_HEALTH/2);
+		CompositeBehavior.TRESHOLD=(float) (ComposableCreature.DEFAULT_HEALTH/2);
 		Map<String,Constructor<? extends IStrategyBehavior>> factory = BehaviorPluginFactory.getInstance().getMap();
 		
 		// We check every behavior in the factory. We have to find every behavior needed (emerging & energy)
@@ -55,7 +55,7 @@ public class CompositeBehavior implements ICompoundActingStrategy {
 	}
 
 	@Override
-	public void setNextDirectionAndSpeed(ICreature c) {
+	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		if(c.getHealth() > TRESHOLD){
 			emergingBehavior.setNextDirectionAndSpeed(c);
 		} else {

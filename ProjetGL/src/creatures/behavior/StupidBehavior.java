@@ -1,11 +1,12 @@
 package creatures.behavior;
 
-import creatures.ICreature;
+import creatures.ComposableCreature;
+
 
 public class StupidBehavior implements IStrategyBehavior {
 
 	@Override
-	public void setNextDirectionAndSpeed(ICreature c) {
+	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		c.move();
 
 	}

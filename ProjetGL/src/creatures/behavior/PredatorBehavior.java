@@ -6,8 +6,8 @@ import static java.lang.Math.abs;
 import static java.lang.Math.random;
 
 import commons.Utils.Predicate;
-import creatures.AbstractCreature;
 import creatures.ComposableCreature;
+
 import creatures.ICreature;
 
 public class PredatorBehavior implements IStrategyBehavior {
@@ -18,9 +18,9 @@ public class PredatorBehavior implements IStrategyBehavior {
 	private static final int NUMBER_OF_CYCLES_PER_CHANGE = 50;
 	
 	static class CreaturesAroundCreature implements Predicate<ICreature> {
-		private final AbstractCreature observer;
+		private final ComposableCreature observer;
 
-		public CreaturesAroundCreature(AbstractCreature observer) {
+		public CreaturesAroundCreature(ComposableCreature observer) {
 			this.observer = observer;
 		}
 		@Override
@@ -48,12 +48,12 @@ public class PredatorBehavior implements IStrategyBehavior {
 
 	public Iterable<ICreature> creaturesAround(
 			ComposableCreature creature) {
-		return filter(creature.getEnvironment().getCreatures(), new CreaturesAroundCreature((AbstractCreature)creature));
+		return filter(creature.getEnvironment().getCreatures(), new CreaturesAroundCreature((ComposableCreature)creature));
 	}
 
 
 	@Override
-	public void setNextDirectionAndSpeed(ICreature c) {
+	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		ComposableCreature c1 = (ComposableCreature)c;
 		ComposableCreature toFollow = null;
 		boolean noise = true;

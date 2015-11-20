@@ -17,7 +17,7 @@ public class RandomBehavior implements IStrategyBehavior {
 	private static final int NUMBER_OF_CYCLES_PER_CHANGE = 30;
 	
 	@Override
-	public void setNextDirectionAndSpeed(ICreature c) {
+	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		ComposableCreature c1 = (ComposableCreature)c;
 		applyNoise(c1);
 		c1.move();
