@@ -1,7 +1,7 @@
 package creatures;
 
 import static java.lang.Math.toRadians;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -124,6 +124,84 @@ public class EnergyBehaviorTest {
 		//La creature doit voir seulement que 3 points.
 		assertEquals(3, ptsAround.size());
 		assertEquals(creature.getDirection(),-Math.PI/2,0.01);
+		
+	}
+	
+	/**
+	 * Checks whether the creature moved closer to the energy point.
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreatureGoToAnEnergyPoint() throws Exception {
+		
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(2,5),Math.PI/2,6,
+				Color.BLACK,e,t);
+		
+		EnergySource pte = new EnergySource(new Point2D.Double(0,10),20);
+				
+		ArrayList<EnergySource> ptl = (ArrayList<EnergySource>)new ArrayList<EnergySource>();
+		ptl.add(pte);
+		
+		when(creature.getEnvironment().getEnergySources()).thenReturn(ptl);
+		
+		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
+		
+		double distanceBefore = creature.distanceFromAPoint(pte.getPosition());
+		double vx = pte.getPosition().getX() - creature.getPosition().getX();
+		double vy = pte.getPosition().getY() - creature.getPosition().getY();
+		double angle = Math.atan2(vy, vx);
+		
+		e.setNextDirectionAndSpeed(creature);
+		
+		double distanceAfter = creature.distanceFromAPoint(pte.getPosition());
+		double xAfter = creature.getPosition().getX();
+		double yAfter = creature.getPosition().getY();
+		
+		assertEquals(1, ptsAround.size());
+		assertEquals(creature.getDirection(),-angle,0.1);
+		assertTrue(distanceAfter < distanceBefore);
+		assertEquals(xAfter,pte.getPosition().getX(),1);
+		assertEquals(yAfter,pte.getPosition().getY(),1);
+
+		
+	}
+	
+	/**
+	 * Checks whether the creature don't moved closer to the energy point.
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreatureDontGoToAnEnergyPoint() throws Exception {
+		
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(2,5),Math.PI/2,6,
+				Color.BLACK,e,t);
+		
+		EnergySource pte = new EnergySource(new Point2D.Double(-5,10),20);
+				
+		ArrayList<EnergySource> ptl = (ArrayList<EnergySource>)new ArrayList<EnergySource>();
+		ptl.add(pte);
+		
+		when(creature.getEnvironment().getEnergySources()).thenReturn(ptl);
+		
+		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
+		
+		double distanceBefore = creature.distanceFromAPoint(pte.getPosition());
+		double vx = pte.getPosition().getX() - creature.getPosition().getX();
+		double vy = pte.getPosition().getY() - creature.getPosition().getY();
+		double angle = Math.atan2(vy, vx);
+		
+		e.setNextDirectionAndSpeed(creature);
+		
+		double distanceAfter = creature.distanceFromAPoint(pte.getPosition());
+		double xAfter = creature.getPosition().getX();
+		double yAfter = creature.getPosition().getY();
+		
+		assertEquals(0, ptsAround.size());
+		assertNotEquals(creature.getDirection(),-angle,0.1);
+		assertTrue(distanceAfter >= distanceBefore);
+		assertNotEquals(xAfter,pte.getPosition().getX(),1);
+		assertNotEquals(yAfter,pte.getPosition().getY(),1);
+
 		
 	}
 
