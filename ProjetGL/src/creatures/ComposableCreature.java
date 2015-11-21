@@ -44,12 +44,13 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	public static final int DEFAULT_TICKS_BEFORE_BURN = 20;
 	public static final String FLAME_IMAGE_PATH = "src/commons/flame.png";
 	public static final String TEETH_IMAGE_PATH = "src/commons/teeth.png";
-	
+	public static final double MAX_SPEED = 5d;
 	public static BufferedImage imgFlame;
 	public static BufferedImage imgTeeth;
 	
 	private boolean isHunting = false;
 	private boolean target;
+	
 	/** Health at the init */
 	protected double health = DEFAULT_HEALTH;
 	
@@ -154,11 +155,11 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	public void setHealth(double health) {
 		this.health = health;
-		if(health < 0){
+		if(this.health <= 0){
 			this.health = 0;
 			die();
 		}
-		if(health > DEFAULT_HEALTH)
+		if(health >= DEFAULT_HEALTH)
 			this.health = DEFAULT_HEALTH;
 	}
 	
@@ -200,6 +201,8 @@ public class ComposableCreature implements ICreature, ImageObserver {
 
 	public void setSpeed(double speed) {
 		this.speed = speed;
+		if(this.speed>=MAX_SPEED)
+			this.speed = MAX_SPEED;
 	}
 
 	@Override
@@ -258,7 +261,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	 */
 	public void looseHealth(){
 		health -= lossHealth;
-		if(health <= 0){
+		if(health <= 0 && !isDead()){
 			health = 0;
 			die();
 		}
@@ -538,17 +541,6 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	public void setCurrCycle(int i){
 		this.currCycle = i;
-	}
-
-
-	
-	public boolean hasTarget() {
-		return this.target;
-	}
-
-
-	public void setHasTarget(boolean b) {
-		this.target = b;
 	}
 
 }

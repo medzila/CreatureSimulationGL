@@ -128,7 +128,7 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	
 	public void removeCreature(ICreature creature) {
 		creaturesDead++;
-		creaturesMortes.setText("Nombre de créatures mortes : " + getCreaturesDead());
+		creaturesMortes.setText("Nombre de creatures mortes : " + getCreaturesDead()+ " ||");
 		actionables.remove(creature);
 	}
 	
