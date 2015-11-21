@@ -51,7 +51,7 @@
             <configuration>
                 <executable>java</executable>
                 <arguments>
-                     <argument>-classpath</argument>
+                     <argument>-cp</argument>
                      <argument>target/tp5-final-0.0.1-SNAPSHOT.jar</argument>
                      <argument>main.Launcher</argument>
                 </arguments>
@@ -68,7 +68,7 @@
 
 				<move todir="myplugins/repository/creatures/behavior">
     				<fileset dir="target/classes/creatures/behavior">
-    					<exclude name="**/IStrategieBehavior.class"/>
+    					<exclude name="**/IStrategyBehavior.class"/>
     				</fileset>
   				</move>
 
