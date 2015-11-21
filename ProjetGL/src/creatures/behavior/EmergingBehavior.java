@@ -46,46 +46,46 @@ public class EmergingBehavior implements IStrategyBehavior {
 	
 	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		// speed - will be used to compute the average speed of the nearby
-				// creatures including this instance
-				double avgSpeed = c.getSpeed();
-				// direction - will be used to compute the average direction of the
-				// nearby creatures including this instance
-				double avgDir = c.getDirection();
-				// distance - used to find the closest nearby creature
-				double minDist = Double.MAX_VALUE;
+		// creatures including this instance
+		double avgSpeed = c.getSpeed();
+		// direction - will be used to compute the average direction of the
+		// nearby creatures including this instance
+		double avgDir = c.getDirection();
+		// distance - used to find the closest nearby creature
+		double minDist = Double.MAX_VALUE;
 
-				// iterate over all nearby creatures
-				Iterable<ICreature> creatures = creaturesAround(c);
-				int count = 0;
-				for (ICreature c2 : creatures) {
-					avgSpeed += c2.getSpeed();
-					avgDir += c2.getDirection();
-					minDist = Math.min(minDist, c2.distanceFromAPoint(c2.getPosition()));
-					count++;
-				}
-				// average
-				avgSpeed = avgSpeed / (count + 1);
-				// min speed check
-				if (avgSpeed < MIN_SPEED) {
-					avgSpeed = MIN_SPEED;
-				}
-				// average
-				avgDir = avgDir / (count + 1);
+		// iterate over all nearby creatures
+		Iterable<ICreature> creatures = creaturesAround(c);
+		int count = 0;
+		for (ICreature c2 : creatures) {
+			avgSpeed += c2.getSpeed();
+			avgDir += c2.getDirection();
+			minDist = Math.min(minDist, c2.distanceFromAPoint(c2.getPosition()));
+			count++;
+		}
+		// average
+		avgSpeed = avgSpeed / (count + 1);
+		// min speed check
+		if (avgSpeed < MIN_SPEED) {
+			avgSpeed = MIN_SPEED;
+		}
+		// average
+		avgDir = avgDir / (count + 1);
 
-				// apply - change this creature state
-				c.setDirection(avgDir);
-				c.setSpeed(avgSpeed);
-				
-				// if we are not too close move closer
-				if (minDist > MIN_DIST) {
-					c.move();
-				}
-				if(count==0){
-					c.setLossHealth(c.DEFAULT_LOSS_HEALTH);
-				}else {
-					c.setLossHealth(c.DEFAULT_LOSS_HEALTH/count);
-				}
-			}
+		// apply - change this creature state
+		c.setDirection(avgDir);
+		c.setSpeed(avgSpeed);
+
+		// if we are not too close move closer
+		if (minDist > MIN_DIST) {
+			c.move();
+		}
+		if(count==0){
+			c.setLossHealth(c.DEFAULT_LOSS_HEALTH);
+		}else {
+			c.setLossHealth(c.DEFAULT_LOSS_HEALTH/count);
+		}
+	}
 
 	
 

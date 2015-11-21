@@ -62,8 +62,76 @@ public class EmergingBehaviorTest {
 		s.setNextDirectionAndSpeed(creature);
 		
 		assertEquals(toRadians((270+10)/2), creature.getDirection(), .01);
-		assertEquals((10.0+5.0)/2, creature.getSpeed(), .01);
+		assertEquals((5.0+5.0)/2, creature.getSpeed(), .01);
 				
+	}
+	
+	@Test
+	public void testLooseHealthComportementAlone() throws Exception {
+		
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(0),5,
+				Color.BLACK,s,t);
+
+		ArrayList<ICreature> creaturesAround = new ArrayList<ICreature>();
+		
+		when(environment.getCreatures()).thenReturn(creaturesAround);
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
+		
+		creature.act();
+		
+		assertEquals(creature.getHealth(),100-creature.DEFAULT_LOSS_HEALTH,.01);
+
+	}
+	
+	@Test
+	public void testLooseHealthComportementWithOneCreature() throws Exception {
+		
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(0),5,
+				Color.BLACK,s,t);
+		
+		ComposableCreature other = mock(ComposableCreature.class);
+		when(other.getDirection()).thenReturn(toRadians(270));
+		when(other.getSpeed()).thenReturn(10.0);
+		when(other.getHealth()).thenReturn(100.0);
+		when(other.getPosition()).thenReturn(new Point2D.Double(1,0));
+
+		ArrayList<ICreature> creaturesAround = new ArrayList<ICreature>();
+		creaturesAround.add(other);
+		
+		when(environment.getCreatures()).thenReturn(creaturesAround);
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
+		
+		creature.act();
+		
+		assertEquals(creature.getHealth(),100-creature.DEFAULT_LOSS_HEALTH,.01);
+
+	}
+	
+	@Test
+	public void testLooseHealthComportementWithSeveralCreatures() throws Exception {
+		
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(0),5,
+				Color.BLACK,s,t);
+		
+		ComposableCreature other = mock(ComposableCreature.class);
+		when(other.getDirection()).thenReturn(toRadians(270));
+		when(other.getSpeed()).thenReturn(10.0);
+		when(other.getHealth()).thenReturn(100.0);
+		when(other.getPosition()).thenReturn(new Point2D.Double(1,0));
+
+		ArrayList<ICreature> creaturesAround = new ArrayList<ICreature>();
+		creaturesAround.add(other);
+		creaturesAround.add(other);
+		creaturesAround.add(other);
+
+		
+		when(environment.getCreatures()).thenReturn(creaturesAround);
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
+		
+		creature.act();
+		
+		assertEquals(creature.getHealth(),100-creature.DEFAULT_LOSS_HEALTH/3,.01);
+
 	}
 
 }

@@ -543,4 +543,14 @@ public class ComposableCreature implements ICreature, ImageObserver {
 		this.currCycle = i;
 	}
 
+
+	public boolean hasTarget() {
+		return this.target;
+	}
+
+
+	public void setHasTarget(boolean b) {
+		this.target = b;
+	}
+
 }

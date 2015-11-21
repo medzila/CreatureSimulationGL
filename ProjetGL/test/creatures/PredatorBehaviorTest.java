@@ -67,7 +67,7 @@ public class PredatorBehaviorTest {
 		
 		ComposableCreature other = mock(ComposableCreature.class);
 		when(other.getDirection()).thenReturn(toRadians(270));
-		when(other.getSpeed()).thenReturn(10.0);
+		when(other.getSpeed()).thenReturn(4.0);
 		when(other.getPosition()).thenReturn(new Point2D.Double(1,0));
 		when(other.distanceFromAPoint(eq(creature.getPosition()))).thenReturn(1.0);
 		when(other.directionFormAPoint(eq(creature.getPosition()), eq(creature.getDirection()))).thenReturn(0.0);

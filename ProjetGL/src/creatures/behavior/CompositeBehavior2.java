@@ -48,8 +48,6 @@ public class CompositeBehavior2 implements IStrategyBehavior {
 
 	@Override
 	public void setNextDirectionAndSpeed(ComposableCreature c) {
-		Random rand = new Random();
-		int nb = rand.nextInt(2);
 		if(c.getHealth() >= Launcher.THRESHOLD){
 			emergingBehavior.setNextDirectionAndSpeed(c);
 		}else {
