@@ -18,6 +18,7 @@ import commons.Utils.Predicate;
 
 import creatures.ICreature;
 import creatures.IEnvironment;
+import creatures.ComposableCreature;
 import creatures.EnergySource;
 
 
@@ -46,20 +47,24 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	private int creaturesDead;
 	private JLabel creaturesTotal;
 	private JLabel creaturesMortes;
+	private JLabel creaturesLife;
 	private int creaturesDepart;
+	private int totalLife;
 
-
-
+	
 	public CreatureSimulator(Dimension initialSize) {
 		super(new CopyOnWriteArrayList<ICreature>(), 10);
 		this.size = initialSize;
 		this.creaturesDead = 0;
 		this.creaturesDepart = 0;
+		this.totalLife = 0;
 		this.creaturesTotal = new JLabel();
 		this.creaturesMortes = new JLabel();
+		this.creaturesLife = new JLabel();
 		
-		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +"   //");
-		creaturesMortes.setText("Nombre de créatures mortes : " + creaturesDead);
+		creaturesTotal.setText("Nombre de creatures : " + creaturesDepart  +" ||");
+		creaturesMortes.setText("Nombre de creatures mortes : " + creaturesDead+" ||");
+		creaturesLife.setText("Vie totale : " + totalLife);
 	}
 	
 	/**
@@ -78,14 +83,20 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	 */
 	@Override
 	public Iterable<ICreature> getCreatures() {
+		float count = 0;
+		for(ICreature c : actionables)
+			count+=c.getHealth();
+		creaturesLife.setText("Vie totale : " + (int)count);
 		return new ArrayList<ICreature>(actionables);
 	}
 	
 	public void clearStat(){
 		this.creaturesDead=0;
 		this.creaturesDepart=0;
-		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +"   //");
-		creaturesMortes.setText("Nombre de créatures mortes : " + creaturesDead);
+		this.totalLife=0;
+		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +" ||");
+		creaturesMortes.setText("Nombre de créatures mortes : " + creaturesDead  +" ||");
+		creaturesLife.setText("Vie totale : " + totalLife+"/"+totalLife);
 	}
 	
 	public JLabel getLabelCreaturesDead(){
@@ -94,6 +105,10 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	
 	public JLabel getLabelCreaturesTotal(){
 		return creaturesTotal;
+	}
+	
+	public JLabel getLabelCreaturesLife(){
+		return creaturesLife;
 	}
 	
 	/**
@@ -113,7 +128,6 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 	
 	public void removeCreature(ICreature creature) {
 		creaturesDead++;
-		creaturesDepart = creatureSize() + getCreaturesDead();
 		creaturesMortes.setText("Nombre de créatures mortes : " + getCreaturesDead());
 		actionables.remove(creature);
 	}
@@ -124,8 +138,11 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 
 	public void addAllCreatures(Collection<? extends ICreature> creatures) {
 		creaturesDepart = creatures.size();
-		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +"   //");
-		creaturesMortes.setText("Nombre de créatures mortes : " + getCreaturesDead());
+		totalLife = (int)(creaturesDepart * ComposableCreature.DEFAULT_HEALTH);
+		creaturesTotal.setText("Nombre de creatures : " + creaturesDepart  +" ||");
+		creaturesMortes.setText("Nombre de creatures mortes : " + getCreaturesDead()+" ||");
+		creaturesLife.setText("Vie totale : " + totalLife);
+
 		actionables.addAll(creatures);
 	}
 	

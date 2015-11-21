@@ -82,10 +82,12 @@ public class Launcher extends JFrame {
         inspector = new CreatureInspector();
         inspector.setFocusableWindowState(false);
         visualizer = new CreatureVisualizer(simulator);
+
         visualizer.setDebug(false);
         visualizer.setPreferredSize(simulator.getSize());
         visualizer.add(simulator.getLabelCreaturesTotal());
         visualizer.add(simulator.getLabelCreaturesDead());
+        visualizer.add(simulator.getLabelCreaturesLife());
                 
         add(visualizer, BorderLayout.CENTER);
         
@@ -419,15 +421,18 @@ public class Launcher extends JFrame {
         c.gridx = 0;
         c.gridy = 0;
         buttonsAndTreshold.add(buttons, c);
-        //if(isComposite){
+
         c.gridx = 1;
         c.gridy = 0;
         buttonsAndTreshold.add(treshold, c);
-        //}
+
         revalidate();
         repaint();
         
     }
+
+
+    
     
     public static void main(String args[]) {
         Logger.getLogger("plug").setLevel(Level.INFO);
