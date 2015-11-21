@@ -43,8 +43,12 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	public static final double DEFAULT_GAINED_HEALTH = 5d;
 	public static final int DEFAULT_TICKS_BEFORE_BURN = 20;
 	public static final String FLAME_IMAGE_PATH = "src/commons/flame.png";
+	public static final String TEETH_IMAGE_PATH = "src/commons/teeth.png";
 	
-	public static BufferedImage img;
+	public static BufferedImage imgFlame;
+	public static BufferedImage imgTeeth;
+	
+	private boolean isHunting = false;
 	
 	/** Health at the init */
 	protected double health = DEFAULT_HEALTH;
@@ -106,7 +110,11 @@ public class ComposableCreature implements ICreature, ImageObserver {
 		this.deplacement = depl;
 		this.currCycle = 0;
 		try{
-			img = ImageIO.read(new File(FLAME_IMAGE_PATH));
+			imgFlame = ImageIO.read(new File(FLAME_IMAGE_PATH));
+		}catch(IOException e){
+		}
+		try{
+			imgTeeth = ImageIO.read(new File(TEETH_IMAGE_PATH));
 		}catch(IOException e){
 		}
 	}
@@ -115,6 +123,18 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	// ----------------------------------------------------------------------------
 	// Getters and Setters
 	// ----------------------------------------------------------------------------
+
+	
+	
+	public boolean isHunting() {
+		return isHunting;
+	}
+
+
+	public void setHunting(boolean isHunting) {
+		this.isHunting = isHunting;
+	}
+
 
 	public boolean isDead() {
 		return isDead;
@@ -133,6 +153,12 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	public void setHealth(double health) {
 		this.health = health;
+		if(health < 0){
+			this.health = 0;
+			die();
+		}
+		if(health > DEFAULT_HEALTH)
+			this.health = DEFAULT_HEALTH;
 	}
 	
 	@Override
@@ -375,8 +401,11 @@ public class ComposableCreature implements ICreature, ImageObserver {
 		//g2.fillOval(0,0,5,5);
 		// center the surrounding rectangle
 		g2.translate(-size / 2, -size / 2);
+		if(isHunting){
+			g2.drawImage(imgTeeth, 20, 20, 25, 35, this);
+		}
 		if(isBurning){
-			g2.drawImage(img, 20, 20, 20, 35, this);
+			g2.drawImage(imgFlame, 20, 20, 20, 35, this);
 		}
 		// center the arc
 		// rotate towards the direction of our vector

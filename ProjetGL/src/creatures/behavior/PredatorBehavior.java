@@ -17,6 +17,7 @@ public class PredatorBehavior implements IStrategyBehavior {
 	 */
 	private static final int NUMBER_OF_CYCLES_PER_CHANGE = 50;
 	
+	private static final int DEFAULT_EATEN = (int) ((ComposableCreature.DEFAULT_HEALTH * 20)/100);
 	static class CreaturesAroundCreature implements Predicate<ICreature> {
 		private final ComposableCreature observer;
 
@@ -55,31 +56,37 @@ public class PredatorBehavior implements IStrategyBehavior {
 	@Override
 	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		ComposableCreature c1 = (ComposableCreature)c;
-		ComposableCreature toFollow = null;
-		boolean noise = true;
-
-		Iterable<ICreature> creatures = creaturesAround(c1);
+		ComposableCreature prey = null;
+		double minDist = Double.MAX_VALUE;
 		
+		Iterable<ICreature> creatures = creaturesAround(c1);
 		for (ICreature c2 : creatures) {
-			if(c1.getHealth()>c2.getHealth()){
-				toFollow = (ComposableCreature)c2;
-				c1.setDirection(c2.getDirection());
-				noise = false;
-				break;
+			if(c1.distanceFromAPoint(c2.getPosition()) <= minDist){
+				prey = (ComposableCreature) c2;
+				minDist = c1.distanceFromAPoint(c2.getPosition());
 			}
 		}
-
-		if(toFollow != null && c1.distanceFromAPoint(toFollow.getPosition())<40){
-			toFollow.setLossHealth(c1.getHealth());
-			c1.setSpeed(6);
-			toFollow.setSpeed(3);
-			noise = false;
+		
+		if(prey != null ){
+			c1.setSpeed(prey.getSpeed()+1);
+			c1.setDirection(prey.getDirection());
+			//c1.setDirection(c1.directionFormAPoint(prey.getPosition(), c1.getDirection()));
+			if(c1.distanceFromAPoint(prey.getPosition())<=5){
+				c1.setHunting(true);
+				c1.setHealth(c1.getHealth() + DEFAULT_EATEN);
+				prey.setHealth(prey.getHealth() - DEFAULT_EATEN);
+			}
 		}
 		
-		if(noise){
+		if(prey == null){
+			if(c1.isHunting())
+				c1.setHunting(false);
 			applyNoise(c1);
 		}
-		c1.move();
+
+		if (minDist > MIN_DIST) {
+			c1.move();
+		}
 	}
 	
 	/**
@@ -105,7 +112,6 @@ public class PredatorBehavior implements IStrategyBehavior {
 					+ ((random() * PI / 2) - (PI / 4)));
 		}
 	}
-
 
 	@Override
 	public String getName() {
