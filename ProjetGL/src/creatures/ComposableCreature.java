@@ -14,6 +14,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import commons.Utils.Predicate;
-
 import creatures.behavior.IStrategyBehavior;
 import creatures.movement.IStrategieMovement;
 import creatures.visual.CreatureSimulator;
@@ -44,7 +44,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	public static final int DEFAULT_TICKS_BEFORE_BURN = 20;
 	public static final String FLAME_IMAGE_PATH = "src/commons/flame.png";
 	
-	public static BufferedImage img = null;
+	public static BufferedImage img;
 	
 	/** Health at the init */
 	protected double health = DEFAULT_HEALTH;
@@ -105,6 +105,10 @@ public class ComposableCreature implements ICreature, ImageObserver {
 		this.comportement = comp;
 		this.deplacement = depl;
 		this.currCycle = 0;
+		try{
+			img = ImageIO.read(new File(FLAME_IMAGE_PATH));
+		}catch(IOException e){
+		}
 	}
 
 
