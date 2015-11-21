@@ -162,7 +162,6 @@ public class EnergyBehaviorTest {
 		assertTrue(distanceAfter < distanceBefore);
 		assertEquals(xAfter,pte.getPosition().getX(),1);
 		assertEquals(yAfter,pte.getPosition().getY(),1);
-
 		
 	}
 	

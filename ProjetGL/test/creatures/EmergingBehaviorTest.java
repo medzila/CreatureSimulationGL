@@ -55,7 +55,7 @@ public class EmergingBehaviorTest {
 
 		ArrayList<ICreature> creaturesAround = new ArrayList<ICreature>();
 		creaturesAround.add(other);
-		Point2D positionBefore = creature.getPosition();
+		
 		when(environment.getCreatures()).thenReturn(creaturesAround);
 		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
 		
