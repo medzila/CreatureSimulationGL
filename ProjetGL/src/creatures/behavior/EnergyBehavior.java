@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import commons.Utils.Predicate;
 import creatures.ComposableCreature;
-import creatures.ComposableCreature;
 import creatures.ICreature;
 import creatures.EnergySource;
 
@@ -60,7 +59,7 @@ public class EnergyBehavior implements IStrategyBehavior {
 		boolean energieDirection = true;
 
 		EnergySource p = null;
-		ArrayList<EnergySource> ptsEnergie = (ArrayList) ptsAround(c1);
+		ArrayList<EnergySource> ptsEnergie = (ArrayList<EnergySource>) ptsAround(c1);
 		
 		if(!ptsEnergie.isEmpty()){
 			p = ptsEnergie.get(0);
