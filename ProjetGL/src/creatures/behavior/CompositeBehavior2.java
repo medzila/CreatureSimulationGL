@@ -1,18 +1,15 @@
 package creatures.behavior;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Random;
 
 import plug.creatures.BehaviorPluginFactory;
 import creatures.ComposableCreature;
-import creatures.ICreature;
+import main.Launcher;
 
 public class CompositeBehavior2 implements IStrategyBehavior {
-	
-	private static float seuil;
-	
+		
 	private EnergyBehavior energyBehavior = null;
 	private EmergingBehavior emergingBehavior = null;
 	private PredatorBehavior predatorBehavior = null;
@@ -25,12 +22,10 @@ public class CompositeBehavior2 implements IStrategyBehavior {
 		isEnergyBehaviorHere = false;
 		isEmergingBehaviorHere = false ;
 		isPredatorBehaviorHere = true;
-		this.seuil=(float) (ComposableCreature.DEFAULT_HEALTH/2);
 		Map<String,Constructor<? extends IStrategyBehavior>> factory = BehaviorPluginFactory.getInstance().getMap();
 		
 		// On regarde chaque comportement dans la factory et il faut trouver tous les comportments qu'on va utilise
 		for (String s : factory.keySet()){
-			IStrategyBehavior i = null;
 			Constructor<? extends IStrategyBehavior> c = factory.get(s);
 			if(c == null)
 				throw new Exception("Something went wrong with the factory. Report it to devs without reprisal please.");
@@ -53,7 +48,6 @@ public class CompositeBehavior2 implements IStrategyBehavior {
 		if(!isPredatorBehaviorHere)
 			throw new Exception("Predator behavior is missing. Add the \"PredatorBehavior\" plugin please.");
 	}
-	
 
 	@Override
 	public String getName() {
@@ -64,12 +58,11 @@ public class CompositeBehavior2 implements IStrategyBehavior {
 	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		Random rand = new Random();
 		int nb = rand.nextInt(2);
-		if(c.getHealth() > seuil && nb == 0){
+		if(c.getHealth() >= Launcher.THRESHOLD && nb == 0){
 			emergingBehavior.setNextDirectionAndSpeed(c);
-		}else if(c.getHealth() > seuil && nb == 1){
+		}else if(c.getHealth() >= Launcher.THRESHOLD && nb == 1){
 			predatorBehavior.setNextDirectionAndSpeed(c);
-		}
-		else {
+		}else {
 			energyBehavior.setNextDirectionAndSpeed(c);
 		}
 
