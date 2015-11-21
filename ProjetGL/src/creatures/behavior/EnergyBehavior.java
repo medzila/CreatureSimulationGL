@@ -30,15 +30,15 @@ public class EnergyBehavior implements IStrategyBehavior {
 
 		@Override
 		public boolean apply(EnergySource input) {
-			if (input.position == observer.getPosition()) {
+			if (input.getPosition()== observer.getPosition() || observer.distanceFromAPoint(input.getPosition())<=input.getSize()/2) {
 				return false;
 			}
 			double dirAngle = input.directionFormAPoint(observer.getPosition(),
 					observer.getDirection());
 
 			return abs(dirAngle) < (observer.getFieldOfView() / 2)
-					&& observer.distanceFromAPoint(input.position) <= (observer
-							.getLengthOfView()+30);} //observer.getLengthOfView + 30 augmentation de la distance de vision de la creature.
+					&& observer.distanceFromAPoint(input.getPosition()) <= (observer
+							.getLengthOfView()+input.getSize()/2);} //observer.getLengthOfView + 30 augmentation de la distance de vision de la creature.
 
 	}
 
@@ -55,21 +55,29 @@ public class EnergyBehavior implements IStrategyBehavior {
 	@Override
 	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		ComposableCreature c1 = (ComposableCreature)c;
-		double angle = Double.MAX_VALUE;
-		boolean energieDirection = true;
+		if(!c1.hasTarget()){
+			double angle = Double.MAX_VALUE;
+			//boolean energieDirection = true;
 
-		EnergySource p = null;
-		ArrayList<EnergySource> ptsEnergie = (ArrayList<EnergySource>) ptsAround(c1);
-		
-		if(!ptsEnergie.isEmpty()){
-			p = ptsEnergie.get(0);
-			double dx = p.getPosition().getX() - c1.getPosition().getX();
-	        double dy = p.getPosition().getY() - c1.getPosition().getY();
-	        angle = Math.atan2(dy, dx);
-			c1.setDirection(-angle);
-			energieDirection=false;
+			EnergySource p = null;
+			ArrayList<EnergySource> ptsEnergie = (ArrayList<EnergySource>) ptsAround(c1);
+
+			if(!ptsEnergie.isEmpty()){
+				p = ptsEnergie.get(0);
+				double dx = p.getPosition().getX() - c1.getPosition().getX();
+				double dy = p.getPosition().getY() - c1.getPosition().getY();
+				angle = Math.atan2(dy, dx);
+				c1.setDirection(-angle);
+				c1.setHasTarget(true);
+				//energieDirection=false;
+			}
+		}else{
+			if(!c1.isOnAnEnergySource()){
+				c1.setHasTarget(false);
+			}
+
 		}
-		if(energieDirection){
+		if(!c1.hasTarget()){
 			applyNoise(c1);
 		}
 		c1.move();

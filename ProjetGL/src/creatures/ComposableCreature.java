@@ -49,7 +49,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	public static BufferedImage imgTeeth;
 	
 	private boolean isHunting = false;
-	
+	private boolean target;
 	/** Health at the init */
 	protected double health = DEFAULT_HEALTH;
 	
@@ -109,6 +109,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 		this.comportement = comp;
 		this.deplacement = depl;
 		this.currCycle = 0;
+		this.target = false;
 		try{
 			imgFlame = ImageIO.read(new File(FLAME_IMAGE_PATH));
 		}catch(IOException e){
@@ -537,6 +538,17 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	public void setCurrCycle(int i){
 		this.currCycle = i;
+	}
+
+
+	
+	public boolean hasTarget() {
+		return this.target;
+	}
+
+
+	public void setHasTarget(boolean b) {
+		this.target = b;
 	}
 
 }
