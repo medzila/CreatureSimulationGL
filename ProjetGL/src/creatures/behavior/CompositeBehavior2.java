@@ -1,26 +1,34 @@
 package creatures.behavior;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Random;
 
 import plug.creatures.BehaviorPluginFactory;
 import creatures.ComposableCreature;
 import creatures.ICreature;
 
-public class CompositeBehavior implements IStrategyBehavior {
+public class CompositeBehavior2 implements IStrategyBehavior {
 	
-	private static float TRESHOLD;
+	private static float seuil;
+	
 	private EnergyBehavior energyBehavior = null;
 	private EmergingBehavior emergingBehavior = null;
-	boolean isEnergyBehaviorHere = false;
-	boolean isEmergingBehaviorHere = false ;
+	private PredatorBehavior predatorBehavior = null;
+
+	private boolean isEnergyBehaviorHere;
+	private boolean isEmergingBehaviorHere;
+	private boolean isPredatorBehaviorHere;
 	
-	
-	public CompositeBehavior() throws Exception {
-		CompositeBehavior.TRESHOLD=(float) (ComposableCreature.DEFAULT_HEALTH/2);
+	public CompositeBehavior2() throws Exception{
+		isEnergyBehaviorHere = false;
+		isEmergingBehaviorHere = false ;
+		isPredatorBehaviorHere = true;
+		this.seuil=(float) (ComposableCreature.DEFAULT_HEALTH/2);
 		Map<String,Constructor<? extends IStrategyBehavior>> factory = BehaviorPluginFactory.getInstance().getMap();
 		
-		// We check every behavior in the factory. We have to find every behavior needed (emerging & energy)
+		// On regarde chaque comportement dans la factory et il faut trouver tous les comportments qu'on va utilise
 		for (String s : factory.keySet()){
 			IStrategyBehavior i = null;
 			Constructor<? extends IStrategyBehavior> c = factory.get(s);
@@ -33,14 +41,18 @@ public class CompositeBehavior implements IStrategyBehavior {
 			}else if(EmergingBehavior.class.isAssignableFrom(c.getDeclaringClass())){
 				isEmergingBehaviorHere = true ; 
 				this.emergingBehavior = (EmergingBehavior) c.newInstance();
+			}else if(PredatorBehavior.class.isAssignableFrom(c.getDeclaringClass())){
+				isPredatorBehaviorHere = true ; 
+			this.predatorBehavior = (PredatorBehavior) c.newInstance();
 			}
 		}
 		if(!isEnergyBehaviorHere)
 			throw new Exception("Energy behavior is missing. Add the \"EnergyBehavior\" plugin please.");
 		if(!isEmergingBehaviorHere)
 			throw new Exception("Emerging behavior is missing. Add the \"EmergingBehavior\" plugin please.");
-}
-
+		if(!isPredatorBehaviorHere)
+			throw new Exception("Predator behavior is missing. Add the \"PredatorBehavior\" plugin please.");
+	}
 	
 
 	@Override
@@ -50,9 +62,14 @@ public class CompositeBehavior implements IStrategyBehavior {
 
 	@Override
 	public void setNextDirectionAndSpeed(ComposableCreature c) {
-		if(c.getHealth() > TRESHOLD){
+		Random rand = new Random();
+		int nb = rand.nextInt(2);
+		if(c.getHealth() > seuil && nb == 0){
 			emergingBehavior.setNextDirectionAndSpeed(c);
-		} else {
+		}else if(c.getHealth() > seuil && nb == 1){
+			predatorBehavior.setNextDirectionAndSpeed(c);
+		}
+		else {
 			energyBehavior.setNextDirectionAndSpeed(c);
 		}
 
