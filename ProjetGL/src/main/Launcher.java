@@ -50,9 +50,9 @@ public class Launcher extends JFrame {
     private final BehaviorPluginFactory behaviorFactory;
     private final ColorPluginFactory colorFactory;
     
-    Constructor<? extends IStrategyBehavior> behavior = null;
-    IStrategieMovement movement = null;
-    Constructor<? extends IColorStrategy> colorConstructor = null;
+    public Constructor<? extends IStrategyBehavior> behavior = null;
+    public IStrategieMovement movement = null;
+    public Constructor<? extends IColorStrategy> colorConstructor = null;
     
     private final CreatureInspector inspector;
     private final CreatureVisualizer visualizer;
@@ -62,9 +62,9 @@ public class Launcher extends JFrame {
     private JPanel buttonsAndTreshold = new JPanel(new GridBagLayout());
     private JPanel treshold = new JPanel(new GridBagLayout());
     
-    int creatureNumber = 10;
-    int spotsNumber = 10;
-    int spotsSize = 50;
+    public int creatureNumber = 10;
+    public int spotsNumber = 10;
+    public int spotsSize = 50;
     
     public static float THRESHOLD = (float) (ComposableCreature.DEFAULT_HEALTH / 2);
     
@@ -428,9 +428,6 @@ public class Launcher extends JFrame {
         repaint();
         
     }
-
-
-    
     
     public static void main(String args[]) {
         Logger.getLogger("plug").setLevel(Level.INFO);
@@ -439,6 +436,14 @@ public class Launcher extends JFrame {
         ColorPluginFactory.init();
         Launcher launcher = new Launcher();
         launcher.setVisible(true);
+        if (args[0].equals("1")){
+        	launcher.behavior = BehaviorPluginFactory.getInstance().getMap().get("creatures.behavior.EmergingBehavior");
+        	launcher.movement = MovementPluginFactory.getInstance().getMap().get("creatures.movement.TorusMovement");
+        	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("color.ColorCube");
+        	launcher.creatureNumber = 20;
+            launcher.spotsNumber = 5;
+            launcher.spotsSize = 100;
+        }
     }
     
 }
