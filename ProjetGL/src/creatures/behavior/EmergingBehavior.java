@@ -85,8 +85,6 @@ public class EmergingBehavior implements IStrategyBehavior {
 				}else {
 					c.setLossHealth(c.DEFAULT_LOSS_HEALTH/count);
 				}
-				
-				c.gainOrLoseHealth();	
 			}
 
 	
