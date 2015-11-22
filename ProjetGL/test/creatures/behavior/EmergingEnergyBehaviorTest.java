@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.LogManager;
 
