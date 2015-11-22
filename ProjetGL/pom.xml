@@ -66,31 +66,62 @@
       <version>1.8</version>
       <executions>
         <execution>
-          <phase>prepare-package</phase>
+          <id>copy</id>
+          <phase>process-classes</phase>
           <configuration>
             <target>
 
-              <move todir="myplugins/repository/creatures/behavior">
+              <copy todir="myplugins/repository/creatures/behavior">
                 <fileset dir="target/classes/creatures/behavior">
                  <exclude name="**/IStrategyBehavior.class"/>
                </fileset>
-             </move>
+             </copy>
 
-             <move todir="myplugins/repository/creatures/color">
+             <copy todir="myplugins/repository/creatures/color">
               <fileset dir="target/classes/creatures/color">
                <exclude name="**/IColorStrategy.class"/>
              </fileset>
-           </move>
+           </copy>
 
-           <move todir="myplugins/repository/creatures/movement">
+           <copy todir="myplugins/repository/creatures/movement">
             <fileset dir="target/classes/creatures/movement">
              <exclude name="**/IStrategieMovement.class"/>
            </fileset>
-         </move>
+         </copy>
 
        </target>
      </configuration>
      <goals>
+      <goal>run</goal>
+    </goals>
+  </execution>
+  <execution>
+    <id>delete</id>
+    <phase>prepare-package</phase>
+    <configuration>
+      <target>
+
+        <delete>
+          <fileset dir="target/classes/creatures/behavior">
+            <exclude name="IStrategyBehavior.class" />
+          </fileset>
+        </delete>
+
+        <delete>
+          <fileset dir="target/classes/creatures/color">
+            <exclude name="IColorStrategy.class" />
+          </fileset>
+        </delete>
+
+        <delete>
+          <fileset dir="target/classes/creatures/movement">
+            <exclude name="IStrategieMovement.class" />
+          </fileset>
+        </delete>
+
+      </target>
+    </configuration>
+    <goals>
       <goal>run</goal>
     </goals>
   </execution>
