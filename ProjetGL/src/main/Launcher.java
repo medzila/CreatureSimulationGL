@@ -436,7 +436,7 @@ public class Launcher extends JFrame {
         	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
         	launcher.creatureNumber = 1;
             launcher.spotsNumber = 0;
-            launcher.spotsSize = 100;
+            Launcher.spotsSize = 100;
         }
         /* Immortal */
         if (args[0].equals("2")){
@@ -445,7 +445,7 @@ public class Launcher extends JFrame {
         	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
         	launcher.creatureNumber = 20;
             launcher.spotsNumber = 15;
-            launcher.spotsSize = 50;
+            Launcher.spotsSize = 50;
         }
         /* Change behavior for survive */
         if (args[0].equals("3")){
@@ -454,7 +454,7 @@ public class Launcher extends JFrame {
         	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
         	launcher.creatureNumber = 5;
             launcher.spotsNumber = 3;
-            launcher.spotsSize = 60;
+            Launcher.spotsSize = 60;
         }
         /* Trap */
         if (args[0].equals("4")){
@@ -463,7 +463,7 @@ public class Launcher extends JFrame {
         	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
         	launcher.creatureNumber = 15;
             launcher.spotsNumber = 0;
-            launcher.spotsSize = 60;
+            Launcher.spotsSize = 60;
         }
         /* Chaotic */
         if (args[0].equals("5")){
@@ -472,7 +472,7 @@ public class Launcher extends JFrame {
         	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
         	launcher.creatureNumber = 25;
             launcher.spotsNumber = 5;
-            launcher.spotsSize = 25;
+            Launcher.spotsSize = 25;
         }
     }
     

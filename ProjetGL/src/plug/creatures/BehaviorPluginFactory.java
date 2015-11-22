@@ -1,24 +1,15 @@
 package plug.creatures;
 
-import java.awt.Dimension;
-import java.awt.geom.Point2D;
+
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.logging.Logger;
 
 import plug.IPlugin;
 import plug.PluginLoader;
-import creatures.ICreature;
-import creatures.IEnvironment;
 import creatures.behavior.IStrategyBehavior;
-import creatures.color.IColorStrategy;
-import creatures.movement.IStrategieMovement;
 
 public class BehaviorPluginFactory {
 	
@@ -38,7 +29,9 @@ public class BehaviorPluginFactory {
 	   */
 	private static Logger logger = Logger.getLogger("plug.ComportementPluginFactory");
 	
-	
+	/**
+	 * Initialize the PluginFactory
+	 */
     public static void init() {
         if (_singleton != null) {
             throw new RuntimeException("CreatureFactory already created by " 
@@ -48,6 +41,10 @@ public class BehaviorPluginFactory {
         }
      }
 
+    /**
+     * Get the instance of the singleton of the factory
+     * @return The unique instance of the BehaviorPluginFactory
+     */
     public static BehaviorPluginFactory getInstance() {
     	return _singleton;
     }
@@ -62,17 +59,26 @@ public class BehaviorPluginFactory {
     	load();
     }
 	
+    /**
+     * Loads all the plugin into the constructorMap
+     */
     public void load() {
     	pluginLoader.loadPlugins();
     	buildConstructorMap();
     }
     
+    /**
+     * Clears the contructorMap and reloads the plugins into the constructorMap
+     */
     public void reload() {
     	pluginLoader.reloadPlugins();
     	constructorMap.clear();
     	buildConstructorMap();
     }
     
+    /**
+     * Builds the constructorMap using all the plugins compatible with IStrategyBehavior
+     */
 	@SuppressWarnings("unchecked")
 	private void buildConstructorMap() {
 		for (Class<? extends IPlugin> p : pluginLoader.getPluginClasses()) {

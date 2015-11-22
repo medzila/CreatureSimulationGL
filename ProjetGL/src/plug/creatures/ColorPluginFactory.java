@@ -2,13 +2,11 @@ package plug.creatures;
 
 import java.awt.Color;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import creatures.behavior.IStrategyBehavior;
 import creatures.color.IColorStrategy;
 import plug.IPlugin;
 import plug.PluginLoader;
@@ -31,7 +29,9 @@ public class ColorPluginFactory {
 	   */
 	private static Logger logger = Logger.getLogger("plug.ComportementPluginFactory");
 	
-	
+	/**
+	 * Initialize the PluginFactory
+	 */
     public static void init() {
         if (_singleton != null) {
             throw new RuntimeException("CreatureFactory already created by " 
@@ -41,6 +41,10 @@ public class ColorPluginFactory {
         }
      }
 
+    /**
+     * Get the instance of the singleton of the factory
+     * @return The unique instance of the ColorPluginFactory
+     */
     public static ColorPluginFactory getInstance() {
     	return _singleton;
     }
@@ -55,17 +59,26 @@ public class ColorPluginFactory {
     	load();
     }
 	
+    /**
+     * Loads all the plugin into the constructorMap
+     */
     public void load() {
     	pluginLoader.loadPlugins();
     	buildConstructorMap();
     }
     
+    /**
+     * Clears the contructorMap and reloads the plugins into the constructorMap
+     */
     public void reload() {
     	pluginLoader.reloadPlugins();
     	constructorMap.clear();
     	buildConstructorMap();
     }
     
+    /**
+     * Builds the constructorMap using all the plugins compatible with IColorStrategy
+     */
 	@SuppressWarnings("unchecked")
 	private void buildConstructorMap() {
 		for (Class<? extends IPlugin> p : pluginLoader.getPluginClasses()) {
@@ -85,6 +98,7 @@ public class ColorPluginFactory {
 				constructorMap.put(p.getName(),c);
 		}
 	}
+	
 	
 	public Map<String,Constructor<? extends IColorStrategy>> getConstructorMap() {
 		return constructorMap;

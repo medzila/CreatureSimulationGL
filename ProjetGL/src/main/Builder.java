@@ -1,21 +1,12 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import java.lang.reflect.Constructor;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.logging.Logger;
 
-import plug.IPlugin;
-import plug.PluginLoader;
 import creatures.ComposableCreature;
-import creatures.ICreature;
 import creatures.IEnvironment;
 import creatures.behavior.IStrategyBehavior;
 import creatures.EnergySource;
