@@ -15,6 +15,7 @@ import creatures.EnergySource;
 public class EnergyBehavior implements IStrategyBehavior {
 	private static final double MIN_SPEED = 2;
 	private static final double MAX_SPEED = 6;
+	public static boolean target=false;
 
 	/**
 	 * Number of cycles after which we apply some random noise.
@@ -31,14 +32,19 @@ public class EnergyBehavior implements IStrategyBehavior {
 		@Override
 		public boolean apply(EnergySource input) {
 			if (input.getPosition()== observer.getPosition() || observer.distanceFromAPoint(input.getPosition())<=input.getSize()/2) {
+				target=false;
 				return false;
 			}
 			double dirAngle = input.directionFormAPoint(observer.getPosition(),
 					observer.getDirection());
-
+			
+			target = abs(dirAngle) < (observer.getFieldOfView() / 2)
+					&& observer.distanceFromAPoint(input.getPosition()) <= (observer
+							.getLengthOfView()+input.getSize()/2);
+			
 			return abs(dirAngle) < (observer.getFieldOfView() / 2)
 					&& observer.distanceFromAPoint(input.getPosition()) <= (observer
-							.getLengthOfView()+input.getSize()/2);} //observer.getLengthOfView + 30 augmentation de la distance de vision de la creature.
+							.getLengthOfView()+input.getSize()/2);}
 
 	}
 
@@ -55,29 +61,23 @@ public class EnergyBehavior implements IStrategyBehavior {
 	@Override
 	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		ComposableCreature c1 = (ComposableCreature)c;
-		if(!c1.hasTarget()){
-			double angle = Double.MAX_VALUE;
-			//boolean energieDirection = true;
-
-			EnergySource p = null;
-			ArrayList<EnergySource> ptsEnergie = (ArrayList<EnergySource>) ptsAround(c1);
-
-			if(!ptsEnergie.isEmpty()){
-				p = ptsEnergie.get(0);
-				double dx = p.getPosition().getX() - c1.getPosition().getX();
-				double dy = p.getPosition().getY() - c1.getPosition().getY();
-				angle = Math.atan2(dy, dx);
-				c1.setDirection(-angle);
-				c1.setHasTarget(true);
-				//energieDirection=false;
-			}
-		}else{
-			if(!c1.isOnAnEnergySource()){
-				c1.setHasTarget(false);
-			}
-
+		double angle = Double.MAX_VALUE;
+		boolean noise = true;
+		ArrayList<EnergySource> ptsEnergie = null;
+		EnergySource p = null;
+		
+		ptsEnergie = (ArrayList<EnergySource>) ptsAround(c1);
+		
+		if(!ptsEnergie.isEmpty() && target){
+			noise=false;
+			p = ptsEnergie.get(0);
+			double dx = p.getPosition().getX() - c1.getPosition().getX();
+			double dy = p.getPosition().getY() - c1.getPosition().getY();
+			angle = Math.atan2(dy, dx);
+			c1.setDirection(-angle);
 		}
-		if(!c1.hasTarget()){
+		
+		if(noise){
 			applyNoise(c1);
 		}
 		c1.move();
@@ -107,6 +107,10 @@ public class EnergyBehavior implements IStrategyBehavior {
 			c1.setDirection(c1.getDirection()
 					+ ((random() * PI / 2) - (PI / 4)));
 		}
+	}
+	
+	public boolean getTarget(){
+		return this.target;
 	}
 
 }
