@@ -60,7 +60,7 @@ public class Launcher extends JFrame {
     
     private JPanel buttons = new JPanel(new GridBagLayout());
     private JPanel buttonsAndTreshold = new JPanel(new GridBagLayout());
-    private JPanel treshold = new JPanel(new GridBagLayout());
+    private JPanel threshold = new JPanel(new GridBagLayout());
     
     public int creatureNumber = 10;
     public int spotsNumber = 10;
@@ -111,7 +111,7 @@ public class Launcher extends JFrame {
     public void buildInterface() {    
         
         buttons.removeAll();
-        treshold.removeAll();
+        threshold.removeAll();
         
         GridBagConstraints c = new GridBagConstraints();
 
@@ -130,13 +130,13 @@ public class Launcher extends JFrame {
             tresholdSlider.setPaintLabels(true);
             tresholdSlider.setPreferredSize(new Dimension(50, 135));
             JPanel sliderTresholdPanel = new JPanel(new BorderLayout());
-            JLabel labelTreshold = new JLabel("Treshold", JLabel.CENTER);
+            JLabel labelTreshold = new JLabel("Threshold", JLabel.CENTER);
             sliderTresholdPanel.add(labelTreshold, BorderLayout.NORTH);
             sliderTresholdPanel.add(tresholdSlider, BorderLayout.SOUTH);
 
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = 0;
-            treshold.add(sliderTresholdPanel, c);  
+            threshold.add(sliderTresholdPanel, c);  
         
         // La partie de l'interface pour definir la strategie de coloriage
         
@@ -226,7 +226,7 @@ public class Launcher extends JFrame {
         
         JPanel choiceActionPanel = new JPanel();
         choiceActionPanel.setLayout(new BorderLayout());
-        JLabel labelActionCrea = new JLabel("Action", JLabel.CENTER);
+        JLabel labelActionCrea = new JLabel("Behavior", JLabel.CENTER);
         choiceActionPanel.add(labelActionCrea, BorderLayout.NORTH);
         choiceActionPanel.add(actionComboBox, BorderLayout.SOUTH);
         
@@ -424,16 +424,13 @@ public class Launcher extends JFrame {
 
         c.gridx = 1;
         c.gridy = 0;
-        buttonsAndTreshold.add(treshold, c);
+        buttonsAndTreshold.add(threshold, c);
 
         revalidate();
         repaint();
         
     }
 
-
-    
-    
     public static void main(String args[]) {
         Logger.getLogger("plug").setLevel(Level.INFO);
         MovementPluginFactory.init();
