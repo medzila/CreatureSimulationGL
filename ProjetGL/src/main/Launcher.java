@@ -432,7 +432,7 @@ public class Launcher extends JFrame {
         if (args[0].equals("1")){
         	launcher.behavior = BehaviorPluginFactory.getInstance().getMap().get("creatures.behavior.EmergingBehavior");
         	launcher.movement = MovementPluginFactory.getInstance().getMap().get("creatures.movement.TorusMovement");
-        	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("color.ColorCube");
+        	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
         	launcher.creatureNumber = 20;
             launcher.spotsNumber = 5;
             launcher.spotsSize = 100;
