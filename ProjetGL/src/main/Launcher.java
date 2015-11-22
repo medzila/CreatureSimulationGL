@@ -429,13 +429,50 @@ public class Launcher extends JFrame {
         ColorPluginFactory.init();
         Launcher launcher = new Launcher();
         launcher.setVisible(true);
+        /* Easiest simulator*/
         if (args[0].equals("1")){
+        	launcher.behavior = BehaviorPluginFactory.getInstance().getMap().get("creatures.behavior.StupidBehavior");
+        	launcher.movement = MovementPluginFactory.getInstance().getMap().get("creatures.movement.TorusMovement");
+        	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
+        	launcher.creatureNumber = 1;
+            launcher.spotsNumber = 0;
+            launcher.spotsSize = 100;
+        }
+        /* Immortal */
+        if (args[0].equals("2")){
         	launcher.behavior = BehaviorPluginFactory.getInstance().getMap().get("creatures.behavior.EmergingBehavior");
         	launcher.movement = MovementPluginFactory.getInstance().getMap().get("creatures.movement.TorusMovement");
         	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
         	launcher.creatureNumber = 20;
+            launcher.spotsNumber = 15;
+            launcher.spotsSize = 50;
+        }
+        /* Change behavior for survive */
+        if (args[0].equals("3")){
+        	launcher.behavior = BehaviorPluginFactory.getInstance().getMap().get("creatures.behavior.EmergingThenEnergyBehavior");
+        	launcher.movement = MovementPluginFactory.getInstance().getMap().get("creatures.movement.TorusMovement");
+        	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
+        	launcher.creatureNumber = 5;
+            launcher.spotsNumber = 3;
+            launcher.spotsSize = 60;
+        }
+        /* Trap */
+        if (args[0].equals("4")){
+        	launcher.behavior = BehaviorPluginFactory.getInstance().getMap().get("creatures.behavior.EmergingThenPredatorBehavior");
+        	launcher.movement = MovementPluginFactory.getInstance().getMap().get("creatures.movement.BouncingMovement");
+        	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
+        	launcher.creatureNumber = 15;
+            launcher.spotsNumber = 0;
+            launcher.spotsSize = 60;
+        }
+        /* Chaotic */
+        if (args[0].equals("5")){
+        	launcher.behavior = BehaviorPluginFactory.getInstance().getMap().get("creatures.behavior.RandomBehavior");
+        	launcher.movement = MovementPluginFactory.getInstance().getMap().get("creatures.movement.BouncingMovement");
+        	launcher.colorConstructor = ColorPluginFactory.getInstance().getConstructorMap().get("creatures.color.ColorCube");
+        	launcher.creatureNumber = 25;
             launcher.spotsNumber = 5;
-            launcher.spotsSize = 100;
+            launcher.spotsSize = 25;
         }
     }
     
