@@ -31,8 +31,8 @@ import main.Launcher;
 
 public class ComposableCreature implements ICreature, ImageObserver {
 
-	IStrategyBehavior comportement;
-	IStrategieMovement deplacement;
+	IStrategyBehavior behavior;
+	IStrategieMovement movement;
 	
 	public int currCycle;
 	
@@ -108,18 +108,18 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	 * @param direction
 	 * @param speed
 	 * @param color
-	 * @param comp
-	 * @param depl
+	 * @param behav
+	 * @param move
 	 */
 	public ComposableCreature(IEnvironment environment, Point2D position, double direction, double speed,
-			Color color, IStrategyBehavior comp, IStrategieMovement depl) {
+			Color color, IStrategyBehavior behav, IStrategieMovement move) {
 		this.environment=environment;
 		this.position=position;
 		this.direction=direction;
 		this.speed=speed;
 		this.color=color;
-		this.comportement = comp;
-		this.deplacement = depl;
+		this.behavior = behav;
+		this.movement = move;
 		this.currCycle = 0;
 		this.target = false;
 		try{
@@ -293,12 +293,12 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	@Override
 	public void move() {
-		this.deplacement.setNextPosition(this);
+		this.movement.setNextPosition(this);
 	}
 
 	@Override
 	public void act() {
-		this.comportement.setNextDirectionAndSpeed(this);
+		this.behavior.setNextDirectionAndSpeed(this);
 		
 		gainOrLoseHealth();	
 	}
