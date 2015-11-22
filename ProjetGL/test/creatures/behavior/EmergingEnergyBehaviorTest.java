@@ -10,6 +10,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.LogManager;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,6 +26,7 @@ import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 import main.Launcher;
 import plug.creatures.BehaviorPluginFactory;
+
 
 /**
  *Test of composite behavior : Emerging and Energy
@@ -41,6 +45,9 @@ public class EmergingEnergyBehaviorTest {
 	 */
 	@BeforeClass
 	public static void setUpClass() {
+		LogManager.getLogManager().reset();
+		Logger globalLogger = Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
+		globalLogger.setLevel(java.util.logging.Level.OFF);
 		BehaviorPluginFactory.init();
 	}
 	
