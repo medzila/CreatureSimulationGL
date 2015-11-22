@@ -67,6 +67,20 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	/** If the creature is burning */
 	protected boolean isBurning = false;
 	
+	public int getCurrentTicksOnEnergyPoint() {
+		return currentTicksOnEnergyPoint;
+	}
+
+
+	public void setCurrentTicksOnEnergyPoint(int currentTicksOnEnergyPoint) {
+		this.currentTicksOnEnergyPoint = currentTicksOnEnergyPoint;
+	}
+
+
+	public boolean isBurning() {
+		return isBurning;
+	}
+
 	/** Indicate if the creature is dead*/
 	protected boolean isDead = false;
 	
@@ -298,7 +312,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	 */
 	public void gainOrLoseHealth(){
 		if(isOnAnEnergySource()){
-			if(currentTicksOnEnergyPoint <= 10){
+			if(getCurrentTicksOnEnergyPoint() <= DEFAULT_TICKS_BEFORE_BURN){
 				currentTicksOnEnergyPoint++;
 				gainHealth();
 			}
