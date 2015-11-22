@@ -2,12 +2,15 @@ package creatures.behavior;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
-import java.util.Random;
 
 import plug.creatures.BehaviorPluginFactory;
 import creatures.ComposableCreature;
 import main.Launcher;
 
+/**
+ * The creatures follow each other when their life is higher than {@link Launcher#THRESHOLD}.
+ * Else, the creatures search for other creatures to eat.
+ */
 public class EmergingThenPredatorBehavior implements IStrategyBehavior {
 		
 	private EmergingBehavior emergingBehavior = null;
@@ -27,14 +30,16 @@ public class EmergingThenPredatorBehavior implements IStrategyBehavior {
 			if(c == null)
 				throw new Exception("Something went wrong with the factory. Report it to devs without reprisal please.");
 
+			//If the plugin is PredatorBehavior && EmergingBehavior
 			if(EmergingBehavior.class.isAssignableFrom(c.getDeclaringClass())){
 				isEmergingBehaviorHere = true ; 
 				this.emergingBehavior = (EmergingBehavior) c.newInstance();
 			}else if(PredatorBehavior.class.isAssignableFrom(c.getDeclaringClass())){
 				isPredatorBehaviorHere = true ; 
-			this.predatorBehavior = (PredatorBehavior) c.newInstance();
+				this.predatorBehavior = (PredatorBehavior) c.newInstance();
 			}
 		}
+		//If we don't find the Predator or the Emerging behavior, throw a new exception catched in the Launcher
 		if(!isEmergingBehaviorHere)
 			throw new Exception("Emerging behavior is missing. Add the \"EmergingBehavior\" plugin please.");
 		if(!isPredatorBehaviorHere)

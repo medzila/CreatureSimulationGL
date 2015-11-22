@@ -8,12 +8,12 @@ import java.awt.Dimension;
 
 import creatures.ICreature;
 
+/**
+ * The creatures bounces when they hit a "wall"
+ */
 public class BouncingMovement implements IStrategieMovement {
 
-	
-	
 	public BouncingMovement() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	private void setDirectionBounceX(ICreature c) {
@@ -28,9 +28,7 @@ public class BouncingMovement implements IStrategieMovement {
 	}
 	
 	@Override
-	public void setNextPosition(ICreature c) {
-		
-		
+	public void setNextPosition(ICreature c) {	
 		
 		Dimension s = c.getEnvironment().getSize();
 		

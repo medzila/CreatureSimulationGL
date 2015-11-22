@@ -7,6 +7,9 @@ import java.awt.Dimension;
 
 import creatures.ICreature;
 
+/**
+ * The creatures reappear in the other side when they go over a "wall"
+ */
 public class TorusMovement implements IStrategieMovement {
 
 	@Override
