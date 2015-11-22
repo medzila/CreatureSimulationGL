@@ -12,6 +12,9 @@ import creatures.ComposableCreature;
 import creatures.ICreature;
 import creatures.EnergySource;
 
+/**
+ * The creatures are looking for energy sources.
+ */
 public class EnergyBehavior implements IStrategyBehavior {
 	private static final double MIN_SPEED = 2;
 	private static final double MAX_SPEED = 6;
@@ -37,6 +40,7 @@ public class EnergyBehavior implements IStrategyBehavior {
 			double dirAngle = input.directionFormAPoint(observer.getPosition(),
 					observer.getDirection());
 			
+			//the energy source is the new target
 			observer.setTarget(abs(dirAngle) < (observer.getFieldOfView() / 2)
 					&& observer.distanceFromAPoint(input.getPosition()) <= (observer
 							.getLengthOfView()+input.getSize()/2));
@@ -44,17 +48,11 @@ public class EnergyBehavior implements IStrategyBehavior {
 			return abs(dirAngle) < (observer.getFieldOfView() / 2)
 					&& observer.distanceFromAPoint(input.getPosition()) <= (observer
 							.getLengthOfView()+input.getSize()/2);}
-
 	}
 
 	public Iterable<EnergySource> ptsAround(
 			ICreature c) {
 		return filter(c.getEnvironment().getEnergySources(), new EnergySourceAroundCreature((ComposableCreature)c));
-	}
-
-	@Override
-	public String getName() {
-		return EnergyBehavior.class.getName();
 	}
 
 	@Override
@@ -67,11 +65,14 @@ public class EnergyBehavior implements IStrategyBehavior {
 		
 		ptsEnergie = (ArrayList<EnergySource>) ptsAround(c1);
 		
+		//If energy sources are around and the creature hasn't a target
 		if(!ptsEnergie.isEmpty() && c1.getTarget()){
 			noise=false;
 			p = ptsEnergie.get(0);
 			double dx = p.getPosition().getX() - c1.getPosition().getX();
 			double dy = p.getPosition().getY() - c1.getPosition().getY();
+			
+			//Set the new direction
 			angle = Math.atan2(dy, dx);
 			c1.setDirection(-angle);
 		}
@@ -81,7 +82,6 @@ public class EnergyBehavior implements IStrategyBehavior {
 		}
 		c1.move();
 	}
-	
 
 	/**
 	 * Every number of cycles we apply some random noise over speed and
@@ -108,5 +108,10 @@ public class EnergyBehavior implements IStrategyBehavior {
 		}
 	}
 	
-
+	@Override
+	public String getName() {
+		return EnergyBehavior.class.getName();
+	}
 }
+
+	
