@@ -7,6 +7,10 @@ import plug.creatures.BehaviorPluginFactory;
 import creatures.ComposableCreature;
 import main.Launcher;
 
+/**
+ * The creatures follow each other when their life is higher than {@link Launcher#THRESHOLD}.
+ * Else, the creatures search energy sources.
+ */
 public class EmergingThenEnergyBehavior implements IStrategyBehavior {
 	
 	private EnergyBehavior energyBehavior = null;
@@ -23,6 +27,7 @@ public class EmergingThenEnergyBehavior implements IStrategyBehavior {
 			if(c == null)
 				throw new Exception("Something went wrong with the factory. Report it to devs without reprisal please.");
 
+			//If the plugin is EnergyBehavior && EmergingBehavior
 			if (EnergyBehavior.class.isAssignableFrom(c.getDeclaringClass())){
 				isEnergyBehaviorHere = true;
 				this.energyBehavior = (EnergyBehavior) c.newInstance();
@@ -31,6 +36,7 @@ public class EmergingThenEnergyBehavior implements IStrategyBehavior {
 				this.emergingBehavior = (EmergingBehavior) c.newInstance();
 			}
 		}
+		//If we don't find the Energy or the Emerging behavior, throw a new exception catched in the Launcher
 		if(!isEnergyBehaviorHere)
 			throw new Exception("Energy behavior is missing. Add the \"EnergyBehavior\" plugin please.");
 		if(!isEmergingBehaviorHere)
