@@ -9,6 +9,9 @@ import commons.Utils.Predicate;
 import creatures.ComposableCreature;
 import creatures.ICreature;
 
+/**
+ * The creatures follow each others.
+ */
 public class EmergingBehavior implements IStrategyBehavior {
 	
 	static class CreaturesAroundCreature implements Predicate<ICreature> {
@@ -40,6 +43,7 @@ public class EmergingBehavior implements IStrategyBehavior {
 		}
 		@Override
 		public boolean apply(ICreature input) {
+			//return true if a creature is around the main creature
 			if (input == observer) {
 				return false;
 			}
@@ -47,7 +51,6 @@ public class EmergingBehavior implements IStrategyBehavior {
 							.getLengthOfView()*2;
 		}
 	}
-
 
 	/** Minimal distance between this creature and the ones around. */
 	private final static double MIN_DIST = 10d;
@@ -65,7 +68,6 @@ public class EmergingBehavior implements IStrategyBehavior {
 			ICreature creature) {
 		return filter(creature.getEnvironment().getCreatures(), new numberAroundCreature((ComposableCreature)creature));
 	}
-	
 	
 	public void setNextDirectionAndSpeed(ComposableCreature c) {
 		// speed - will be used to compute the average speed of the nearby
@@ -107,16 +109,14 @@ public class EmergingBehavior implements IStrategyBehavior {
 		
 		ArrayList<ICreature> creaturesAround = (ArrayList<ICreature>)numberCreaturesAround(c);
 		int countCreatures = creaturesAround.size();
-
+		
+		// if creatures are around, loose less health
 		if(countCreatures==0){
-			c.setLossHealth(c.DEFAULT_LOSS_HEALTH);
+			c.setLossHealth(ComposableCreature.DEFAULT_LOSS_HEALTH);
 		}else {
-			c.setLossHealth(c.DEFAULT_LOSS_HEALTH/countCreatures);
+			c.setLossHealth(ComposableCreature.DEFAULT_LOSS_HEALTH/countCreatures);
 		}
 	}
-
-	
-
 
 	@Override
 	public String getName() {
