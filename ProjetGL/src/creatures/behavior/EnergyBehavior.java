@@ -15,7 +15,6 @@ import creatures.EnergySource;
 public class EnergyBehavior implements IStrategyBehavior {
 	private static final double MIN_SPEED = 2;
 	private static final double MAX_SPEED = 6;
-	public static boolean target=false;
 
 	/**
 	 * Number of cycles after which we apply some random noise.
@@ -32,15 +31,15 @@ public class EnergyBehavior implements IStrategyBehavior {
 		@Override
 		public boolean apply(EnergySource input) {
 			if (input.getPosition()== observer.getPosition() || observer.distanceFromAPoint(input.getPosition())<=input.getSize()/2) {
-				target=false;
+				observer.setTarget(false);
 				return false;
 			}
 			double dirAngle = input.directionFormAPoint(observer.getPosition(),
 					observer.getDirection());
 			
-			target = abs(dirAngle) < (observer.getFieldOfView() / 2)
+			observer.setTarget(abs(dirAngle) < (observer.getFieldOfView() / 2)
 					&& observer.distanceFromAPoint(input.getPosition()) <= (observer
-							.getLengthOfView()+input.getSize()/2);
+							.getLengthOfView()+input.getSize()/2));
 			
 			return abs(dirAngle) < (observer.getFieldOfView() / 2)
 					&& observer.distanceFromAPoint(input.getPosition()) <= (observer
@@ -68,7 +67,7 @@ public class EnergyBehavior implements IStrategyBehavior {
 		
 		ptsEnergie = (ArrayList<EnergySource>) ptsAround(c1);
 		
-		if(!ptsEnergie.isEmpty() && target){
+		if(!ptsEnergie.isEmpty() && c1.getTarget()){
 			noise=false;
 			p = ptsEnergie.get(0);
 			double dx = p.getPosition().getX() - c1.getPosition().getX();
@@ -109,8 +108,5 @@ public class EnergyBehavior implements IStrategyBehavior {
 		}
 	}
 	
-	public boolean getTarget(){
-		return this.target;
-	}
 
 }

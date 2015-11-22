@@ -35,6 +35,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	public int currCycle;
 	
+	public boolean target;
 
 	public static final int DEFAULT_SIZE = 80;
 	public static final int DEFAULT_VISION_DISTANCE = 50;
@@ -109,6 +110,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 		this.comportement = comp;
 		this.deplacement = depl;
 		this.currCycle = 0;
+		this.target = false;
 		try{
 			imgFlame = ImageIO.read(new File(FLAME_IMAGE_PATH));
 		}catch(IOException e){
@@ -539,6 +541,14 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	public void setCurrCycle(int i){
 		this.currCycle = i;
+	}
+	
+	public boolean getTarget(){
+		return this.target;
+	}
+	
+	public void setTarget(boolean b){
+		this.target = b;
 	}
 
 }
