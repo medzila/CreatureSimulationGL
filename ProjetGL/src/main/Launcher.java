@@ -64,7 +64,7 @@ public class Launcher extends JFrame {
     
     public int creatureNumber = 10;
     public int spotsNumber = 10;
-    public int spotsSize = 25;
+    public static int spotsSize = 40;
     
     public static float THRESHOLD = (float) (ComposableCreature.DEFAULT_HEALTH / 2);
     
