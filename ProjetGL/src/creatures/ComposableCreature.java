@@ -101,7 +101,16 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	/** Size of the creature in pixels */
 	protected final int size = DEFAULT_SIZE;
 	
-	
+	/**
+	 * Create a Creature that Move and Act depending on a {@link IStrategieMovement} and {@link IStrategyBehavior}.
+	 * @param environment
+	 * @param position
+	 * @param direction
+	 * @param speed
+	 * @param color
+	 * @param comp
+	 * @param depl
+	 */
 	public ComposableCreature(IEnvironment environment, Point2D position, double direction, double speed,
 			Color color, IStrategyBehavior comp, IStrategieMovement depl) {
 		this.environment=environment;
