@@ -24,7 +24,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>myplugins/repository</source>
+                <source>pluginrepo</source>
                 <targetPath>target/classes</targetPath>
               </sources>
             </configuration>
@@ -71,19 +71,19 @@
           <configuration>
             <target>
 
-              <copy todir="myplugins/repository/creatures/behavior">
+              <copy todir="pluginrepo/creatures/behavior">
                 <fileset dir="target/classes/creatures/behavior">
                  <exclude name="**/IStrategyBehavior.class"/>
                </fileset>
              </copy>
 
-             <copy todir="myplugins/repository/creatures/color">
+             <copy todir="pluginrepo/creatures/color">
               <fileset dir="target/classes/creatures/color">
                <exclude name="**/IColorStrategy.class"/>
              </fileset>
            </copy>
 
-           <copy todir="myplugins/repository/creatures/movement">
+           <copy todir="pluginrepo/creatures/movement">
             <fileset dir="target/classes/creatures/movement">
              <exclude name="**/IStrategieMovement.class"/>
            </fileset>
