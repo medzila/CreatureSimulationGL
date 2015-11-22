@@ -396,11 +396,15 @@ public class Launcher extends JFrame {
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                simulator.clearSpots();
-                simulator.clearCreatures();
-                simulator.clearStat();
-                simulator.stop();
-                setResizable(true);
+            	synchronized(simulator) {
+                    if (simulator.isRunning()) {
+                    	simulator.clearSpots();
+                        simulator.clearCreatures();
+                        simulator.clearStat();
+                        simulator.stop();
+                        setResizable(true);
+                    }
+                }
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
