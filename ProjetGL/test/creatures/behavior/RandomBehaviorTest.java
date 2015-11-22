@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +33,7 @@ public class RandomBehaviorTest {
 	}
 	
 	/**
-	 * Verifie si la creature voit le point devant elle.
+	 * Check if the creature do the applyNoise.
 	 * @throws Exception
 	 */
 	@Test
@@ -46,7 +45,7 @@ public class RandomBehaviorTest {
 		Point2D positionBefore = creature.getPosition();
 		double directionBefore = creature.getDirection();
 		double speedBefore = creature.getSpeed();
-		for(int i=0;i<50;i++){
+		for(int i=0;i<50;i++){ // 50 reprent the cycles.
 			b.applyNoise(creature);
 		}
 		b.setNextDirectionAndSpeed(creature);

@@ -1,11 +1,8 @@
 package creatures.behavior;
 
-import static java.lang.Math.toRadians;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.awt.Color;
@@ -39,7 +36,7 @@ public class EnergyBehaviorTest {
 	}
 	
 	/**
-	 * creature see the point.
+	 * Check if the creature see the point.
 	 * @throws Exception
 	 */
 	@Test
@@ -64,6 +61,9 @@ public class EnergyBehaviorTest {
 		assertEquals(1, ptsAround.size());		
 	}
 	
+	/**
+	 * Checked if the creature takes the right direction to the point
+	 */
 	@Test
 	public void getDirectionToThePoint(){
 		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),Math.PI/4,3,
@@ -88,6 +88,9 @@ public class EnergyBehaviorTest {
 		assertEquals(creature.getDirection(),-angle,0.01);
 	}
 	
+	/**
+	 * Verify if the creature get closer to the point.
+	 */
 	@Test
 	public void getCloserToTheEnergyPoint(){
 		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),Math.PI/4,3,
@@ -102,27 +105,19 @@ public class EnergyBehaviorTest {
 		ptl.add(pte);
 		
 		when(creature.getEnvironment().getEnergySources()).thenReturn(ptl);
-		ArrayList<EnergySource> ptsAround = (ArrayList<EnergySource>)e.ptsAround(creature);
 		
-		//System.out.println(creature.getPosition()+" "+Math.toDegrees(creature.getDirection()));
-		
-		double dx = pte.getPosition().getX() - creature.getPosition().getX();
-		double dy = pte.getPosition().getY() - creature.getPosition().getY();
-		double angle = Math.atan2(dy, dx);
 		double distanceBefore = creature.distanceFromAPoint(pte.getPosition());
 
 		e.setNextDirectionAndSpeed(creature);
 		
 		double distanceAfter = creature.distanceFromAPoint(pte.getPosition());
-		
-		//System.out.println(creature.getPosition()+" "+Math.toDegrees(creature.getDirection()));
-		
-		assertTrue(distanceAfter < distanceBefore);
+				
+		assertTrue(distanceAfter < distanceBefore); // show that he cames closer to the point.
 	}
 	
 	/**
-	 * Verifie si la creature voit les points devant elle mais ignore ceux qui ne sont pas dans
-	 * son champ de vision.
+	 * Verify if the creature see the Energy point when it's on his field of view
+	 * and don't see the point when the creature is to far. 
 	 * @throws Exception
 	 */
 	@Test
@@ -232,8 +227,6 @@ public class EnergyBehaviorTest {
 		assertEquals(0, ptsAround.size());
 		assertNotEquals(creature.getDirection(),-angle,0.1);
 		assertTrue(distanceAfter >= distanceBefore);
-
-		
 	}
-
+	
 }

@@ -4,8 +4,6 @@ import static java.lang.Math.toRadians;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.awt.Color;
@@ -40,15 +38,16 @@ public class EmergingBehaviorTest {
 	}
 	
 	/**
-	 * Verifie si la creature voit le point devant elle.
+	 * Emergin Behavior Test.
 	 * @throws Exception
 	 */
 	@Test
-	public void testEmerginComportement() throws Exception {
+	public void testEmerginBehavior() throws Exception {
 		
 		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(10),5,
 				Color.BLACK,s,t);
 		
+		//the creature see the other creature and follow it.
 		ICreature other = mock(ICreature.class);
 		when(other.getDirection()).thenReturn(toRadians(270));
 		when(other.getSpeed()).thenReturn(10.0);
@@ -69,6 +68,11 @@ public class EmergingBehaviorTest {
 				
 	}
 	
+	/**
+	 * Test how a creature loose health when she is alone.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("static-access")
 	@Test
 	public void testLooseHealthComportementAlone() throws Exception {
 		
@@ -86,6 +90,11 @@ public class EmergingBehaviorTest {
 
 	}
 	
+	/**
+	 * Test how a creature loose health where there is another creature.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("static-access")
 	@Test
 	public void testLooseHealthComportementWithOneCreature() throws Exception {
 		
@@ -106,10 +115,46 @@ public class EmergingBehaviorTest {
 		
 		creature.act();
 		
-		assertEquals(creature.getHealth(),100-creature.DEFAULT_LOSS_HEALTH,.01);
+		assertEquals(creature.getHealth(),100-creature.DEFAULT_LOSS_HEALTH/1,.01); // health - (Default_Loss_health/numberOfCreatureAround)
 
 	}
 	
+	/**
+	 * Test how the creature loose health when there is 2 creatures.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("static-access")
+	@Test
+	public void testLooseHealthComportementWith2Creatures() throws Exception {
+		
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(0),5,
+				Color.BLACK,s,t);
+		
+		
+		ComposableCreature other = mock(ComposableCreature.class);
+		when(other.getDirection()).thenReturn(toRadians(270));
+		when(other.getSpeed()).thenReturn(10.0);
+		when(other.getHealth()).thenReturn(100.0);
+		when(other.getPosition()).thenReturn(new Point2D.Double(1,0));
+
+		ArrayList<ICreature> creaturesAround = new ArrayList<ICreature>();
+		creaturesAround.add(other);
+		creaturesAround.add(other);
+
+		when(environment.getCreatures()).thenReturn(creaturesAround);
+		when(environment.getEnergySources()).thenReturn(new ArrayList<EnergySource>());
+		
+		creature.act();
+		
+		assertEquals(creature.getHealth(),100-creature.DEFAULT_LOSS_HEALTH/2,.01);  // health - (Default_Loss_health/numberOfCreatureAround)
+
+	}
+	
+	/**
+	 * Test how the creature loose health when there is 3 creatures.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("static-access")
 	@Test
 	public void testLooseHealthComportementWithSeveralCreatures() throws Exception {
 		
@@ -133,7 +178,7 @@ public class EmergingBehaviorTest {
 		
 		creature.act();
 		
-		assertEquals(creature.getHealth(),100-creature.DEFAULT_LOSS_HEALTH/3,.01);
+		assertEquals(creature.getHealth(),100-creature.DEFAULT_LOSS_HEALTH/3,.01);  // health - (Default_Loss_health/numberOfCreatureAround)
 
 	}
 

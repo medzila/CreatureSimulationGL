@@ -15,7 +15,6 @@ import org.junit.Test;
 import creatures.ComposableCreature;
 import creatures.behavior.StupidBehavior;
 import creatures.movement.BouncingMovement;
-import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
 
 public class BouncingMovementTest {

@@ -12,13 +12,11 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import creatures.ComposableCreature;
 import creatures.EnergySource;
 import creatures.ICreature;
-import creatures.behavior.EmergingBehavior;
 import creatures.behavior.PredatorBehavior;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
@@ -40,9 +38,11 @@ public class PredatorBehaviorTest {
 		t = new TorusMovement();
 	}
 
-	//direction of the prey
+	/**
+	 * Test if the predator take the right direction to the prey.
+	 */
 	@Test
-	public void test() {
+	public void testDirectionPrey() {
 		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(10),5,
 				Color.BLACK,p,t);
 		
@@ -64,9 +64,11 @@ public class PredatorBehaviorTest {
 		assertEquals(toRadians(270), creature.getDirection(), .01);
 	}
 	
-	//vitesse of the prey
+	/**
+	 * Test if the predator is faster than the prey when he saw it.
+	 */
 	@Test
-	public void test1() {
+	public void testSpeedPredator() {
 		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(10),5,
 				Color.BLACK,p,t);
 		
@@ -88,10 +90,12 @@ public class PredatorBehaviorTest {
 		assertEquals(other.getSpeed()+1, creature.getSpeed(), .01);
 
 	}
-
-	//attaque la proie
+	
+	/**
+	 * Test the behavior of the predator when he is closer to the prey and attacks. 
+	 */
 	@Test
-	public void test2() {
+	public void testPredatorAttackPrey() {
 		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(10),5,
 				Color.BLACK,p,t);
 		
@@ -112,9 +116,11 @@ public class PredatorBehaviorTest {
 
 	}
 	
-	//cas predateur sans proie
+	/**
+	 * Test if the creature do nothing when he don't have a prey.
+	 */
 	@Test
-	public void test3() {
+	public void testCreatureDontSeeThePrey() {
 		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(0,0),toRadians(10),5,
 				Color.BLACK,p,t);
 
@@ -130,9 +136,12 @@ public class PredatorBehaviorTest {
 		assertNotEquals(positionBefore,creature.getPosition());
 	}
 	
-	//raprochement de sa proie sans l'attaquer
+	/**
+	 * Test if the predator get closer to the prey when he is to far.
+	 * He doesn't attack yet.
+	 */
 	@Test
-	public void test4() {
+	public void testPredatorGetCloserToThePrey() {
 		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(22,0),toRadians(180),5,
 				Color.BLACK,p,t);
 		

@@ -102,6 +102,9 @@ public class BehaviorPluginFactory {
 	public Map<String,Constructor<? extends IStrategyBehavior>> getMap() {
 		return constructorMap;
 	}
-
+	
+	public static void delete() {
+		_singleton = null;
+	}
 
 }

@@ -38,7 +38,7 @@ public class HealthSystemTest {
 		defautGainedHealth = ComposableCreature.DEFAULT_GAINED_HEALTH;
 	}
 
-	/** Test if health equals {@link ComposableCreature#DEFAULT_HEALTH} when a creature is created. */
+	/** Test if health equals {@link AbstractCreature#DEFAULT_HEALTH} when a creature is created. */
 	@Test
 	public void initHealth() {
 		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
@@ -46,7 +46,7 @@ public class HealthSystemTest {
 		assertEquals(bouncing.getHealth(), defautHealth, 0.0);
 	}
 	
-	/** Test if health equals {@link ComposableCreature#DEFAULT_HEALTH} - {@link ComposableCreature#DEFAULT_LOSS_HEALTH} when a calls {@link ComposableCreature#looseHealth()}. */
+	/** Test if health equals {@link AbstractCreature#DEFAULT_HEALTH} - {@link AbstractCreature#DEFAULT_LOSS_HEALTH} when a calls {@link AbstractCreature#looseHealth()}. */
 	@Test
 	public void looseHealthTest() {
 		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
@@ -56,7 +56,7 @@ public class HealthSystemTest {
 		assertEquals(bouncing.getHealth(), defautHealth - defautLossHealth, 0.0);
 	}
 	
-	/** Test if health equals 0 and if creature is dead if creature calls {@link ComposableCreature#looseHealth()} when health <= 0. */
+	/** Test if health equals 0 and if creature is dead if creature calls {@link AbstractCreature#looseHealth()} when health <= 0. */
 	@Test
 	public void deathTest() {
 		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
@@ -71,7 +71,7 @@ public class HealthSystemTest {
 		assertTrue(bouncing.isDead());
 	}
 	
-	/** Test if health equals current health + {@link ComposableCreature#DEFAULT_GAINED_HEALTH} when a creature calls {@link ComposableCreature#gainHealth()}. */
+	/** Test if health equals current health + {@link AbstractCreature#DEFAULT_GAINED_HEALTH} when a creature calls {@link AbstractCreature#gainHealth()}. */
 	@Test
 	public void gainHealthTest() {
 		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
@@ -88,7 +88,7 @@ public class HealthSystemTest {
 		
 	}
 	
-	/** Test if health equals {@link ComposableCreature#DEFAULT_HEALTH} when a creature calls {@link ComposableCreature#gainHealth()} when health >= {@link ComposableCreature#DEFAULT_HEALTH}. */
+	/** Test if health equals {@link AbstractCreature#DEFAULT_HEALTH} when a creature calls {@link AbstractCreature#gainHealth()} when health >= {@link AbstractCreature#DEFAULT_HEALTH}. */
 	@Test
 	public void gainHealthOverMaxHealthTest() {
 		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
@@ -134,7 +134,7 @@ public class HealthSystemTest {
 		
 	}
 	
-	/** Test if {@link ComposableCreature#isOnAnEnergySource()} returns false is there is no energy point around. */	
+	/** Test if {@link AbstractCreature#isOnAnEnergySource()} returns false is there is no energy point around. */	
 	@Test
 	public void IfIsNotNearAnEnergyPoint(){
 		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
@@ -144,7 +144,7 @@ public class HealthSystemTest {
 		assertFalse(bouncing.isOnAnEnergySource());
 	}
 	
-	/** Test if {@link ComposableCreature#isOnAnEnergySource()} returns true if the creature and an energy point have the same position. */	
+	/** Test if {@link AbstractCreature#isOnAnEnergySource()} returns true if the creature and an energy point have the same position. */	
 	@Test
 	public void IfIsNearCenterOfAnEnergyPoint(){
 		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
@@ -155,7 +155,7 @@ public class HealthSystemTest {
 		assertTrue(bouncing.isOnAnEnergySource());
 	}
 	
-	/** Test if {@link ComposableCreature#isOnAnEnergySource()} returns true if the creature is at a bound of an energy point. */	
+	/** Test if {@link AbstractCreature#isOnAnEnergySource()} returns true if the creature is at a bound of an energy point. */	
 	@Test
 	public void IfIsNearBoundsOfEnergyPoint(){
 		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
@@ -165,63 +165,5 @@ public class HealthSystemTest {
 		when(environment.getEnergySources()).thenReturn(pointsArround);
 		
 		assertTrue(bouncing.isOnAnEnergySource());
-	}
-	
-	/** Test if not burns when stay less than {@link ComposableCreature#DEFAULT_TICKS_BEFORE_BURN}. */	
-	@Test
-	public void NotBurningIfTicksOnEnergySourceIsLessThanDEFAUT_TICK_BEFORE_BURNINGTest(){
-		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
-		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
-		pointsArround.add(new EnergySource(new Point2D.Double(0, 0), 100));
-		
-		when(environment.getEnergySources()).thenReturn(pointsArround);
-	
-		assertTrue(bouncing.isOnAnEnergySource());
-		assertEquals(0, bouncing.getCurrentTicksOnEnergyPoint());
-		assertFalse(bouncing.isBurning());
-	}
-	
-	/** Test if burns when stay more than {@link ComposableCreature#DEFAULT_TICKS_BEFORE_BURN}. */	
-	@Test
-	public void BurningIfTicksOnEnergySourceIsMoreThanDEFAUT_TICK_BEFORE_BURNINGTest(){
-		ComposableCreature bouncing = new ComposableCreature(environment, new Point2D.Double(0, 0), toRadians(0), 5, Color.RED, new RandomBehavior(), new BouncingMovement());
-		
-		ArrayList<EnergySource> pointsArround = new ArrayList<EnergySource>();
-		pointsArround.add(new EnergySource(new Point2D.Double(0, 0), 100));
-		
-		when(environment.getEnergySources()).thenReturn(pointsArround);
-		
-		assertTrue(bouncing.isOnAnEnergySource());
-		assertEquals(0, bouncing.getCurrentTicksOnEnergyPoint());
-		
-		//codé sans prendre en compte le DEFAUT_TICK, à ameliorer
-		assertFalse(bouncing.isBurning);
-		
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		bouncing.gainOrLoseHealth();
-		
-		assertTrue(bouncing.isOnAnEnergySource());
-		assertEquals(21, bouncing.getCurrentTicksOnEnergyPoint());
-		assertTrue(bouncing.isBurning);
 	}
 }
