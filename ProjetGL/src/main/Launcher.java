@@ -64,7 +64,7 @@ public class Launcher extends JFrame {
     
     public int creatureNumber = 10;
     public int spotsNumber = 10;
-    public int spotsSize = 50;
+    public int spotsSize = 25;
     
     public static float THRESHOLD = (float) (ComposableCreature.DEFAULT_HEALTH / 2);
     
@@ -280,10 +280,10 @@ public class Launcher extends JFrame {
         c.gridy = 1;
         buttons.add(actionLoader, c);
         
-        
+       
         // Le slider pour qui gere le nombre de creatures
         
-        JSlider numberOfCreaturesSlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+        JSlider numberOfCreaturesSlider = new JSlider(JSlider.HORIZONTAL, 0, 50, creatureNumber);  
         numberOfCreaturesSlider.addChangeListener(new ChangeListener() {
             
             @Override
@@ -312,7 +312,7 @@ public class Launcher extends JFrame {
         
         // Le slider pour qui gere le nombre de points d'energie
 
-        JSlider numberOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+        JSlider numberOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 50, spotsNumber);  
         numberOfEnergySlider.addChangeListener(new ChangeListener() {
 
             @Override
@@ -341,7 +341,7 @@ public class Launcher extends JFrame {
         
         // Le slider pour qui gere la taille de points d'energie
 
-        JSlider sizeOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);  
+        JSlider sizeOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, spotsSize);  
         sizeOfEnergySlider.addChangeListener(new ChangeListener() {
 
             @Override
