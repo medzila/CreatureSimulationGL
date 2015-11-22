@@ -391,6 +391,7 @@ public class Launcher extends JFrame {
                         simulator.addAllCreatures(creatures);
                         simulator.addAllSpots(spots);
                         simulator.start();
+                        setResizable(false);
                     }
                     catch (Exception exception) {
                         JOptionPane.showMessageDialog(buttons, exception.getCause().getMessage(), "Missing mandatory behavior", JOptionPane.ERROR_MESSAGE);
@@ -410,6 +411,7 @@ public class Launcher extends JFrame {
                 simulator.clearCreatures();
                 simulator.clearStat();
                 simulator.stop();
+                setResizable(true);
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
