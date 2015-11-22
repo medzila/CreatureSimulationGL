@@ -1,4 +1,4 @@
-package creatures;
+package creatures.movement;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
+import creatures.ComposableCreature;
 import creatures.behavior.StupidBehavior;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;

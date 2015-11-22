@@ -8,7 +8,7 @@ import plug.creatures.BehaviorPluginFactory;
 import creatures.ComposableCreature;
 import main.Launcher;
 
-public class CompositeBehavior2 implements IStrategyBehavior {
+public class EmergingThenPredatorBehavior implements IStrategyBehavior {
 		
 	private EmergingBehavior emergingBehavior = null;
 	private PredatorBehavior predatorBehavior = null;
@@ -16,7 +16,7 @@ public class CompositeBehavior2 implements IStrategyBehavior {
 	private boolean isEmergingBehaviorHere;
 	private boolean isPredatorBehaviorHere;
 	
-	public CompositeBehavior2() throws Exception{
+	public EmergingThenPredatorBehavior() throws Exception{
 		isEmergingBehaviorHere = false ;
 		isPredatorBehaviorHere = true;
 		Map<String,Constructor<? extends IStrategyBehavior>> factory = BehaviorPluginFactory.getInstance().getMap();

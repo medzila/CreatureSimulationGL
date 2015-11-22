@@ -27,6 +27,7 @@ import commons.Utils.Predicate;
 import creatures.behavior.IStrategyBehavior;
 import creatures.movement.IStrategieMovement;
 import creatures.visual.CreatureSimulator;
+import main.Launcher;
 
 public class ComposableCreature implements ICreature, ImageObserver {
 
@@ -42,7 +43,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	public static final double DEFAULT_HEALTH = 100d;
 	public static final double DEFAULT_LOSS_HEALTH = 0.05d;
 	public static final double DEFAULT_GAINED_HEALTH = 5d;
-	public static final int DEFAULT_TICKS_BEFORE_BURN = 20;
+	public static final int DEFAULT_TICKS_BEFORE_BURN = (int)(Launcher.spotsSize/2);
 	public static final String FLAME_IMAGE_PATH = "src/commons/flame.png";
 	public static final String TEETH_IMAGE_PATH = "src/commons/teeth.png";
 	public static final double MAX_SPEED = 5d;

@@ -1,4 +1,4 @@
-package creatures;
+package creatures.behavior;
 
 import static java.lang.Math.toRadians;
 import static org.junit.Assert.*;
@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import creatures.ComposableCreature;
+import creatures.EnergySource;
+import creatures.ICreature;
 import creatures.behavior.EmergingBehavior;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;

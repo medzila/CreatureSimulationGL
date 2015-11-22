@@ -1,4 +1,4 @@
-package creatures;
+package creatures.behavior;
 
 import static java.lang.Math.toRadians;
 import static org.junit.Assert.*;
@@ -12,12 +12,17 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import creatures.ComposableCreature;
+import creatures.EnergySource;
+import creatures.ICreature;
 import creatures.behavior.EmergingBehavior;
 import creatures.behavior.PredatorBehavior;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;
+
 
 public class PredatorBehaviorTest {
 	
@@ -128,7 +133,7 @@ public class PredatorBehaviorTest {
 	//raprochement de sa proie sans l'attaquer
 	@Test
 	public void test4() {
-		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(12,0),toRadians(180),5,
+		ComposableCreature creature = new ComposableCreature(environment,new Point2D.Double(22,0),toRadians(180),5,
 				Color.BLACK,p,t);
 		
 		ComposableCreature other = new ComposableCreature(environment,new Point2D.Double(1,0),toRadians(180),0,

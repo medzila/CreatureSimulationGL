@@ -3,6 +3,8 @@ package creatures.behavior;
 import static commons.Utils.filter;
 import static java.lang.Math.abs;
 
+import java.util.ArrayList;
+
 import commons.Utils.Predicate;
 import creatures.ComposableCreature;
 import creatures.ICreature;
@@ -29,6 +31,22 @@ public class EmergingBehavior implements IStrategyBehavior {
 
 		}
 	}
+	
+	static class numberAroundCreature implements Predicate<ICreature> {
+		private final ComposableCreature observer;
+
+		public numberAroundCreature(ComposableCreature observer) {
+			this.observer = observer;
+		}
+		@Override
+		public boolean apply(ICreature input) {
+			if (input == observer) {
+				return false;
+			}
+			return observer.distanceFromAPoint(input.getPosition()) <= observer
+							.getLengthOfView()*2;
+		}
+	}
 
 
 	/** Minimal distance between this creature and the ones around. */
@@ -41,6 +59,11 @@ public class EmergingBehavior implements IStrategyBehavior {
 	public Iterable<ICreature> creaturesAround(
 			ICreature creature) {
 		return filter(creature.getEnvironment().getCreatures(), new CreaturesAroundCreature((ComposableCreature)creature));
+	}
+	
+	public Iterable<ICreature> numberCreaturesAround(
+			ICreature creature) {
+		return filter(creature.getEnvironment().getCreatures(), new numberAroundCreature((ComposableCreature)creature));
 	}
 	
 	
@@ -56,6 +79,7 @@ public class EmergingBehavior implements IStrategyBehavior {
 
 		// iterate over all nearby creatures
 		Iterable<ICreature> creatures = creaturesAround(c);
+
 		int count = 0;
 		for (ICreature c2 : creatures) {
 			avgSpeed += c2.getSpeed();
@@ -80,10 +104,14 @@ public class EmergingBehavior implements IStrategyBehavior {
 		if (minDist > MIN_DIST) {
 			c.move();
 		}
-		if(count==0){
+		
+		ArrayList<ICreature> creaturesAround = (ArrayList<ICreature>)numberCreaturesAround(c);
+		int countCreatures = creaturesAround.size();
+
+		if(countCreatures==0){
 			c.setLossHealth(c.DEFAULT_LOSS_HEALTH);
 		}else {
-			c.setLossHealth(c.DEFAULT_LOSS_HEALTH/count);
+			c.setLossHealth(c.DEFAULT_LOSS_HEALTH/countCreatures);
 		}
 	}
 

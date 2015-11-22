@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JLabel;
@@ -96,7 +94,7 @@ public class CreatureSimulator extends Simulator<ICreature> implements IEnvironm
 		this.totalLife=0;
 		creaturesTotal.setText("Nombre de créatures : " + creaturesDepart  +" ||");
 		creaturesMortes.setText("Nombre de créatures mortes : " + creaturesDead  +" ||");
-		creaturesLife.setText("Vie totale : " + totalLife+"/"+totalLife);
+		creaturesLife.setText("Vie totale : " + totalLife);
 	}
 	
 	public JLabel getLabelCreaturesDead(){

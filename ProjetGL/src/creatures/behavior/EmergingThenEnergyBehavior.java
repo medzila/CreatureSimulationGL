@@ -7,14 +7,14 @@ import plug.creatures.BehaviorPluginFactory;
 import creatures.ComposableCreature;
 import main.Launcher;
 
-public class CompositeBehavior implements IStrategyBehavior {
+public class EmergingThenEnergyBehavior implements IStrategyBehavior {
 	
 	private EnergyBehavior energyBehavior = null;
 	private EmergingBehavior emergingBehavior = null;
 	boolean isEnergyBehaviorHere = false;
 	boolean isEmergingBehaviorHere = false ;
 	
-	public CompositeBehavior() throws Exception {
+	public EmergingThenEnergyBehavior() throws Exception {
 		Map<String,Constructor<? extends IStrategyBehavior>> factory = BehaviorPluginFactory.getInstance().getMap();
 		
 		// We check every behavior in the factory. We have to find every behavior needed (emerging & energy)

@@ -1,4 +1,4 @@
-package creatures;
+package creatures.movement;
 
 import static java.lang.Math.toRadians;
 import static org.junit.Assert.*;
@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
+import creatures.ComposableCreature;
 import creatures.behavior.StupidBehavior;
 import creatures.movement.BouncingMovement;
 import creatures.movement.TorusMovement;

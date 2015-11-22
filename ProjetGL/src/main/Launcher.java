@@ -60,11 +60,11 @@ public class Launcher extends JFrame {
     
     private JPanel buttons = new JPanel(new GridBagLayout());
     private JPanel buttonsAndTreshold = new JPanel(new GridBagLayout());
-    private JPanel treshold = new JPanel(new GridBagLayout());
+    private JPanel threshold = new JPanel(new GridBagLayout());
     
     public int creatureNumber = 10;
     public int spotsNumber = 10;
-    public int spotsSize = 50;
+    public static int spotsSize = 40;
     
     public static float THRESHOLD = (float) (ComposableCreature.DEFAULT_HEALTH / 2);
     
@@ -111,35 +111,36 @@ public class Launcher extends JFrame {
     public void buildInterface() {    
         
         buttons.removeAll();
-        treshold.removeAll();
+        threshold.removeAll();
         
         GridBagConstraints c = new GridBagConstraints();
 
-            JSlider tresholdSlider = new JSlider(JSlider.VERTICAL, 0, (int)ComposableCreature.DEFAULT_HEALTH, (int)ComposableCreature.DEFAULT_HEALTH/2);          
-            tresholdSlider.addChangeListener(new ChangeListener() {
+        /** THRESHOLD Slider */
+        JSlider tresholdSlider = new JSlider(JSlider.VERTICAL, 0, (int)ComposableCreature.DEFAULT_HEALTH, (int)ComposableCreature.DEFAULT_HEALTH/2);          
+        tresholdSlider.addChangeListener(new ChangeListener() {
 
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    Launcher.THRESHOLD = (float) ((JSlider)e.getSource()).getValue();
-                }
-            });
-            
-            tresholdSlider.setMinorTickSpacing(2);  
-            tresholdSlider.setMajorTickSpacing(25);  
-            
-            tresholdSlider.setPaintLabels(true);
-            tresholdSlider.setPreferredSize(new Dimension(50, 135));
-            JPanel sliderTresholdPanel = new JPanel(new BorderLayout());
-            JLabel labelTreshold = new JLabel("Treshold", JLabel.CENTER);
-            sliderTresholdPanel.add(labelTreshold, BorderLayout.NORTH);
-            sliderTresholdPanel.add(tresholdSlider, BorderLayout.SOUTH);
+        	@Override
+        	public void stateChanged(ChangeEvent e) {
+        		Launcher.THRESHOLD = (float) ((JSlider)e.getSource()).getValue();
+        	}
+        });
 
-            c.fill = GridBagConstraints.HORIZONTAL;
-            c.gridx = 0;
-            treshold.add(sliderTresholdPanel, c);  
+        tresholdSlider.setMinorTickSpacing(2);  
+        tresholdSlider.setMajorTickSpacing(25);  
+
+        tresholdSlider.setPaintLabels(true);
+        tresholdSlider.setPreferredSize(new Dimension(50, 135));
+        JPanel sliderTresholdPanel = new JPanel(new BorderLayout());
+        JLabel labelTreshold = new JLabel("Threshold", JLabel.CENTER);
+        sliderTresholdPanel.add(labelTreshold, BorderLayout.NORTH);
+        sliderTresholdPanel.add(tresholdSlider, BorderLayout.SOUTH);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        threshold.add(sliderTresholdPanel, c);  
         
-        // La partie de l'interface pour definir la strategie de coloriage
-        
+
+        /** Interface part where we define the Color Strategy */
         ActionListener colorListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // the name of the plugin is in the ActionCommand
@@ -170,8 +171,8 @@ public class Launcher extends JFrame {
         c.gridy = 0;
         buttons.add(choiceColorPanel, c);
         
-        // La partie de l'interface pour definir la strategie de mouvement
         
+        /** Interface part where we define the Movement Strategy */
         ActionListener movementListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                 // the name of the plugin is in the ActionCommand
@@ -203,8 +204,7 @@ public class Launcher extends JFrame {
         buttons.add(choiceMovementPanel,c);
         
         
-        // La partie de l'interface pour definir la strategie de comportement
-        
+        /** Interface part where we define the Behavior Strategy */
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // the name of the plugin is in the ActionCommand
@@ -226,7 +226,7 @@ public class Launcher extends JFrame {
         
         JPanel choiceActionPanel = new JPanel();
         choiceActionPanel.setLayout(new BorderLayout());
-        JLabel labelActionCrea = new JLabel("Action", JLabel.CENTER);
+        JLabel labelActionCrea = new JLabel("Behavior", JLabel.CENTER);
         choiceActionPanel.add(labelActionCrea, BorderLayout.NORTH);
         choiceActionPanel.add(actionComboBox, BorderLayout.SOUTH);
         
@@ -235,9 +235,7 @@ public class Launcher extends JFrame {
         c.gridy = 0;
         buttons.add(choiceActionPanel,c);
         
-        
-        // Le bouton pour recharger les plugins qui gere le coloriage
-        
+        /** Button where we RELOAD the Color Plugins */
         JButton colorLoader = new JButton("(Re-)load color plugin");
         colorLoader.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -250,9 +248,7 @@ public class Launcher extends JFrame {
         c.gridy = 1;
         buttons.add(colorLoader, c);
         
-        
-        // Le bouton pour recharger les plugins qui gere le deplacement
-
+        /** Button where we RELOAD the Movement Plugins */
         JButton movementLoader = new JButton("(Re-)load movement plugin");
         movementLoader.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -265,9 +261,7 @@ public class Launcher extends JFrame {
         c.gridy = 1;
         buttons.add(movementLoader, c);
         
-        
-        // Le bouton pour recharger les plugins qui gere le comportement
-
+        /** Button where we RELOAD the Behavior Plugins */
         JButton actionLoader = new JButton("(Re-)load acting plugin");
         actionLoader.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -279,11 +273,10 @@ public class Launcher extends JFrame {
         c.gridx = 2;
         c.gridy = 1;
         buttons.add(actionLoader, c);
+   
         
-        
-        // Le slider pour qui gere le nombre de creatures
-        
-        JSlider numberOfCreaturesSlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+        /** Creatures number SLIDER */
+        JSlider numberOfCreaturesSlider = new JSlider(JSlider.HORIZONTAL, 0, 50, creatureNumber);  
         numberOfCreaturesSlider.addChangeListener(new ChangeListener() {
             
             @Override
@@ -309,10 +302,8 @@ public class Launcher extends JFrame {
         c.gridy = 3;
         buttons.add(sliderNumberCreaPanel, c);  
         
-        
-        // Le slider pour qui gere le nombre de points d'energie
-
-        JSlider numberOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 50, 10);  
+        /** Energy Sources number SLIDER */
+        JSlider numberOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 50, spotsNumber);  
         numberOfEnergySlider.addChangeListener(new ChangeListener() {
 
             @Override
@@ -338,10 +329,8 @@ public class Launcher extends JFrame {
         c.gridy = 3;
         buttons.add(sliderNumberPanel, c);  
 
-        
-        // Le slider pour qui gere la taille de points d'energie
-
-        JSlider sizeOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);  
+        /** Energy Sources Sizes number SLIDER */
+        JSlider sizeOfEnergySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, spotsSize);  
         sizeOfEnergySlider.addChangeListener(new ChangeListener() {
 
             @Override
@@ -367,9 +356,8 @@ public class Launcher extends JFrame {
         c.gridy = 3;
         buttons.add(sliderSizePanel, c);  
         
-        
-        // Le button qui gere le (re-)demarrage de la simulation
-        
+
+        /** Button that (RE-)START the simulation */
         JButton restart = new JButton("(Re-)start simulation");
         restart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -391,6 +379,7 @@ public class Launcher extends JFrame {
                         simulator.addAllCreatures(creatures);
                         simulator.addAllSpots(spots);
                         simulator.start();
+                        setResizable(false);
                     }
                     catch (Exception exception) {
                         JOptionPane.showMessageDialog(buttons, exception.getCause().getMessage(), "Missing mandatory behavior", JOptionPane.ERROR_MESSAGE);
@@ -403,6 +392,7 @@ public class Launcher extends JFrame {
         c.gridy = 4;
         buttons.add(restart, c);
         
+        /** Button that STOP the simulation */
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -410,6 +400,7 @@ public class Launcher extends JFrame {
                 simulator.clearCreatures();
                 simulator.clearStat();
                 simulator.stop();
+                setResizable(true);
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -424,16 +415,13 @@ public class Launcher extends JFrame {
 
         c.gridx = 1;
         c.gridy = 0;
-        buttonsAndTreshold.add(treshold, c);
+        buttonsAndTreshold.add(threshold, c);
 
         revalidate();
         repaint();
         
     }
 
-
-    
-    
     public static void main(String args[]) {
         Logger.getLogger("plug").setLevel(Level.INFO);
         MovementPluginFactory.init();

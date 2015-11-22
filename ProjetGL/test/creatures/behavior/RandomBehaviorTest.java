@@ -1,4 +1,4 @@
-package creatures;
+package creatures.behavior;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import creatures.ComposableCreature;
 import creatures.behavior.RandomBehavior;
 import creatures.movement.TorusMovement;
 import creatures.visual.CreatureSimulator;

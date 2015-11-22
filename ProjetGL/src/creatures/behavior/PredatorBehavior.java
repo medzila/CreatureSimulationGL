@@ -71,7 +71,7 @@ public class PredatorBehavior implements IStrategyBehavior {
 			c1.setSpeed(prey.getSpeed()+1);
 			c1.setDirection(prey.getDirection());
 			//c1.setDirection(c1.directionFormAPoint(prey.getPosition(), c1.getDirection()));
-			if(c1.distanceFromAPoint(prey.getPosition())<=10){
+			if(c1.distanceFromAPoint(prey.getPosition())<=20){
 				c1.setHunting(true);
 				c1.setHealth(c1.getHealth() + DEFAULT_EATEN);
 				prey.setHealth(prey.getHealth() - DEFAULT_EATEN);
