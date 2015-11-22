@@ -102,15 +102,21 @@
       <target>
 
         <delete>
-          <fileset dir="target/classes/creatures/behavior" includes="**/*.class" excludes="../IStrategyBehavior.class"/>
+          <fileset dir="target/classes/creatures/behavior">
+            <exclude name="IStrategyBehavior.class" />
+          </fileset>
         </delete>
 
         <delete>
-          <fileset dir="target/classes/creatures/color" includes="**/*.class" excludes="../IColorStrategy.class"/>
+          <fileset dir="target/classes/creatures/color">
+            <exclude name="IColorStrategy.class" />
+          </fileset>
         </delete>
 
         <delete>
-          <fileset dir="target/classes/creatures/movement" includes="**/*.class" excludes="../IStrategieMovement.class"/>
+          <fileset dir="target/classes/creatures/movement">
+            <exclude name="IStrategieMovement.class" />
+          </fileset>
         </delete>
 
       </target>
