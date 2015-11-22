@@ -2,7 +2,6 @@ package creatures;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.atan;
-import static java.lang.Math.toDegrees;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -18,15 +17,23 @@ public class EnergySource implements IDrawable {
 	public Point2D position;
 	public int size;
 	
+	/**
+	 * Create an Energy Source
+	 * @param p the position of the center of the EnergySource
+	 * @param size the diameter of the EnergySource
+	 */
 	public EnergySource(Point2D p, int size) {
 		this.position = p;
 		this.size = size;
 	}
 	
+	// ----------------------------------------------------------------------------
+	// Getters and Setters
+	// ----------------------------------------------------------------------------
+
 	public void setPosition(Point2D p){
 		this.position = p;
 	}
-	
 
 	@Override
 	public Color getColor() {
@@ -38,6 +45,15 @@ public class EnergySource implements IDrawable {
 		return size;
 	}
 
+	public Point2D getPosition() {
+		return position;
+	}
+
+	
+	// ----------------------------------------------------------------------------
+	// Positioning & Drawing methods
+	// ----------------------------------------------------------------------------
+	
 	@Override
 	public void paint(Graphics2D g2) {
 		// center the point
@@ -90,11 +106,6 @@ public class EnergySource implements IDrawable {
 			b = b + PI * 2;
 
 		return b % (PI * 2);
-	}
-
-	public Point2D getPosition() {
-		// TODO Auto-generated method stub
-		return position;
 	}
 
 }
