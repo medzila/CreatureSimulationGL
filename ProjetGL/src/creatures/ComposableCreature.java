@@ -50,6 +50,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	public static BufferedImage imgFlame;
 	public static BufferedImage imgTeeth;
 	
+	/** If is hunting another creature */
 	private boolean isHunting = false;
 	
 	/** Health at the init */
@@ -66,20 +67,6 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	/** If the creature is burning */
 	protected boolean isBurning = false;
-	
-	public int getCurrentTicksOnEnergyPoint() {
-		return currentTicksOnEnergyPoint;
-	}
-
-
-	public void setCurrentTicksOnEnergyPoint(int currentTicksOnEnergyPoint) {
-		this.currentTicksOnEnergyPoint = currentTicksOnEnergyPoint;
-	}
-
-
-	public boolean isBurning() {
-		return isBurning;
-	}
 
 	/** Indicate if the creature is dead*/
 	protected boolean isDead = false;
@@ -142,16 +129,13 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	// ----------------------------------------------------------------------------
 
 	
-	
 	public boolean isHunting() {
 		return isHunting;
 	}
 
-
 	public void setHunting(boolean isHunting) {
 		this.isHunting = isHunting;
 	}
-
 
 	public boolean isDead() {
 		return isDead;
@@ -194,6 +178,18 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	public void setGainedHealth(double gainedHealth) {
 		this.gainedHealth = gainedHealth;
+	}
+	
+	public int getCurrentTicksOnEnergyPoint() {
+		return currentTicksOnEnergyPoint;
+	}
+
+	public void setCurrentTicksOnEnergyPoint(int currentTicksOnEnergyPoint) {
+		this.currentTicksOnEnergyPoint = currentTicksOnEnergyPoint;
+	}
+
+	public boolean isBurning() {
+		return isBurning;
 	}
 	
 	@Override
@@ -266,12 +262,52 @@ public class ComposableCreature implements ICreature, ImageObserver {
 		this.position = new Point2D.Double(x, y);
 	}
 	
+	public int getCurrCycle(){
+		return this.currCycle;
+	}
+	
+	public void setCurrCycle(int i){
+		this.currCycle = i;
+	}
+	
+	public boolean getTarget(){
+		return this.target;
+	}
+	
+	public void setTarget(boolean b){
+		this.target = b;
+	}
+
+	// ----------------------------------------------------------------------------
+	// Movement & Behavior handling methods 
+	// ----------------------------------------------------------------------------
+	
+	@Override
+	public void move() {
+		this.deplacement.setNextPosition(this);
+	}
+
+	@Override
+	public void act() {
+		this.comportement.setNextDirectionAndSpeed(this);
+		
+		gainOrLoseHealth();	
+	}
+
+	@Override
+	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,
+			int arg4, int arg5) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+
 	// ----------------------------------------------------------------------------
 	// Health handling methods
 	// ----------------------------------------------------------------------------
 	
 	/**
-	 * Decrease health depending on {@link AbstractCreature#lossHealth}.
+	 * Decrease health depending on {@link ComposableCreature#lossHealth}.
 	 * If health is lower than 0, set health 0.
 	 */
 	public void looseHealth(){
@@ -283,7 +319,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	}
 	
 	/**
-	 * Increments health depending on {@link AbstractCreature#gainedHealth}
+	 * Increments health depending on {@link ComposableCreature#gainedHealth}
 	 * if health is higher than 100, set health 100.
 	 */
 	public void gainHealth(){
@@ -306,22 +342,31 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	}
 	
 	/**
-	 * If the creature is near a {@link EnergySource}, {@link AbstractCreature#gainHealth()}.
-	 * Else, {@link AbstractCreature#looseHealth()}.
-	 * If a creature stay more time than {@link AbstractCreature#DEFAULT_TICKS_BEFORE_BURN}
+	 * If the creature is near a {@link EnergySource}, {@link ComposableCreature#gainHealth()}.
+	 * Else, {@link ComposableCreature#looseHealth()}.
+	 * If a creature stay more time than {@link ComposableCreature#DEFAULT_TICKS_BEFORE_BURN}
 	 */
 	public void gainOrLoseHealth(){
+		//If the creature is on an energy source
 		if(isOnAnEnergySource()){
+			//And if we didn't go over the default ticks before burning
 			if(getCurrentTicksOnEnergyPoint() <= DEFAULT_TICKS_BEFORE_BURN){
+				//we increment the current ticks on energy point
 				currentTicksOnEnergyPoint++;
+				//and we gain health
 				gainHealth();
 			}
 			else
+				//If the creature stay too long on an energy point, burns
 				burn();
 		}
 		else{
+			//If the creature isn't on an energy source and it just 
+			//left the energy source, set currentTicksOnEnergyPoint at 0
 			if(currentTicksOnEnergyPoint >= 0)
 				currentTicksOnEnergyPoint = 0;
+			//If the creature is burning and it just left the energy source
+			//the creature is no more burning
 			if(isBurning){
 				isBurning = false;
 				setLossHealth(DEFAULT_LOSS_HEALTH);
@@ -331,7 +376,7 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	}
 	
 	/**
-	 * If a creature is burning, lose more health than usually.
+	 * If a creature is burning, lose 20 times more health than usually.
 	 */
 	public void burn(){
 		isBurning = true;
@@ -524,46 +569,6 @@ public class ComposableCreature implements ICreature, ImageObserver {
 	
 	public String getName() {
 		return getClass().getName();
-	}
-	
-
-
-	
-
-
-	@Override
-	public void move() {
-		this.deplacement.setNextPosition(this);
-	}
-
-	@Override
-	public void act() {
-		this.comportement.setNextDirectionAndSpeed(this);
-		
-		gainOrLoseHealth();	
-	}
-
-	@Override
-	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,
-			int arg4, int arg5) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	public int getCurrCycle(){
-		return this.currCycle;
-	}
-	
-	public void setCurrCycle(int i){
-		this.currCycle = i;
-	}
-	
-	public boolean getTarget(){
-		return this.target;
-	}
-	
-	public void setTarget(boolean b){
-		this.target = b;
 	}
 
 }
