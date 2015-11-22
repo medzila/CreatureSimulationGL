@@ -20,7 +20,7 @@ public class BehaviorPluginFactory {
 		
 	protected PluginLoader pluginLoader;
 	
-	private final String pluginDir = "myplugins/repository";
+	private final String pluginDir = "pluginrepo";
 	
 	protected Map<String,Constructor<? extends IStrategyBehavior>> constructorMap; 
 
